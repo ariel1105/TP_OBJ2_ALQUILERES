@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 
 class ReservaTestCase {
 
+	Reserva reserva;
+	
 	@BeforeEach
 	void setUp() throws Exception {
 	}
