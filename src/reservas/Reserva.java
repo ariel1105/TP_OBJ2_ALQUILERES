@@ -45,4 +45,8 @@ public class Reserva {
 		return this.dias;
 	}
 
+	public void cancelar() {
+		this.estado = new Cancelada();
+	}
+
 }

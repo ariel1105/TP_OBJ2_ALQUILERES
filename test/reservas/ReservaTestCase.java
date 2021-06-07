@@ -62,5 +62,13 @@ class ReservaTestCase {
 		assertTrue(diaOcupado);
 	}
 	
+	@Test
+	void testDiaDesocupadoPorCancelacion() {
+		reserva.confirmarseEn(sitio);
+		reserva.cancelar();
+		Boolean diaOcupado = reserva.ocupaDia(dia);
+		assertFalse(diaOcupado);
+	}
+	
 	
 }
