@@ -8,6 +8,17 @@ public abstract class Sitio {
 	
 	//Deje la clase en abstracta para agregar la variable de publicaciones, despues hay que dejar
 	private List<Publicacion> publicaciones;
+	private List<Usuario> usuariosRegistrados;
+	
+
+
+	public Sitio() {
+		
+		publicaciones= new ArrayList<Publicacion>();
+		usuariosRegistrados= new ArrayList <Usuario>();
+		
+	}
+ 
 
 	protected abstract void agegarReserva(Reserva r);
 
@@ -29,8 +40,40 @@ public abstract class Sitio {
 			return publicacionesConCoincidencia;
 	}
 
-	protected abstract boolean compararPublicacion(Busqueda busqueda1, Publicacion publicacion);/// falta implementar esta clase
-	
+	protected  boolean compararPublicacion(Busqueda busqueda1, Publicacion publicacion) { //faltan crear los getters en inmueble
+		
+		return((publicacion.getInmuebleAsignado().getCiudad() == busqueda1.getCiudad() 
+						
+				&& true && true) /*como comparo las fechas de entrada y salida con el inmueble? para pensar  */ 
+							
+					|| publicacion.getInmuebleAsignado().getCapacidad() >= busqueda1.getHuespedes()
+										
+						||	(publicacion.getInmuebleAsignado().getPrecio() >= busqueda1.getPrecioMinimo() && publicacion.getInmuebleAsignado().getPrecio() <= busqueda1.getPrecioMaximo()))
+		
+	}/// falta implementar esta clase
 
+	protected void altaDeInmueble(Inmueble cabaña, Usuario propietario) {
+		
+		if (this.getUsuariosRegistrados().contains(propietario)) {
+		
+		Publicacion publicacionParaElInmueble= new Publicacion(cabaña, propietario);
+		
+		this.publicaciones.add(publicacionParaElInmueble);
+		}
+	}
+	
+	
+	//Getters
+	
+	public List<Usuario> getUsuariosRegistrados() {
+		return usuariosRegistrados;
+	}
+	
+	public List<Publicacion> getPublicaciones() {
+		return publicaciones;
+	}
+
+	
+	
 
 }

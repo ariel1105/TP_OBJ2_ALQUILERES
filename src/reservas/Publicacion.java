@@ -15,6 +15,7 @@ public class Publicacion {
 		
 		this.setInmuebleAsignado(inmueble);
 		this.setPropietario(propietario);
+		vecesAlquilado=0;
 		
 		
 	}
