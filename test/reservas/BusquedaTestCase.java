@@ -33,5 +33,6 @@ class BusquedaTestCase {
 			
 			List <Publicacion> publicacionesFiltradas = sitio.busquedaDeInmuebles(busqueda1);
 			
+			
 		}
 }
