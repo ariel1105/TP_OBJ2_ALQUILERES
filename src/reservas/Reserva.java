@@ -1,20 +1,26 @@
 package reservas;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+
+import politicasDeCancelacion.PoliticaDeCancelacion;
 
 public class Reserva {
 
 	private Inmueble inmueble;
-	private ArrayList<Dia> dias;
+	private ArrayList<LocalDate> fechas;
 	private String formaDePago;
 	private Estado estado;
 	private Usuario inquilino;
+	private PoliticaDeCancelacion politicaDeCancelacion;
 	
-	public Reserva(Usuario in, Inmueble i, ArrayList<Dia> d, String f) {
-		this.inmueble = i;
-		this.dias = d;
-		this.formaDePago = f;
+	
+	public Reserva(Usuario in, Inmueble i, ArrayList<LocalDate> dias, String f, PoliticaDeCancelacion p) {
 		this.inquilino = in;
+		this.inmueble = i;
+		this.fechas = dias;
+		this.formaDePago = f;
+		this.politicaDeCancelacion = p;
 		this.estado = new PendienteDeConfirmacion();
 	}
  
@@ -36,17 +42,44 @@ public class Reserva {
 		return this.estado;
 	}
 
-	public Boolean ocupaDia(Dia dia) {
-		return (this.estado.diaOcupadoEn(dia, this));
+	public Boolean ocupaFecha(LocalDate dia) {
+		return (this.estado.fechaOcupadaEn(dia, this));
 		
 	}
 
-	public ArrayList<Dia> getDias() {
-		return this.dias;
+	public ArrayList<LocalDate> getFechas() {
+		return this.fechas;
 	}
 
+	public void IniciarCancelacion() {
+		if (this.estaConfirmada()) {
+			this.politicaDeCancelacion.cancelar(this);
+		}
+	}
+	
 	public void cancelar() {
 		this.estado = new Cancelada();
+	}
+
+	public boolean estaConfirmada() {
+		return "Confirmada".equals(this.estado.getClass().getSimpleName());
+	}
+
+
+	public Double valor() {
+		return this.inmueble.valorPorDias(this.fechas);
+	}
+
+	public LocalDate primerDia() {
+		return this.fechas.get(0);
+	}
+
+	public boolean esDeCiudad(String ciudad) {
+		return (this.inmueble.getCiudad().equals(ciudad));
+	}
+
+	public String ciudad() {
+		return this.inmueble.getCiudad();
 	}
 
 }
