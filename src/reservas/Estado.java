@@ -1,7 +1,11 @@
 package reservas;
 
+import java.time.LocalDate;
+
 public abstract class Estado {
 
-	public abstract Boolean diaOcupadoEn(Dia dia, Reserva reserva);
+	public abstract Boolean fechaOcupadaEn(LocalDate dia, Reserva reserva);
 
 }
+
+	

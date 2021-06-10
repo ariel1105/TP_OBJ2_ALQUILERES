@@ -2,6 +2,8 @@ package reservas;
 
 import java.util.List;
 
+import politicasDeCancelacion.PoliticaDeCancelacion;
+
 public class Publicacion {
 	
 	private Inmueble inmuebleAsignado;
