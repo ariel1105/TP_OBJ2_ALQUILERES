@@ -19,7 +19,7 @@ public abstract class Sitio {
 		
 	}
  
-
+ 
 	protected abstract void agegarReserva(Reserva r);
 
 	protected abstract void enviarMailDeConfirmacion(Reserva reserva);
@@ -40,16 +40,18 @@ public abstract class Sitio {
 			return publicacionesConCoincidencia;
 	}
 
-	protected  boolean compararPublicacion(Busqueda busqueda1, Publicacion publicacion) { //faltan crear los getters en inmueble
+	public boolean compararPublicacion(Busqueda busqueda1, Publicacion publicacion) { //faltan crear los getters en inmueble
 		
-		return((publicacion.getInmuebleAsignado().getCiudad() == busqueda1.getCiudad() 
-						
-				&& true && true) /*como comparo las fechas de entrada y salida con el inmueble? para pensar  */ 
+		return ((publicacion.getInmuebleAsignado().getCiudad().equals(busqueda1.getCiudad())) && true && true)
+				
+			|| publicacion.getInmuebleAsignado().getCapacidad() >= busqueda1.getHuespedes()
+
+				||	(publicacion.getInmuebleAsignado().getPrecio() >= busqueda1.getPrecioMinimo() && publicacion.getInmuebleAsignado().getPrecio() <= busqueda1.getPrecioMaximo());
+
+
+						 /*como comparo las fechas de entrada y salida con el inmueble? para pensar  */ 
 							
-					|| publicacion.getInmuebleAsignado().getCapacidad() >= busqueda1.getHuespedes()
-										
-						||	(publicacion.getInmuebleAsignado().getPrecio() >= busqueda1.getPrecioMinimo() && publicacion.getInmuebleAsignado().getPrecio() <= busqueda1.getPrecioMaximo()))
-		
+			
 	}/// falta implementar esta clase
 
 	protected void altaDeInmueble(Inmueble cabaña, Usuario propietario) {
