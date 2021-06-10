@@ -1,10 +1,13 @@
 package reservas;
 
+import java.time.LocalDate;
+
+
 public class Confirmada extends Estado {
 
 	@Override
-	public Boolean diaOcupadoEn(Dia dia, Reserva reserva) {
-		return (reserva.getDias().contains(dia));
+	public Boolean fechaOcupadaEn(LocalDate dia, Reserva reserva) {
+		return (reserva.getFechas().contains(dia));
 	}
 
 }
