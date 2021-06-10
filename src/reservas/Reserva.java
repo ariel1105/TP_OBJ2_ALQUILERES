@@ -17,7 +17,7 @@ public class Reserva {
 		this.inquilino = in;
 		this.estado = new PendienteDeConfirmacion();
 	}
-
+ 
 	public void ingresarEnSitio(Sitio sitio) {
 		sitio.agegarReserva(this);
 	}
