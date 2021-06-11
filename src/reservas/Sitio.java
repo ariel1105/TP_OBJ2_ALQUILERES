@@ -3,13 +3,16 @@ package reservas;
 import java.util.ArrayList;
 import java.util.List;
 
+import Busqueda.Buscador;
+import Busqueda.Busqueda;
+
 public abstract class Sitio {
 	
 	
 	//Deje la clase en abstracta para agregar la variable de publicaciones, despues hay que dejar
 	private List<Publicacion> publicaciones;
 	private List<Usuario> usuariosRegistrados;
-	
+	private Buscador buscadorActual;
 
 
 	public Sitio() {
@@ -18,51 +21,35 @@ public abstract class Sitio {
 		usuariosRegistrados= new ArrayList <Usuario>();
 		
 	}
+	
+	public void setBuscador(Buscador buscadorAsignado) {
+		
+		buscadorActual= buscadorAsignado;
+		
+	}
+	
+
+	public void agregarPublicacion(Publicacion publicacion) { ////!!!!!!!!!Este metodo lo deje para testear, cuando ya este todo implementado se borra!!!!!
+		
+		this.publicaciones.add(publicacion);
+	}
  
  
 	protected abstract void agegarReserva(Reserva r);
 
 	protected abstract void enviarMailDeConfirmacion(Reserva reserva);
+	
 
 	public List<Publicacion> busquedaDeInmuebles(Busqueda busqueda1){
 		
-		List <Publicacion> publicacionesConCoincidencia= new ArrayList<Publicacion>();
-		
-			for (int i=0; i < publicaciones.size(); i++) {
-				
-				if (this.compararPublicacion(busqueda1,publicaciones.get(i))) {
-					
-					publicacionesConCoincidencia.add(publicaciones.get(i));
-				}
-				
-			}
+
 	
-			return publicacionesConCoincidencia;
+			return this.buscadorActual.busquedasCoincidentes(busqueda1, publicaciones);
 	}
 
-	public boolean compararPublicacion(Busqueda busqueda1, Publicacion publicacion) { //faltan crear los getters en inmueble
-		
-		return ((publicacion.getInmuebleAsignado().getCiudad().equals(busqueda1.getCiudad())) && true && true)
-				
-			|| publicacion.getInmuebleAsignado().getCapacidad() >= busqueda1.getHuespedes()
-
-				||	(publicacion.getInmuebleAsignado().getPrecio() >= busqueda1.getPrecioMinimo() && publicacion.getInmuebleAsignado().getPrecio() <= busqueda1.getPrecioMaximo());
 
 
-						 /*como comparo las fechas de entrada y salida con el inmueble? para pensar  */ 
-							
-			
-	}/// falta implementar esta clase
 
-	protected void altaDeInmueble(Inmueble cabaña, Usuario propietario) {
-		
-		if (this.getUsuariosRegistrados().contains(propietario)) {
-		
-		Publicacion publicacionParaElInmueble= new Publicacion(cabaña, propietario);
-		
-		this.publicaciones.add(publicacionParaElInmueble);
-		}
-	}
 	
 	
 	//Getters
@@ -76,6 +63,8 @@ public abstract class Sitio {
 	}
 
 	
-	
+	public Buscador getBuscadorActual() {
+		return buscadorActual;
+	}
 
 }

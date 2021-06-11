@@ -99,4 +99,10 @@ public class Inmueble {
 		return null;
 	}
 
-}
+
+	public boolean estaDisponible(LocalDate of, LocalDate of2) {
+		// TODO Auto-generated method stub
+		return (Boolean) null;
+	}
+
+} 

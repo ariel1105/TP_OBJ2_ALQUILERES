@@ -33,7 +33,7 @@ public class Reserva {
 		sitio.enviarMailDeConfirmacion(this);
 		this.estado = new Confirmada();
 	}
-
+	
 	public Usuario getInquilino() {
 		return this.inquilino;
 	}

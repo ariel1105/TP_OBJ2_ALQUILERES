@@ -1,4 +1,4 @@
-package reservas;
+package Busqueda;
 
 import java.time.LocalDate;
 
