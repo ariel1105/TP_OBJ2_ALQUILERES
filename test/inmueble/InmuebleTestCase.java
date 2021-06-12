@@ -16,13 +16,19 @@ import periodo.PeriodoPrecio;
 import usuario.Usuario;
 
 class InmuebleTestCase {
-	private Inmueble casa1;
+	private Inmueble casa;
+	String tipoDeInmueble;
+	double superficie;
+	String pais;
+	String ciudad;
+	String direccion;
+	int capacidad;
+	double precio;
 	private ArrayList<String> servicios ;
 	private ArrayList<Foto> fotos;
 	private Hora horarioCheckIn;
 	private Hora horarioCheckOut;
 	private ArrayList<String> formasDePago;
-	private Usuario dueño;
 	private PeriodoPrecio periodoPrecio1;
 	private PeriodoPrecio periodoPrecio2;
 	private LocalDate fecha1;
@@ -31,26 +37,7 @@ class InmuebleTestCase {
 	private LocalDate fecha4;
 	
 	@BeforeEach
-	void setUp() throws Exception {
-		String tipoDeInmueble = "casa";
-		double superficie = 100d;
-		String pais = "Argentina";
-		String ciudad = "Quilmes";
-		String direccion = "Alsina 200";
-		servicios = new ArrayList<String>();
-		int capacidad = 4;
-		fotos = new ArrayList<Foto>();
-		horarioCheckIn = mock(Hora.class);
-		horarioCheckOut = mock(Hora.class);
-		formasDePago = new ArrayList<String>();
-		double precio = 10000;
-		
-		servicios.add("agua");
-		servicios.add("luz");
-		
-		formasDePago.add("tarjetaDeCredito");
-		
-		dueño = mock(Usuario.class);
+	void setUp() throws Exception {;
 		
 		fecha1 = mock(LocalDate.class);
 		fecha2 = mock(LocalDate.class);
@@ -60,10 +47,15 @@ class InmuebleTestCase {
 		fecha4 = mock(LocalDate.class);
 		periodoPrecio2 = mock(PeriodoPrecio.class);
 		
+		casa = new Inmueble(tipoDeInmueble, superficie,pais,ciudad,direccion,servicios,capacidad,fotos,horarioCheckIn, horarioCheckOut, formasDePago,precio);
 		
-		casa1 = new Inmueble(tipoDeInmueble, superficie,pais,ciudad,direccion,servicios,capacidad,fotos,horarioCheckIn, horarioCheckOut, formasDePago,precio);
+		casa.establecerPeriodosConPrecios(periodoPrecio1);
+		casa.establecerPeriodosConPrecios(periodoPrecio2);
 		
+		when(periodoPrecio1.getPrecio()).thenReturn(2000d);
+		when(periodoPrecio2.getPrecio()).thenReturn(4000d);
 	}
+
 	
 	@Test 
 	void establecerPeriodosConPreciosTestCase(){
@@ -71,10 +63,7 @@ class InmuebleTestCase {
 		periodosYPrecios.add(periodoPrecio1);
 		periodosYPrecios.add(periodoPrecio2);
 		
-		casa1.establecerPeriodosConPrecios(periodoPrecio1);
-		casa1.establecerPeriodosConPrecios(periodoPrecio2);
-		
-		assertEquals(periodosYPrecios, casa1.getPeriodosYPrecios());
+		assertEquals(periodosYPrecios, casa.getPeriodosYPrecios());
 	}
 	
 	@Test
@@ -82,10 +71,7 @@ class InmuebleTestCase {
 		when(periodoPrecio1.perteneceLaFecha(fecha3)).thenReturn(false);
 		when(periodoPrecio2.perteneceLaFecha(fecha3)).thenReturn(true);
 		
-		casa1.establecerPeriodosConPrecios(periodoPrecio1);
-		casa1.establecerPeriodosConPrecios(periodoPrecio2);
-		
-		assertTrue(casa1.perteneceLaFechaAAlgunPeriodo(fecha3));
+		assertTrue(casa.perteneceLaFechaAAlgunPeriodo(fecha3));
 	}
 	
 	@Test
@@ -93,10 +79,7 @@ class InmuebleTestCase {
 		when(periodoPrecio1.perteneceLaFecha(fecha3)).thenReturn(false);
 		when(periodoPrecio2.perteneceLaFecha(fecha3)).thenReturn(false);
 		
-		casa1.establecerPeriodosConPrecios(periodoPrecio1);
-		casa1.establecerPeriodosConPrecios(periodoPrecio2);
-		
-		assertFalse(casa1.perteneceLaFechaAAlgunPeriodo(fecha3));
+		assertFalse(casa.perteneceLaFechaAAlgunPeriodo(fecha3));
 	}
 	
 	@Test
@@ -105,10 +88,7 @@ class InmuebleTestCase {
 		when(periodoPrecio1.perteneceLaFecha(fecha1)).thenReturn(true);
 		when(periodoPrecio1.getPrecio()).thenReturn(2000d);
 		
-		casa1.establecerPeriodosConPrecios(periodoPrecio1);
-		casa1.establecerPeriodosConPrecios(periodoPrecio2);
-		
-		double precio = casa1.obtenerElPrecioParaLaFecha(fecha1);
+		double precio = casa.obtenerElPrecioParaLaFecha(fecha1);
 		
 		assertEquals(precio,2000d);
 	}
@@ -116,7 +96,7 @@ class InmuebleTestCase {
 	@Test
 	void TestPrecioPorDefecto() {
 		
-		double precio = casa1.getPrecioPorDefecto();
+		double precio = casa.getPrecioPorDefecto();
 		
 		assertEquals(precio,3000d);
 	}
@@ -126,12 +106,7 @@ class InmuebleTestCase {
 		when(periodoPrecio1.perteneceLaFecha(fecha3)).thenReturn(false);
 		when(periodoPrecio2.perteneceLaFecha(fecha3)).thenReturn(true);
 		
-		when(periodoPrecio2.getPrecio()).thenReturn(4000d);
-		
-		casa1.establecerPeriodosConPrecios(periodoPrecio1);
-		casa1.establecerPeriodosConPrecios(periodoPrecio2);
-		
-		double precio = casa1.precioParaLaFecha(fecha3);
+		double precio = casa.precioParaLaFecha(fecha3);
 		
 		assertEquals(precio,4000d);
 	}
@@ -145,12 +120,7 @@ class InmuebleTestCase {
 		when(periodoPrecio1.perteneceLaFecha(fecha1)).thenReturn(true);
 		when(periodoPrecio1.perteneceLaFecha(fecha2)).thenReturn(true);
 		
-		when(periodoPrecio1.getPrecio()).thenReturn(2000d);
-		
-		casa1.establecerPeriodosConPrecios(periodoPrecio1);
-		casa1.establecerPeriodosConPrecios(periodoPrecio2);
-		
-		double precio = casa1.valorPorDias(fechas);
+		double precio = casa.valorPorDias(fechas);
 		
 		assertEquals(precio, 4000d);
 	}
@@ -164,15 +134,9 @@ class InmuebleTestCase {
 		when(periodoPrecio1.perteneceLaFecha(fecha1)).thenReturn(true);
 		when(periodoPrecio2.perteneceLaFecha(fecha3)).thenReturn(true);
 		
-		when(periodoPrecio1.getPrecio()).thenReturn(2000d);
-		when(periodoPrecio2.getPrecio()).thenReturn(3000d);
+		double precio = casa.valorPorDias(fechas);
 		
-		casa1.establecerPeriodosConPrecios(periodoPrecio1);
-		casa1.establecerPeriodosConPrecios(periodoPrecio2);
-		
-		double precio = casa1.valorPorDias(fechas);
-		
-		assertEquals(precio, 5000d);
+		assertEquals(precio, 6000d);
 	}
 	
 	@Test
@@ -185,12 +149,7 @@ class InmuebleTestCase {
 		when(periodoPrecio1.perteneceLaFecha(fecha4)).thenReturn(false);
 		when(periodoPrecio2.perteneceLaFecha(fecha4)).thenReturn(false);
 		
-		when(periodoPrecio1.getPrecio()).thenReturn(2000d);
-		
-		casa1.establecerPeriodosConPrecios(periodoPrecio1);
-		casa1.establecerPeriodosConPrecios(periodoPrecio2);
-		
-		double precio = casa1.valorPorDias(fechas);
+		double precio = casa.valorPorDias(fechas);
 		
 		assertEquals(precio, 5000d);
 	}
@@ -206,10 +165,7 @@ class InmuebleTestCase {
 		when(periodoPrecio2.perteneceLaFecha(fecha3)).thenReturn(false);
 		when(periodoPrecio2.perteneceLaFecha(fecha4)).thenReturn(false);
 		
-		casa1.establecerPeriodosConPrecios(periodoPrecio1);
-		casa1.establecerPeriodosConPrecios(periodoPrecio2);
-		
-		double precio = casa1.valorPorDias(fechas);
+		double precio = casa.valorPorDias(fechas);
 		
 		assertEquals(precio, 6000d);
 	}
