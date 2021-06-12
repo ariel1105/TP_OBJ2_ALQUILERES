@@ -23,6 +23,14 @@ public class Busqueda {
 		
 	}
 	
+	public Busqueda(String ciudad, LocalDate fechaDeEntrada, LocalDate fechaSalida) {
+		this.setCiudad(ciudad);
+		this.setFechaEntrada(fechaEntrada);
+		this.setFechaSalida(fechaSalida);
+		
+		
+	}
+	
 
 	public String getCiudad() {
 		return ciudad;
