@@ -13,10 +13,13 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import inmueble.DatosDePago;
+import inmueble.Inmueble;
 import politicasDeCancelacion.CancelacionGratuita;
 import politicasDeCancelacion.CancelacionIntermedia;
 import politicasDeCancelacion.PoliticaDeCancelacion;
 import politicasDeCancelacion.SinCancelacion;
+import usuario.Usuario;
 
 class ReservaTestCase {
 
@@ -28,14 +31,16 @@ class ReservaTestCase {
 	LocalDate dia2;
 	ArrayList<LocalDate> dias;
 	Sitio sitio;
-	String formaDePago;
+	DatosDePago datosDePago;
 	Usuario inquilino;
+	Usuario dueño;
 	Estado estado;
 	PoliticaDeCancelacion politica;
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		inquilino = mock(Usuario.class);
+		dueño = mock(Usuario.class);
 		dia = mock(LocalDate.class);
 		dia2 = mock(LocalDate.class);
 		dias = new ArrayList<LocalDate>();
@@ -43,10 +48,10 @@ class ReservaTestCase {
 		dias.add(dia2);
 		estado = mock(Estado.class);
 		inmueble = mock(Inmueble.class);
-		formaDePago = "Efectivo";
+		datosDePago = mock(DatosDePago.class);
 		sitio = mock(Sitio.class);
 		politica = mock(PoliticaDeCancelacion.class);
-		reserva = new Reserva(inquilino, inmueble, dias, formaDePago, politica);
+		reserva = new Reserva(inquilino, inmueble, dias, datosDePago, politica);
 	}
 
 	@Test
@@ -117,6 +122,18 @@ class ReservaTestCase {
 		verify(politica).actualizarFecha(dia);
 	}
 	
+	@Test
+	void testAbonarAlDueñoCantidad() {
+		when(inmueble.getDueño()).thenReturn(dueño);
+		reserva.confirmarPagoPor(100d);
+		verify(datosDePago).abonar(dueño, 100d);
+	}
 	
+	@Test
+	void testValorPorDias() {
+		when(inmueble.valorPorDias(dias)).thenReturn(300d);
+		Double monto = reserva.valorPorDias(2);
+		assertEquals(monto, 300d);
+	}
 	
 }

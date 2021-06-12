@@ -16,6 +16,7 @@ import periodo.PeriodoPrecio;
 import usuario.Usuario;
 
 class InmuebleTestCase {
+	private Usuario dueño;
 	private Inmueble casa;
 	String tipoDeInmueble;
 	double superficie;
@@ -28,7 +29,7 @@ class InmuebleTestCase {
 	private ArrayList<Foto> fotos;
 	private Hora horarioCheckIn;
 	private Hora horarioCheckOut;
-	private ArrayList<String> formasDePago;
+	private ArrayList<FormaDePago> formasDePago;
 	private PeriodoPrecio periodoPrecio1;
 	private PeriodoPrecio periodoPrecio2;
 	private LocalDate fecha1;
@@ -38,6 +39,8 @@ class InmuebleTestCase {
 	
 	@BeforeEach
 	void setUp() throws Exception {;
+	
+		dueño = mock(Usuario.class);
 		
 		fecha1 = mock(LocalDate.class);
 		fecha2 = mock(LocalDate.class);
@@ -47,7 +50,7 @@ class InmuebleTestCase {
 		fecha4 = mock(LocalDate.class);
 		periodoPrecio2 = mock(PeriodoPrecio.class);
 		
-		casa = new Inmueble(tipoDeInmueble, superficie,pais,ciudad,direccion,servicios,capacidad,fotos,horarioCheckIn, horarioCheckOut, formasDePago,precio);
+		casa = new Inmueble(dueño, tipoDeInmueble, superficie,pais,ciudad,direccion,servicios,capacidad,fotos,horarioCheckIn, horarioCheckOut, formasDePago,precio);
 		
 		casa.establecerPeriodosConPrecios(periodoPrecio1);
 		casa.establecerPeriodosConPrecios(periodoPrecio2);

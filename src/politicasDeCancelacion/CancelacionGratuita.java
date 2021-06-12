@@ -9,6 +9,8 @@ public class CancelacionGratuita extends PoliticaDeCancelacion {
 		if (this.noTieneQueAbonar(reserva)) {
 			reserva.cancelar();
 		}
+		else {reserva.confirmarPagoPor(reserva.valorPorDias(2));
+			  reserva.cancelar();}
 	}
 
 	public Boolean noTieneQueAbonar(Reserva reserva) {

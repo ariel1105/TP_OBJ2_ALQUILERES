@@ -3,26 +3,32 @@ package reservas;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import inmueble.DatosDePago;
+import inmueble.FormaDePago;
+import inmueble.Inmueble;
 import politicasDeCancelacion.PoliticaDeCancelacion;
+import usuario.Usuario;
 
 public class Reserva {
 
 	private Inmueble inmueble;
 	private ArrayList<LocalDate> fechas;
-	private String formaDePago;
+	private DatosDePago datosDePago;
 	private Estado estado;
 	private Usuario inquilino;
 	private PoliticaDeCancelacion politicaDeCancelacion;
 	
 	
-	public Reserva(Usuario in, Inmueble i, ArrayList<LocalDate> dias, String f, PoliticaDeCancelacion p) {
+	public Reserva(Usuario in, Inmueble i, ArrayList<LocalDate> dias, DatosDePago f, PoliticaDeCancelacion p) {
 		this.inquilino = in;
 		this.inmueble = i;
 		this.fechas = dias;
-		this.formaDePago = f;
+		this.datosDePago = f;
 		this.politicaDeCancelacion = p;
 		this.estado = new PendienteDeConfirmacion();
 	}
+	
+	
  
 	public void ingresarEnSitio(Sitio sitio) {
 		sitio.agegarReserva(this);
@@ -80,5 +86,18 @@ public class Reserva {
 	public PoliticaDeCancelacion getPolitica() {
 		return this.politicaDeCancelacion;
 	}
+
+	public void confirmarPagoPor(double monto) {
+		this.datosDePago.abonar(this.inmueble.getDueño(),monto);
+	}
+
+	public double valorPorDias(int cantDias) {
+		ArrayList<LocalDate>primerosDias = new ArrayList<LocalDate>();
+		for(int i = 0; i < cantDias; i++) {
+			primerosDias.add(this.fechas.get(i));
+		}
+		return this.inmueble.valorPorDias(primerosDias);
+	}
+
 
 }

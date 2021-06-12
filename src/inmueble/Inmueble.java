@@ -4,8 +4,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import periodo.PeriodoPrecio;
+import usuario.Usuario;
 
 public class Inmueble {
+	private Usuario dueño;
 	private String tipoDeInmueble;
 	private double superficie;
 	private String pais;
@@ -16,15 +18,16 @@ public class Inmueble {
 	private ArrayList<Foto> fotos;
 	private Hora horarioCheckIn;
 	private Hora horarioCheckOut;
-	private ArrayList<String> formasDePago;
+	private ArrayList<FormaDePago> formasDePago;
 	private double precio;
 	private ArrayList<PeriodoPrecio> periodosConPrecios;
 	private double precioPorDefecto;
 
-	public Inmueble(String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion,
+	public Inmueble(Usuario dueño, String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion,
 			ArrayList<String> servicios, int capacidad, ArrayList<Foto> fotos, Hora horarioCheckIn,
-			Hora horarioCheckOut, ArrayList<String> formasDePago, double precio) {
+			Hora horarioCheckOut, ArrayList<FormaDePago> formasDePago, double precio) {
 		// TODO Auto-generated constructor stub
+		this.dueño = dueño;
 		this.tipoDeInmueble = tipoDeInmueble;
 		this.superficie = superficie;
 		this.pais = pais;
@@ -36,9 +39,8 @@ public class Inmueble {
 		this.horarioCheckIn = horarioCheckIn;
 		this.horarioCheckOut = horarioCheckOut;
 		this.formasDePago = formasDePago;
-		this.precio = precio;
 		this.periodosConPrecios = new ArrayList<PeriodoPrecio>();
-		this.precioPorDefecto = 3000d;
+		this.precioPorDefecto = precio;
 	}
 
 	public double precioParaLaFecha(LocalDate fecha) {
@@ -94,5 +96,27 @@ public class Inmueble {
 		}
 		return precio;
 	}
+
+	public String getCiudad() {
+		return this.ciudad;
+	}
+
+	public Boolean estaDisponible(LocalDate of, LocalDate of2) {
+		return true;
+	}
+
+	public int getCapacidad() {
+		return this.capacidad;
+	}
+
+	public Usuario getDueño() {
+		return this.dueño;
+	}
+
+	public ArrayList<FormaDePago> getFormasDePago() {
+		return this.formasDePago;
+	}
+
+	
 
 }

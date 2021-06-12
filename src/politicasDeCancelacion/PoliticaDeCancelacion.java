@@ -18,6 +18,9 @@ public abstract class PoliticaDeCancelacion {
 		this.fechaActual = dia;
 	}
 	
+	public Boolean diferenciaDeDiasEsMayor(Reserva reserva, int cantidadDeDias) {
+		return (this.fechaActual.compareTo(reserva.primerDia())>cantidadDeDias);
+	}
 	
 
 }
