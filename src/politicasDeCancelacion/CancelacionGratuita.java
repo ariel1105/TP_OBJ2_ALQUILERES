@@ -14,6 +14,6 @@ public class CancelacionGratuita extends PoliticaDeCancelacion {
 	}
 
 	public Boolean noTieneQueAbonar(Reserva reserva) {
-		return this.getFechaActual().compareTo(reserva.primerDia())>10;
+		return this.diferenciaDeDiasEsMayor(reserva, 10);
 	}
 }

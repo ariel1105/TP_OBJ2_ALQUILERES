@@ -11,7 +11,7 @@ public class CancelacionIntermedia extends PoliticaDeCancelacion {
 			reserva.cancelar();
 		}
 		if (this.tieneQueAbonar50PorCiento(reserva)) {
-			reserva.confirmarPagoPor(reserva.valor());
+			reserva.confirmarPagoPor(reserva.valor()/2);
 			reserva.cancelar();
 		}
 		if (this.tieneQueAbonarTotalidad(reserva)) {
