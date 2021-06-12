@@ -75,11 +75,21 @@ class CancelacionIntermediaTestCase {
 	@Test
 	void testSeAbonaEl50PorCiento() {
 		when(reserva.primerDia()).thenReturn(fechaPrimerDiaReserva);
-		when(fechaActual.compareTo(fechaPrimerDiaReserva)).thenReturn(15);
+		when(fechaActual.compareTo(fechaPrimerDiaReserva)).thenReturn(17);
+		when(reserva.valor()).thenReturn(200d);
 		politica.cancelar(reserva);
 		verify(reserva).cancelar();
-		verify(reserva).confirmarPagoPor(reserva.valor());
+		verify(reserva).confirmarPagoPor(100d);
 	}
-	//preguntar porq da null en valor
+	
+	@Test
+	void testAbonaTotalidad() {
+		when(reserva.primerDia()).thenReturn(fechaPrimerDiaReserva);
+		when(fechaActual.compareTo(fechaPrimerDiaReserva)).thenReturn(5);
+		when(reserva.valor()).thenReturn(200d);
+		politica.cancelar(reserva);
+		verify(reserva).cancelar();
+		verify(reserva).confirmarPagoPor(200d);
+	}
 }
 	
