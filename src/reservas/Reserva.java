@@ -51,18 +51,13 @@ public class Reserva {
 		return this.fechas;
 	}
 
-	public void IniciarCancelacion() {
-		if (this.estaConfirmada()) {
-			this.politicaDeCancelacion.cancelar(this);
-		}
+	public void IniciarCancelacion(LocalDate fechaActual) {
+		this.politicaDeCancelacion.actualizarFecha(fechaActual);
+		this.politicaDeCancelacion.cancelar(this);
 	}
 	
 	public void cancelar() {
 		this.estado = new Cancelada();
-	}
-
-	public boolean estaConfirmada() {
-		return "Confirmada".equals(this.estado.getClass().getSimpleName());
 	}
 
 
@@ -80,6 +75,10 @@ public class Reserva {
 
 	public String ciudad() {
 		return this.inmueble.getCiudad();
+	}
+
+	public PoliticaDeCancelacion getPolitica() {
+		return this.politicaDeCancelacion;
 	}
 
 }
