@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import politicasDeCancelacion.CancelacionGratuita;
 import politicasDeCancelacion.CancelacionIntermedia;
+import politicasDeCancelacion.PoliticaDeCancelacion;
 import politicasDeCancelacion.SinCancelacion;
 
 class ReservaTestCase {
@@ -30,10 +31,7 @@ class ReservaTestCase {
 	String formaDePago;
 	Usuario inquilino;
 	Estado estado;
-	CancelacionGratuita politica1;
-	CancelacionIntermedia politica2;
-	SinCancelacion politica3;
-	
+	PoliticaDeCancelacion politica;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -47,12 +45,8 @@ class ReservaTestCase {
 		inmueble = mock(Inmueble.class);
 		formaDePago = "Efectivo";
 		sitio = mock(Sitio.class);
-		politica1 = mock(CancelacionGratuita.class);
-		politica2 = mock(CancelacionIntermedia.class);
-		politica3 = mock(SinCancelacion.class);
-		reserva = new Reserva(inquilino, inmueble, dias, formaDePago, politica1);
-		reserva2 = new Reserva(inquilino, inmueble, dias, formaDePago, politica2);
-		reserva3 = new Reserva(inquilino, inmueble, dias, formaDePago, politica3);
+		politica = mock(PoliticaDeCancelacion.class);
+		reserva = new Reserva(inquilino, inmueble, dias, formaDePago, politica);
 	}
 
 	@Test
@@ -80,23 +74,6 @@ class ReservaTestCase {
 		assertTrue(diaOcupado);
 	}
 	
-	@Test
-	void testReservaEstaConfirmada() {
-		reserva.confirmarseEn(sitio);
-		assertTrue(reserva.estaConfirmada());
-	}
-	
-	
-	@Test 
-	void testReservaNoEstaConfirmada() {
-		assertFalse(reserva.estaConfirmada());
-	}
-	
-	@Test
-	void testNoSeCancelaUnaReservaPendienteDeConfirmacion() {
-		reserva.IniciarCancelacion();
-		verify(politica1, never()).cancelar(reserva);
-	}
 	
 	@Test 
 	void testValorPorReserva() {
@@ -132,6 +109,14 @@ class ReservaTestCase {
 		String ciudad = reserva.ciudad();
 		assertEquals(ciudad, "Pinamar");
 	}
-	// preguntar sobre dia actual para hacer las politicas de cancelacion
+	
+	@Test 
+	void testIniciarCancelacion() {
+		reserva.IniciarCancelacion(dia);//supone la fecha en la q se realiza la reserva
+		verify(politica).cancelar(reserva);
+		verify(politica).actualizarFecha(dia);
+	}
+	
+	
 	
 }

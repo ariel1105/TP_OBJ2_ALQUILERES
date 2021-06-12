@@ -58,9 +58,9 @@ public class AdministadorDeReservas {
 		return ciudades;
 	}
 
-	public void cancelarReserva(Reserva reserva) {
+	public void cancelarReserva(Reserva reserva, LocalDate fechaActual) {
 		if (this.reservas.contains(reserva)) {
-			reserva.IniciarCancelacion();
+			reserva.IniciarCancelacion(fechaActual);
 		}
 	}
 }

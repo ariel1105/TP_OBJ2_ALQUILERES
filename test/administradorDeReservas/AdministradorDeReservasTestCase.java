@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import politicasDeCancelacion.PoliticaDeCancelacion;
 import reservas.Reserva;
 
 class AdministradorDeReservasTestCase {
@@ -22,7 +23,7 @@ class AdministradorDeReservasTestCase {
 	private LocalDate fechaReserva;
 	private LocalDate fechaReserva2;
 	private ArrayList <Reserva> reservas;
-	
+	private PoliticaDeCancelacion politica;
 	
 
 	@BeforeEach
@@ -35,6 +36,7 @@ class AdministradorDeReservasTestCase {
 		fechaReserva = mock(LocalDate.class);
 		fechaReserva2 = mock(LocalDate.class); 
 		admin = new AdministadorDeReservas(fechaActual);
+		politica = mock(PoliticaDeCancelacion.class); 
 	}
 
 	@Test
@@ -101,10 +103,11 @@ class AdministradorDeReservasTestCase {
 	}
 	
 	@Test
-	void testCancelarReserva() {
+	void testCancelarReservaConFechaActual() {
 		admin.ingresar(reserva);
-		admin.cancelarReserva(reserva);
-		verify(reserva).IniciarCancelacion();
+		admin.cancelarReserva(reserva, fechaActual);
+		verify(reserva).IniciarCancelacion(fechaActual);
 	}
+	
 
 }

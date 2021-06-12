@@ -1,0 +1,37 @@
+package politicasDeCancelacion;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDate;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import reservas.Reserva;
+
+class CancelacionGratuitaTestCase {
+	
+	private Reserva reserva;
+	private CancelacionGratuita politica;
+	private LocalDate fechaActual;
+	private LocalDate fechaPrimerDiaReserva;
+	
+	@BeforeEach
+	void setUp() throws Exception {
+		reserva = mock(Reserva.class);
+		fechaActual = mock(LocalDate.class);
+		fechaPrimerDiaReserva = mock(LocalDate.class);
+		politica = new CancelacionGratuita();
+		politica.actualizarFecha(fechaActual);
+	}
+
+	@Test
+	void testNoTieneQueAbonarNada() {
+		when(reserva.primerDia()).thenReturn(fechaPrimerDiaReserva);
+		when(fechaActual.compareTo(fechaPrimerDiaReserva)).thenReturn(15);
+		assertTrue(politica.noTieneQueAbonar(reserva));
+	}
+
+}
