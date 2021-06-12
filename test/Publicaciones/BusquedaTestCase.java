@@ -16,7 +16,7 @@ import Busqueda.Busqueda;
 import Busqueda.BusquedaConHuespedes;
 import Busqueda.BusquedaConParametrosObligatorios;
 import Busqueda.BusquedaConPrecios;
-import reservas.Inmueble;
+import inmueble.Inmueble;
 import reservas.Publicacion;
 import reservas.Sitio;
 
@@ -128,11 +128,11 @@ class BusquedaTestCase {
 			sitio.setBuscador(buscadorPrecios);
 			assertEquals(sitio.getBuscadorActual(), buscadorPrecios);
 			
-			when(publicacion1.getInmuebleAsignado().getPrecio()).thenReturn(40000.0);
-			when(publicacion2.getInmuebleAsignado().getPrecio()).thenReturn(20000.0);
-			when(publicacion3.getInmuebleAsignado().getPrecio()).thenReturn(10000.0);
-			when(publicacion4.getInmuebleAsignado().getPrecio()).thenReturn(15000.0);
-			when(publicacion5.getInmuebleAsignado().getPrecio()).thenReturn(50000.0);
+			when(publicacion1.getInmuebleAsignado().getPrecioPorDefecto()).thenReturn(40000.0);
+			when(publicacion2.getInmuebleAsignado().getPrecioPorDefecto()).thenReturn(20000.0);
+			when(publicacion3.getInmuebleAsignado().getPrecioPorDefecto()).thenReturn(10000.0);
+			when(publicacion4.getInmuebleAsignado().getPrecioPorDefecto()).thenReturn(15000.0);
+			when(publicacion5.getInmuebleAsignado().getPrecioPorDefecto()).thenReturn(50000.0);
 			
 			List <Publicacion> publicacionesCon= sitio.busquedaDeInmuebles(busqueda1);
 			assertEquals(publicacionesCon.size(), 2);
@@ -151,11 +151,11 @@ class BusquedaTestCase {
 			when(publicacion4.getInmuebleAsignado().getCapacidad()).thenReturn(8);
 			when(publicacion5.getInmuebleAsignado().getCapacidad()).thenReturn(4);
 			
-			when(publicacion1.getInmuebleAsignado().getPrecio()).thenReturn(40000.0);
-			when(publicacion2.getInmuebleAsignado().getPrecio()).thenReturn(20000.0);
-			when(publicacion3.getInmuebleAsignado().getPrecio()).thenReturn(10000.0);
-			when(publicacion4.getInmuebleAsignado().getPrecio()).thenReturn(15000.0);
-			when(publicacion5.getInmuebleAsignado().getPrecio()).thenReturn(50000.0);
+			when(publicacion1.getInmuebleAsignado().getPrecioPorDefecto()).thenReturn(40000.0);
+			when(publicacion2.getInmuebleAsignado().getPrecioPorDefecto()).thenReturn(20000.0);
+			when(publicacion3.getInmuebleAsignado().getPrecioPorDefecto()).thenReturn(10000.0);
+			when(publicacion4.getInmuebleAsignado().getPrecioPorDefecto()).thenReturn(15000.0);
+			when(publicacion5.getInmuebleAsignado().getPrecioPorDefecto()).thenReturn(50000.0);
 			
 			List <Publicacion> publicacionesCon= sitio.busquedaDeInmuebles(busqueda1);
 			assertEquals(publicacionesCon.size(), 2);

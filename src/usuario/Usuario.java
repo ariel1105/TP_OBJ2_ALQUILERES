@@ -10,5 +10,7 @@ public class Usuario {
 		this.mail = mail;
 		this.telefono = telefono;
 	}
+	
+	
 
 }

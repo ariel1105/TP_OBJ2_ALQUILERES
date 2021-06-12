@@ -5,6 +5,7 @@ import java.util.List;
 
 import Busqueda.Buscador;
 import Busqueda.Busqueda;
+import usuario.Usuario;
 
 public abstract class Sitio {
 	

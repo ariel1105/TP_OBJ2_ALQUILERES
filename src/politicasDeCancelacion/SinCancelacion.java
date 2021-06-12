@@ -6,8 +6,8 @@ public class SinCancelacion extends PoliticaDeCancelacion {
 
 	@Override
 	public void cancelar(Reserva reserva) {
-		// TODO Auto-generated method stub
-		
+		reserva.confirmarPagoPor(reserva.valorPorDias((reserva.getFechas()).size()));
+		reserva.cancelar();
 	}
 
 }
