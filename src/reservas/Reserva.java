@@ -7,6 +7,7 @@ import inmueble.DatosDePago;
 import inmueble.FormaDePago;
 import inmueble.Inmueble;
 import politicasDeCancelacion.PoliticaDeCancelacion;
+import sitio.Sitio;
 import usuario.Usuario;
 
 public class Reserva {
@@ -36,6 +37,7 @@ public class Reserva {
 
 	
 	public void confirmarseEn(Sitio sitio) {
+		this.ingresarEnSitio(sitio);
 		sitio.enviarMailDeConfirmacion(this);
 		this.estado = new Confirmada();
 	}
@@ -99,5 +101,12 @@ public class Reserva {
 		return this.inmueble.valorPorDias(primerosDias);
 	}
 
+	public Inmueble getInmueble() {
+		return this.inmueble;
+	}
+
+	public DatosDePago getDatosDePago() {
+		return this.datosDePago;
+	}
 
 }

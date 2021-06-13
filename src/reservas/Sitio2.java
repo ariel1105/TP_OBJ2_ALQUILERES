@@ -7,7 +7,7 @@ import Busqueda.Buscador;
 import Busqueda.Busqueda;
 import usuario.Usuario;
 
-public abstract class Sitio {
+public abstract class Sitio2 {
 	
 	
 	//Deje la clase en abstracta para agregar la variable de publicaciones, despues hay que dejar
@@ -16,7 +16,7 @@ public abstract class Sitio {
 	private Buscador buscadorActual;
 
 
-	public Sitio() {
+	public Sitio2() {
 		
 		publicaciones= new ArrayList<Publicacion>();
 		usuariosRegistrados= new ArrayList <Usuario>();

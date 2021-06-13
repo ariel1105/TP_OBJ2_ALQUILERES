@@ -13,18 +13,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import periodo.PeriodoPrecio;
+import politicasDeCancelacion.PoliticaDeCancelacion;
 import usuario.Usuario;
 
 class InmuebleTestCase {
 	private Usuario dueño;
 	private Inmueble casa;
-	String tipoDeInmueble;
-	double superficie;
-	String pais;
-	String ciudad;
-	String direccion;
-	int capacidad;
-	double precio;
+	private String tipoDeInmueble;
+	private PoliticaDeCancelacion politica;
+	private double superficie;
+	private String pais;
+	private String ciudad;
+	private String direccion;
+	private int capacidad;
+	private double precio;
 	private ArrayList<String> servicios ;
 	private ArrayList<Foto> fotos;
 	private Hora horarioCheckIn;
@@ -50,7 +52,9 @@ class InmuebleTestCase {
 		fecha4 = mock(LocalDate.class);
 		periodoPrecio2 = mock(PeriodoPrecio.class);
 		
-		casa = new Inmueble(dueño, tipoDeInmueble, superficie,pais,ciudad,direccion,servicios,capacidad,fotos,horarioCheckIn, horarioCheckOut, formasDePago,precio);
+		casa = new Inmueble(dueño, tipoDeInmueble, superficie,pais,
+				ciudad,direccion,servicios,capacidad,fotos,
+				horarioCheckIn, horarioCheckOut, formasDePago,precio, politica);
 		
 		casa.establecerPeriodosConPrecios(periodoPrecio1);
 		casa.establecerPeriodosConPrecios(periodoPrecio2);

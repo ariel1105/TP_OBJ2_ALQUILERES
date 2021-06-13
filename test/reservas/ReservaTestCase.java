@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import inmueble.DatosDePago;
 import inmueble.Inmueble;
+import sitio.Sitio;
 import politicasDeCancelacion.CancelacionGratuita;
 import politicasDeCancelacion.CancelacionIntermedia;
 import politicasDeCancelacion.PoliticaDeCancelacion;

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import periodo.PeriodoPrecio;
+import politicasDeCancelacion.PoliticaDeCancelacion;
 import usuario.Usuario;
 
 public class Inmueble {
@@ -22,10 +23,11 @@ public class Inmueble {
 	private double precio;
 	private ArrayList<PeriodoPrecio> periodosConPrecios;
 	private double precioPorDefecto;
-
+	private PoliticaDeCancelacion politicaDeCancelacion;
+	
 	public Inmueble(Usuario dueño, String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion,
 			ArrayList<String> servicios, int capacidad, ArrayList<Foto> fotos, Hora horarioCheckIn,
-			Hora horarioCheckOut, ArrayList<FormaDePago> formasDePago, double precio) {
+			Hora horarioCheckOut, ArrayList<FormaDePago> formasDePago, double precio, PoliticaDeCancelacion politicaDeCancelacion) {
 		// TODO Auto-generated constructor stub
 		this.dueño = dueño;
 		this.tipoDeInmueble = tipoDeInmueble;
@@ -41,6 +43,7 @@ public class Inmueble {
 		this.formasDePago = formasDePago;
 		this.periodosConPrecios = new ArrayList<PeriodoPrecio>();
 		this.precioPorDefecto = precio;
+		this.politicaDeCancelacion = politicaDeCancelacion;
 	}
 
 	public double precioParaLaFecha(LocalDate fecha) {
@@ -115,6 +118,10 @@ public class Inmueble {
 
 	public ArrayList<FormaDePago> getFormasDePago() {
 		return this.formasDePago;
+	}
+
+	public PoliticaDeCancelacion getPoliticaDeCancelacion() {
+		return this.politicaDeCancelacion;
 	}
 
 	

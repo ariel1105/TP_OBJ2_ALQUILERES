@@ -18,7 +18,7 @@ import Busqueda.BusquedaConParametrosObligatorios;
 import Busqueda.BusquedaConPrecios;
 import inmueble.Inmueble;
 import reservas.Publicacion;
-import reservas.Sitio;
+import reservas.Sitio2;
 
 class BusquedaTestCase {
 
@@ -34,7 +34,7 @@ class BusquedaTestCase {
 		private Inmueble inmueble4;
 		private Inmueble inmueble5;
 		
-		private Sitio sitio;
+		private Sitio2 sitio;
 		private Busqueda busqueda1;
 		
 		private Buscador buscadorObligatorio;
