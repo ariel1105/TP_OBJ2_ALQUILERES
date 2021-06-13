@@ -13,7 +13,7 @@ import reservas.Reserva;
 
 import usuario.Usuario;
 
-public class Sitio implements Comparator<Usuario> {
+public class Sitio {
 	private ArrayList<Usuario> usuariosRegistrados;
 	private ArrayList<Inmueble> inmueblesPublicados;
 	private ArrayList<Reserva> reservasConfirmadas;
@@ -116,11 +116,5 @@ public class Sitio implements Comparator<Usuario> {
 	
 
 
-	@Override
-	public int compare(Usuario u1, Usuario u2) {
-		// TODO Auto-generated method stub
-		return new Integer(u1.vecesQueAlquilaron()).compareTo(new Integer(u2.vecesQueAlquilaron()));
-	
-	}
 
 }
