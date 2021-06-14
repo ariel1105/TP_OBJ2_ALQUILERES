@@ -124,6 +124,11 @@ public class Inmueble {
 		return this.politicaDeCancelacion;
 	}
 
+	public boolean estaReservado() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	
 
 }
