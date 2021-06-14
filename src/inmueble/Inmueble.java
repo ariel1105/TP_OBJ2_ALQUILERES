@@ -57,7 +57,6 @@ public class Inmueble {
 	}
 	
 	public double getPrecioPorDefecto() {
-		// TODO Auto-generated method stub
 		return this.precioPorDefecto;
 	}
 

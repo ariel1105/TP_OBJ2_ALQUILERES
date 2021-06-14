@@ -54,7 +54,7 @@ class InmuebleTestCase {
 		
 		casa = new Inmueble(dueño, tipoDeInmueble, superficie,pais,
 				ciudad,direccion,servicios,capacidad,fotos,
-				horarioCheckIn, horarioCheckOut, formasDePago,precio, politica);
+				horarioCheckIn, horarioCheckOut, formasDePago,3000d, politica);
 		
 		casa.establecerPeriodosConPrecios(periodoPrecio1);
 		casa.establecerPeriodosConPrecios(periodoPrecio2);
