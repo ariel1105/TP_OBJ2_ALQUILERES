@@ -57,9 +57,10 @@ class UsuarioTestCase {
 	}
 	
 	@Test
-	void testSubirInmueble() {//consultar, no deberia funcionar asi
+	void testSubirInmueble() {
 		propietario.registrarse(sitio);
 		propietario.publicar(inmueble, sitio);
+		when(sitio.elUsuarioEstaRegistrado(inquilino)).thenReturn(true);
 		verify(sitio).agregar(inmueble);
 		ArrayList<Inmueble> inmuebles = propietario.getInmuebles();
 		assertEquals(galeriaDeInmuebles, inmuebles);
