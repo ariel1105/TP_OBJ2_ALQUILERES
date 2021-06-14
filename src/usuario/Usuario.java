@@ -2,6 +2,7 @@ package usuario;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import administradorDeReservas.AdministadorDeReservas;
 import inmueble.DatosDePago;
@@ -9,7 +10,7 @@ import inmueble.Inmueble;
 import reservas.Reserva;
 import sitio.Sitio;
 
-public class Usuario {
+public class Usuario  implements Comparable<Usuario> {
 	private String nombreCompleto;
 	private String mail;
 	private String telefono;
@@ -69,6 +70,23 @@ public class Usuario {
 			this.reservasPendientesDeConfirmacion.remove(reserva);
 		}
 	}
-	
 
+	public Integer vecesQueAlquilaron() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+
+	@Override
+	public int compareTo(Usuario o) {
+		// TODO Auto-generated method stub
+		return new Integer(this.vecesQueAlquilaron()).compareTo(new Integer(o.vecesQueAlquilaron()));
+	}
+
+
+	
+	
 }
+
+
