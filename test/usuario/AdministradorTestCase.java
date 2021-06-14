@@ -12,6 +12,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import inmueble.Inmueble;
 import reservas.Categoria;
 import sitio.Sitio;
 
@@ -19,6 +20,7 @@ class AdministradorTestCase {
 	
 	private Administrador administradorDelSitio;
 	private Sitio sitio;
+	private Sitio sitio2;
 	private Categoria categoriaUbicacion;
 	private Categoria categoriaComodidad;
 	private Categoria categoriaCercania;
@@ -29,7 +31,6 @@ class AdministradorTestCase {
 	private Categoria pagoATiempo;
 	private Categoria actitud;
 	
-
 	private Usuario user1;
 	private Usuario user2;
 	private Usuario user3;
@@ -43,15 +44,22 @@ class AdministradorTestCase {
 	private Usuario user11;
 	private Usuario user12;
 	
-	
 	private ArrayList<Usuario> users= new ArrayList();
+	
+	private Inmueble inmueble1;
+	private Inmueble inmueble2;
+	private Inmueble inmueble3;
+	private Inmueble inmueble4;
+	
+	private List<Inmueble> inmuebles= new ArrayList();
 	
 	@BeforeEach
 	void setUp() {
 		
 		administradorDelSitio= new Administrador();
 		sitio=  mock(Sitio.class);
-		
+		sitio2= new Sitio();
+
 		categoriaUbicacion= mock(Categoria.class);
 		categoriaComodidad= mock(Categoria.class);
 		categoriaCercania=  mock(Categoria.class);
@@ -80,8 +88,8 @@ class AdministradorTestCase {
 		when(user1.vecesQueAlquilaron()).thenReturn(2);
 		when(user2.vecesQueAlquilaron()).thenReturn(2);
 		when(user3.vecesQueAlquilaron()).thenReturn(2);
-		when(user4.vecesQueAlquilaron()).thenReturn(2);
-		when(user5.vecesQueAlquilaron()).thenReturn(2);
+		when(user4.vecesQueAlquilaron()).thenReturn(0);
+		when(user5.vecesQueAlquilaron()).thenReturn(0);
 		when(user6.vecesQueAlquilaron()).thenReturn(2);
 		when(user7.vecesQueAlquilaron()).thenReturn(6);
 		when(user8.vecesQueAlquilaron()).thenReturn(2);
@@ -104,9 +112,24 @@ class AdministradorTestCase {
 		users.add(user11);
 		users.add(user12);
 		
-		when(sitio.usuarios()).thenReturn(users);
-		when(sitio.usuariosQueAlquilaron()).thenReturn(users);
+		when(sitio.getUsuariosRegistrados()).thenReturn(users);
 		
+		inmueble1= mock(Inmueble.class);
+		inmueble2= mock(Inmueble.class);
+		inmueble3= mock(Inmueble.class);
+		inmueble4=mock(Inmueble.class);
+		
+		when(inmueble1.estaReservado()).thenReturn(true);
+		when(inmueble2.estaReservado()).thenReturn(false);
+		when(inmueble3.estaReservado()).thenReturn(false);
+		when(inmueble4.estaReservado()).thenReturn(true);
+
+		inmuebles.add(inmueble1);
+		inmuebles.add(inmueble2);
+		inmuebles.add(inmueble3);
+		inmuebles.add(inmueble4);
+		
+		when(sitio.getInmueblesPublicados()).thenReturn(inmuebles);
 	}
 
 	@Test
@@ -169,23 +192,26 @@ class AdministradorTestCase {
 	
 	@Test
 	void testTopTenInquilinos() {
-		List <Usuario> topTen= administradorDelSitio.topTenInquilinos(sitio);
-		assertEquals(topTen.size(), 10);
-		
+
+		///falta hacer metodo que ordene listas
 	}
 	
 	@Test
 	void inmueblesLibres() {
-		List <Usuario> valor= administradorDelSitio.usuariosRank(sitio, users);
-		assertEquals(valor.size(), 12);
-		Usuario user= valor.get(0);
-		assertEquals(user, user1);
+	
+		assertEquals(sitio.getInmueblesPublicados().size(), 4);
+		
+		int cant=administradorDelSitio.inmueblesLibres(sitio).size();
+		assertEquals(cant, 2);
 
 	}
 	
 	@Test
 	void tasaOcupacion() {
+
 		
-		administradorDelSitio.tasaOcupacion(sitio);
+		double tasa=administradorDelSitio.tasaOcupacion(sitio);
+		
+		assertEquals(tasa, 2.0);
 	}
 }

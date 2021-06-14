@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import inmueble.Inmueble;
 import reservas.Categoria;
 import sitio.Sitio;
 
@@ -40,7 +41,7 @@ public class Administrador  {
 
 	public List<Usuario> topTenInquilinos(Sitio sitio) {
 		// TODO Auto-generated method stub
-		List <Usuario> usuarios= sitio.usuarios();
+		List <Usuario> usuarios= sitio.usuariosQueAlquilaron();
 		List<Usuario> topTen= new ArrayList<Usuario>();
 		int acumulador= 0;
 		
@@ -56,37 +57,63 @@ public class Administrador  {
 		return topTen;
 	}
 	
-	public ArrayList<Usuario> usuariosRank(Sitio sitio, ArrayList<Usuario> userss) {
+	public List<Usuario> usuariosRank(Sitio sitio) {
 		
-	ArrayList<Usuario> users=sitio.usuariosQueAlquilaron();
+	List<Usuario> users=sitio.usuariosQueAlquilaron();
 		
-	System.out.println(userss);
-		
-		Collections.sort(userss);
-
-		
-
-		   System.out.println(userss);
-		        
-		   Collections.sort(userss, Collections.reverseOrder());
-		   System.out.println(userss);
-		return userss;
+	List<Usuario> employees = sitio.usuariosQueAlquilaron();
+    
+	Comparator<Usuario> compareById=(Usuario o1, Usuario o2) -> o1.vecesQueAlquilaron().compareTo( o2.vecesQueAlquilaron());
+	 
+	Collections.sort(employees, compareById);
+	
+	return employees;
 		
 			
 }
 	
 
 
-	public void inmueblesLibres(Sitio sitio) {
+	public List <Inmueble> inmueblesLibres(Sitio sitio) {
 		// TODO Auto-generated method stub
+		
+		List <Inmueble> inmuebles= sitio.getInmueblesPublicados();
+		List <Inmueble> inmueblesLibres= new ArrayList<Inmueble>();
+		for (int i=0; i < inmuebles.size(); i++){
+			
+			if (!inmuebles.get(i).estaReservado()) {
+				
+				inmueblesLibres.add(inmuebles.get(i));
+				
+			}
+		}
+		return inmueblesLibres;
+	}
+
+	public Double tasaOcupacion(Sitio sitio) {
+		// TODO Auto-generated method stub
+		int cantInmuebles= sitio.getInmueblesPublicados().size();
+		return (double) (cantInmuebles / inmueblesReservados(sitio));
+		
 		
 	}
 
-	public void tasaOcupacion(Sitio sitio) {
-		// TODO Auto-generated method stub
+	public Integer inmueblesReservados(Sitio sitio) {
+		List <Inmueble> inmuebles= sitio.getInmueblesPublicados();
+		int cantidadDeInmueblesAlquilados= 0;
+		for (int i=0; i < inmuebles.size(); i++){
+			
+			if (inmuebles.get(i).estaReservado()) {
+				
+				cantidadDeInmueblesAlquilados++;
+				
+			}
+		}
+		return cantidadDeInmueblesAlquilados;
+	
+
 		
 	}
-
 
 
 }

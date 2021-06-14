@@ -71,24 +71,20 @@ public class Usuario  implements Comparable<Usuario> {
 		}
 	}
 
-	public int vecesQueAlquilaron() {
+	public Integer vecesQueAlquilaron() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 
 
-/*	@Override
+	@Override
 	public int compareTo(Usuario o) {
 		// TODO Auto-generated method stub
 		return new Integer(this.vecesQueAlquilaron()).compareTo(new Integer(o.vecesQueAlquilaron()));
 	}
-*/
-	@Override
-	public int compareTo(Usuario o) {
-		// TODO Auto-generated method stub
-		 return vecesQueAlquilaron() > o.vecesQueAlquilaron() ? 1 : vecesQueAlquilaron() < o.vecesQueAlquilaron() ? -1 : 0;
-    }
+
+
 	
 	
 }
