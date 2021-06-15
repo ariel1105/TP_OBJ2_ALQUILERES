@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Observable;
 import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 
 import inmueble.Inmueble;
-import reservas.Categoria;
 import reservas.Reserva;
 
 import usuario.Usuario;
@@ -22,9 +22,13 @@ public class Sitio {
 	private ArrayList <Categoria> categoriasParaInquilino;
 	private ArrayList <String> tipoDeInmuebles;
 	private ArrayList <String> servicios;
+	
+	private List <SitioWeb> listenersPaginas;
+	
 	public Sitio() {
 		this.usuariosRegistrados = new ArrayList<Usuario>();
 		this.inmueblesPublicados= new ArrayList<Inmueble>();
+		this.listenersPaginas= new ArrayList<SitioWeb>();
 	}
 
 	public ArrayList<Usuario> obtenerUsuariosRegistrados() {
@@ -114,6 +118,25 @@ public class Sitio {
 	public List<Inmueble> getInmueblesPublicados() {
 		return inmueblesPublicados;
 	}
+
+	public void addObserver(SitioWeb trivago) {
+		// TODO Auto-generated method stub
+		this.listenersPaginas.add(trivago);
+	}
+
+	public void notificarBajaDePrecio(String tipoDeInmueble, Double precio) {
+		// TODO Auto-generated method stub
+		
+		for (SitioWeb listener : this.listenersPaginas) {
+				
+			if (listener.getInmueblesConInteres().contains(tipoDeInmueble)) {
+				listener.publish("El inmueble " + tipoDeInmueble + " esta a solo " + precio + " pesos!.");
+			}
+		}
+		
+	}
+
+	
 	
 
 

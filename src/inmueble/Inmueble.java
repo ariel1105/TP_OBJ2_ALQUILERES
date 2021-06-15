@@ -46,6 +46,10 @@ public class Inmueble {
 		this.politicaDeCancelacion = politicaDeCancelacion;
 	}
 
+	public String getTipoDeInmueble() {
+		return tipoDeInmueble;
+	}
+
 	public double precioParaLaFecha(LocalDate fecha) {
 		// TODO Auto-generated method stub
 		if (!this.perteneceLaFechaAAlgunPeriodo(fecha)) {
