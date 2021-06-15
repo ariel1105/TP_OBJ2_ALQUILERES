@@ -103,7 +103,7 @@ public class Inmueble {
 		return this.ciudad;
 	}
 
-	public Boolean estaDisponible(LocalDate of, LocalDate of2) {
+	public Boolean estaDisponible(LocalDate fechaInicio, LocalDate fechaFin) {
 		return true;
 	}
 
@@ -126,6 +126,10 @@ public class Inmueble {
 	public boolean estaReservado() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public Double precioParaRango(LocalDate fechaInicio, LocalDate fechaFin) {
+		return 0d;
 	}
 
 	

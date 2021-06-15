@@ -22,6 +22,7 @@ public class Sitio {
 	private ArrayList <Categoria> categoriasParaInquilino;
 	private ArrayList <String> tipoDeInmuebles;
 	private ArrayList <String> servicios;
+	
 	public Sitio() {
 		this.usuariosRegistrados = new ArrayList<Usuario>();
 		this.inmueblesPublicados= new ArrayList<Inmueble>();
@@ -111,8 +112,12 @@ public class Sitio {
 	}
 	
 
-	public List<Inmueble> getInmueblesPublicados() {
+	public ArrayList<Inmueble> getInmueblesPublicados() {
 		return inmueblesPublicados;
+	}
+	
+	public ArrayList<Reserva> getResevasConfirmadas() {
+		return this.reservasConfirmadas;
 	}
 	
 
