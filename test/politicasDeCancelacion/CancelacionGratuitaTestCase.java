@@ -2,6 +2,7 @@ package politicasDeCancelacion;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -33,6 +34,15 @@ class CancelacionGratuitaTestCase {
 		when(reserva.primerDia()).thenReturn(fechaPrimerDiaReserva);
 		when(fechaActual.compareTo(fechaPrimerDiaReserva)).thenReturn(15);
 		assertTrue(politica.noTieneQueAbonar(reserva));
+	}
+	
+	@Test
+	void testNoAbonaNada() {
+		when(reserva.primerDia()).thenReturn(fechaPrimerDiaReserva);
+		when(fechaActual.compareTo(fechaPrimerDiaReserva)).thenReturn(15);
+		politica.cancelar(reserva);
+		verify(reserva).cancelar();
+		verify(reserva, never()).confirmarPagoPor(reserva.valorPorDias(2));
 	}
 	
 	@Test

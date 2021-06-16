@@ -18,9 +18,7 @@ public class DatosDePago {
 		this.email = email;
 	}
 
-	public void abonar(Usuario dueño, double monto) {
-		// TODO Auto-generated method stub
-		
+	public void abonar(Usuario dueño, double monto) {		
 	}
 
 	public Boolean sonDatosAdmitidosPara(Inmueble inmueble) {

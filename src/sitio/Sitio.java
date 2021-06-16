@@ -35,7 +35,7 @@ public class Sitio {
 
 	public void registrarUsuario(Usuario usuario) {
 		// TODO Auto-generated method stub
-		if( this.elUsuarioEstaRegistrado(usuario)) {
+		if(!this.elUsuarioEstaRegistrado(usuario)) {
 			usuariosRegistrados.add(usuario);
 		}
 	}
