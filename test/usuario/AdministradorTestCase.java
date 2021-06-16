@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import inmueble.Inmueble;
-import reservas.Categoria;
+import sitio.Categoria;
 import sitio.Sitio;
 
 class AdministradorTestCase {

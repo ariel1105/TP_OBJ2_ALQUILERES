@@ -18,6 +18,8 @@ public class Usuario  implements Comparable<Usuario> {
 	private ArrayList<Inmueble>inmuebles;
 	private ArrayList<Reserva>reservasPendientesDeConfirmacion;
 	private LocalDate fechaActual;
+	private Integer vecesQueAlquilo;
+	private Integer inmueblesAlquilados;
 	
 	
 	Usuario(String nombreCompleto, String mail, String telefono){
@@ -73,7 +75,7 @@ public class Usuario  implements Comparable<Usuario> {
 
 	public Integer vecesQueAlquilaron() {
 		// TODO Auto-generated method stub
-		return 0;
+		return vecesQueAlquilo;
 	}
 
 

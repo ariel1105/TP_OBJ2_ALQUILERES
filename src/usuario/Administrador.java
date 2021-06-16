@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import inmueble.Inmueble;
-import reservas.Categoria;
+import sitio.Categoria;
 import sitio.Sitio;
 
 public class Administrador  {
