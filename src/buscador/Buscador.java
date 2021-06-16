@@ -78,29 +78,5 @@ public class Buscador {
 		return inmuebles;
 	}
 	
-	/*private Busqueda busqueda{
-		String ciudad;
-		(LocalDate,LocalDate) rangoFecha 
-		int cantHuespedes
-		Double precioMaximo
-		Double precioMinimo
-	}
-	
-	Buscador {
-	Boolean esBusquedaPosible(busqueda);
-
-		inmueblesPara(busqueda, Reservas){
-			ArrayList <Inmuebles> inmuebles= sitio.getInmuebles();
-			inmuebles = this.filtrarPorCiudad(inmuebles, busqueda.getCiudad());
-			inmuebles = this.filtrarPorDisponibilidad(inmuebles, busqueda.getRangoFecha, sitio);
-			inmuebles = this.filtrarPorCantHuespedes(inmuebles, busqueda.cantHuespedes);
-			inmuebles = this.filtrarPorPrecioMax(inmuebles, busqueda.getPrecioMaximo);
-			inmuebles = this.filtrarPorPrecioMin(inmuebles, busqueda.getPrecioMinimo);
-			return inmuebles;
-		}
-	}
-	*/
-
-	
 }	
 	
