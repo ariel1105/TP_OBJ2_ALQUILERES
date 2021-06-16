@@ -8,6 +8,7 @@ import java.util.Observable;
 import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 
+import Suscripciones.SitioWeb;
 import inmueble.Inmueble;
 import reservas.Reserva;
 
@@ -119,22 +120,7 @@ public class Sitio {
 		return inmueblesPublicados;
 	}
 
-	public void addObserver(SitioWeb trivago) {
-		// TODO Auto-generated method stub
-		this.listenersPaginas.add(trivago);
-	}
 
-	public void notificarBajaDePrecio(String tipoDeInmueble, Double precio) {
-		// TODO Auto-generated method stub
-		
-		for (SitioWeb listener : this.listenersPaginas) {
-				
-			if (listener.getInmueblesConInteres().contains(tipoDeInmueble)) {
-				listener.publish("El inmueble " + tipoDeInmueble + " esta a solo " + precio + " pesos!.");
-			}
-		}
-		
-	}
 
 	
 	
