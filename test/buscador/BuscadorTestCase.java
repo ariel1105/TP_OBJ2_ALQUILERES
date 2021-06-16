@@ -62,6 +62,7 @@ class BuscadorTestCase {
 		assertEquals(inmueblesTotales, inmueblesEsperados);
 	}
 
+
 	@Test
 	void testFiltrarPorDisponibilidad() {
 		when(inmueble1.estaDisponible(fechaInicio, fechaFin)).thenReturn(true);
@@ -146,6 +147,30 @@ class BuscadorTestCase {
 		when(inmueble1.estaDisponible(fechaInicio, fechaFin)).thenReturn(false);
 		when(inmueble2.estaDisponible(fechaInicio, fechaFin)).thenReturn(true);
 		when(inmueble3.estaDisponible(fechaInicio, fechaFin)).thenReturn(true);
+		inmueblesEsperados.add(inmueble2);
+		inmueblesTotales = buscador.inmueblesPara(busqueda, sitio);
+	}
+	@Test
+	void testFiltrarSoloConTodosLosParametros() {
+		when(busqueda.esAdmitida()).thenReturn(true);
+		when(busqueda.getCiudad()).thenReturn("Pinamar");
+		when(busqueda.getFechaInicio()).thenReturn(fechaInicio);
+		when(busqueda.getFechaFin()).thenReturn(fechaFin);
+		when(busqueda.getCantHuespedes()).thenReturn(4);
+		when(busqueda.getPrecioMaximo()).thenReturn(6000d);
+		when(busqueda.getPrecioMinimo()).thenReturn(4000d);		
+		when(inmueble1.getCiudad()).thenReturn("Pinamar");
+		when(inmueble2.getCiudad()).thenReturn("Pinamar");
+		when(inmueble3.getCiudad()).thenReturn("Mar del Plata");
+		when(inmueble1.estaDisponible(fechaInicio, fechaFin)).thenReturn(false);
+		when(inmueble2.estaDisponible(fechaInicio, fechaFin)).thenReturn(true);
+		when(inmueble3.estaDisponible(fechaInicio, fechaFin)).thenReturn(true);
+		when(inmueble1.getCapacidad()).thenReturn(2);
+		when(inmueble2.getCapacidad()).thenReturn(4);
+		when(inmueble3.getCapacidad()).thenReturn(3);
+		when(inmueble1.precioParaRango(fechaInicio, fechaFin)).thenReturn(2000d);
+		when(inmueble2.precioParaRango(fechaInicio, fechaFin)).thenReturn(5000d);
+		when(inmueble3.precioParaRango(fechaInicio, fechaFin)).thenReturn(3000d);
 		inmueblesEsperados.add(inmueble2);
 		inmueblesTotales = buscador.inmueblesPara(busqueda, sitio);
 	}

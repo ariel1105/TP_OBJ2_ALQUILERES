@@ -21,6 +21,18 @@ class BusquedaTestCase {
 		fechaInicio = mock(LocalDate.class);
 		fechaFin = mock(LocalDate.class);
 	}
+	
+	@Test
+	void testSetearParametrosObligatorios() {
+		busqueda.setParametosObligatorios("Pinamar", fechaInicio, fechaFin);
+		String ciudad = busqueda.getCiudad();
+		LocalDate fechaI = busqueda.getFechaInicio();
+		LocalDate fechaF = busqueda.getFechaFin();
+		assertEquals("Pinamar", ciudad);
+		assertEquals(fechaInicio, fechaI);
+		assertEquals(fechaFin, fechaF);
+		
+	}
 
 	@Test
 	void testNoEsBusquedaAdmitida() {
