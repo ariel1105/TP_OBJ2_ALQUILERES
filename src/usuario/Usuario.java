@@ -10,7 +10,7 @@ import inmueble.Inmueble;
 import reservas.Reserva;
 import sitio.Sitio;
 
-public class Usuario  implements Comparable<Usuario> {
+public class Usuario  {
 	private String nombreCompleto;
 	private String mail;
 	private String telefono;
@@ -80,11 +80,8 @@ public class Usuario  implements Comparable<Usuario> {
 
 
 
-	@Override
-	public int compareTo(Usuario o) {
-		// TODO Auto-generated method stub
-		return new Integer(this.vecesQueAlquilaron()).compareTo(new Integer(o.vecesQueAlquilaron()));
-	}
+
+
 
 
 	

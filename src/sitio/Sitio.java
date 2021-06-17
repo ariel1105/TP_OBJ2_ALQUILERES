@@ -104,9 +104,9 @@ public class Sitio {
 		
 		List <Usuario> usuarios = new ArrayList<Usuario>();
 		for (int i=0; i< usuariosRegistrados.size(); i++) {
-			if (usuariosRegistrados.get(i).vecesQueAlquilaron() > 0)
+			if (usuariosRegistrados.get(i).vecesQueAlquilaron() > 0) {
 				usuarios.add(usuariosRegistrados.get(i));
-			
+			}
 		}
 		return  usuarios;
 	}
