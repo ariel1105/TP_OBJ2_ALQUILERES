@@ -25,4 +25,9 @@ public class Categoria {
 		this.puntaje = puntaje;
 	}
 
+	public void sumarPuntos(int puntos) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
