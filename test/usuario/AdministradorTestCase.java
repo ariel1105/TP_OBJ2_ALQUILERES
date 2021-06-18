@@ -53,7 +53,9 @@ class AdministradorTestCase {
 	private Inmueble inmueble3;
 	private Inmueble inmueble4;
 	
-	private List<Inmueble> inmuebles= new ArrayList();
+	
+	private ArrayList<Inmueble> inmuebles= new ArrayList();
+	
 
 	@BeforeEach
 	void setUp() {

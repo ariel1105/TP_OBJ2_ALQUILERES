@@ -39,7 +39,7 @@ public class Sitio {
 
 	public void registrarUsuario(Usuario usuario) {
 		// TODO Auto-generated method stub
-		if( this.elUsuarioEstaRegistrado(usuario)) {
+		if(!this.elUsuarioEstaRegistrado(usuario)) {
 			usuariosRegistrados.add(usuario);
 		}
 	}
@@ -116,13 +116,30 @@ public class Sitio {
 	}
 	
 
-	public List<Inmueble> getInmueblesPublicados() {
+	public ArrayList<Inmueble> getInmueblesPublicados() {
 		return inmueblesPublicados;
 	}
 
 
-
+	public void notificarBajaDePrecio(String tipoDeInmueble, Double precio) {
+		// TODO Auto-generated method stub
+		
+		for (SitioWeb listener : this.listenersPaginas) {
+				
+			if (listener.getInmueblesConInteres().contains(tipoDeInmueble)) {
+				listener.publish("El inmueble " + tipoDeInmueble + " esta a solo " + precio + " pesos!.");
+			}
+		}
+		
+	}
 	
+	public ArrayList<Reserva> todasLasResevasConfirmadas() {
+		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+		for (Usuario us : this.usuariosRegistrados) {
+			reservas.addAll(us.getReservasConfirmadas());
+		}
+		return reservas;
+	}
 	
 
 

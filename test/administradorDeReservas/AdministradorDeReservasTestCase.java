@@ -16,7 +16,7 @@ import reservas.Reserva;
 
 class AdministradorDeReservasTestCase {
 	
-	private AdministadorDeReservas admin;
+	private AdministadorDeReservasInquilino admin;
 	private Reserva reserva;
 	private Reserva reserva2;
 	private LocalDate fechaActual;
@@ -35,7 +35,7 @@ class AdministradorDeReservasTestCase {
 		fechaActual = mock(LocalDate.class);
 		fechaReserva = mock(LocalDate.class);
 		fechaReserva2 = mock(LocalDate.class); 
-		admin = new AdministadorDeReservas(fechaActual);
+		admin = new AdministadorDeReservasInquilino(fechaActual);
 		politica = mock(PoliticaDeCancelacion.class); 
 	}
 

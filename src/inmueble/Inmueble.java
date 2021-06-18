@@ -11,7 +11,7 @@ import politicasDeCancelacion.PoliticaDeCancelacion;
 import usuario.Usuario;
 
 public class Inmueble {
-	private Usuario dueño;
+	private Usuario dueÃ±o;
 	private String tipoDeInmueble;
 	private double superficie;
 	private String pais;
@@ -23,18 +23,17 @@ public class Inmueble {
 	private Hora horarioCheckIn;
 	private Hora horarioCheckOut;
 	private ArrayList<FormaDePago> formasDePago;
-	private double precio;
 	private ArrayList<PeriodoPrecio> periodosConPrecios;
 	private double precioPorDefecto;
 	private PoliticaDeCancelacion politicaDeCancelacion;
 	
 	public List <INotify> listenersPaginas;
 	
-	public Inmueble(Usuario dueño, String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion,
+	public Inmueble(Usuario dueÃ±o, String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion,
 			ArrayList<String> servicios, int capacidad, ArrayList<Foto> fotos, Hora horarioCheckIn,
 			Hora horarioCheckOut, ArrayList<FormaDePago> formasDePago, double precio, PoliticaDeCancelacion politicaDeCancelacion) {
 		// TODO Auto-generated constructor stub
-		this.dueño = dueño;
+		this.dueÃ±o = dueÃ±o;
 		this.tipoDeInmueble = tipoDeInmueble;
 		this.superficie = superficie;
 		this.pais = pais;
@@ -117,7 +116,7 @@ public class Inmueble {
 		return this.ciudad;
 	}
 
-	public Boolean estaDisponible(LocalDate of, LocalDate of2) {
+	public Boolean estaDisponible(LocalDate fechaInicio, LocalDate fechaFin) {
 		return true;
 	}
 
@@ -125,8 +124,8 @@ public class Inmueble {
 		return this.capacidad;
 	}
 
-	public Usuario getDueño() {
-		return this.dueño;
+	public Usuario getDueÃ±o() {
+		return this.dueÃ±o;
 	}
 
 	public ArrayList<FormaDePago> getFormasDePago() {
@@ -158,6 +157,12 @@ public class Inmueble {
 		listener.popUp("El/la "+this.getTipoDeInmueble()+ " que te interesa se ha liberado! Corre a reservarlo!", "Rojo", 3);
 	}
 	}
+
+	public Double precioParaRango(LocalDate fechaInicio, LocalDate fechaFin) {
+		return 0d;
+	}
+
+	
 
 	public void cambiarPrecio() {
 		// TODO Auto-generated method stub
