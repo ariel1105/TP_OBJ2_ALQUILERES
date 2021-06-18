@@ -228,7 +228,7 @@ class AdministradorTestCase {
 		assertEquals(cant, 2);
 		
 
-//sdfd
+//sdfdcf
 	}
 	
 	@Test
