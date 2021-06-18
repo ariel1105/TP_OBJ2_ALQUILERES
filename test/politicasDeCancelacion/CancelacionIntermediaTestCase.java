@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,32 +18,46 @@ class CancelacionIntermediaTestCase {
 	
 	private Reserva reserva;
 	private CancelacionIntermedia politica;
-	private LocalDate fechaActual;
-	private LocalDate fechaPrimerDiaReserva;
+	private Accion accion1;
+	private Accion accion2;
+	private ArrayList<Accion> acciones;
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		reserva = mock(Reserva.class);
-		fechaActual = mock(LocalDate.class);
-		fechaPrimerDiaReserva = mock(LocalDate.class);
-		politica = new CancelacionIntermedia();
-		politica.actualizarFecha(fechaActual);
+		acciones = new ArrayList<Accion>();
+		accion1 = mock(Accion.class);
+		accion2 = mock(Accion.class);
+		acciones.add(accion1);
+		acciones.add(accion2);
+		politica = new CancelacionIntermedia(acciones);
 	}
 	
 	@Test
-	void testActualizarFecha() {//test de la clase abastracta
-		politica.actualizarFecha(fechaActual);
-		LocalDate fechaDePolitica = politica.getFechaActual();
-		assertEquals(fechaActual, fechaDePolitica);
+	void testAccionParaReserva() {
+		when(accion1.esAccionParaReserva(politica, reserva)).thenReturn(true);
+		Accion accionResultante = politica.accionParaReserva(reserva);
+		assertEquals(accion1, accionResultante);
 	}
 	
 	@Test
-	void testDiferenciaDeDias() { // test de la clase abstracta
-		when(reserva.primerDia()).thenReturn(fechaPrimerDiaReserva);
-		when(fechaActual.compareTo(fechaPrimerDiaReserva)).thenReturn(21);
-		assertTrue(politica.diferenciaDeDiasEsMayor(reserva, 20));
+	void testAccionParaReserva2() {
+		when(accion1.esAccionParaReserva(politica, reserva)).thenReturn(false);
+		when(accion2.esAccionParaReserva(politica, reserva)).thenReturn(true);
+		Accion accionResultante = politica.accionParaReserva(reserva);
+		assertEquals(accion2,accionResultante);
 	}
-
+	
+	@Test
+	void testCancelar() {
+		when(accion1.esAccionParaReserva(politica, reserva)).thenReturn(true);
+		politica.cancelar(reserva);
+		verify(accion1).realizarAccionDePago(reserva);
+		verify(reserva).cancelar();
+	}
+	
+	
+	/*
 	@Test
 	void testNoTieneQueAbonar() {
 		when(reserva.primerDia()).thenReturn(fechaPrimerDiaReserva);
@@ -91,5 +106,6 @@ class CancelacionIntermediaTestCase {
 		verify(reserva).cancelar();
 		verify(reserva).confirmarPagoPor(200d);
 	}
+	*/
 }
 	

@@ -11,7 +11,9 @@ import politicasDeCancelacion.PoliticaDeCancelacion;
 import usuario.Usuario;
 
 public class Inmueble {
-	private Usuario dueÃ±o;
+
+
+	private Usuario dueño;
 	private String tipoDeInmueble;
 	private double superficie;
 	private String pais;
@@ -26,14 +28,14 @@ public class Inmueble {
 	private ArrayList<PeriodoPrecio> periodosConPrecios;
 	private double precioPorDefecto;
 	private PoliticaDeCancelacion politicaDeCancelacion;
+	private double precioActual;
 	
 	public List <INotify> listenersPaginas;
 	
-	public Inmueble(Usuario dueÃ±o, String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion,
+	public Inmueble(Usuario dueño,  String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion,
 			ArrayList<String> servicios, int capacidad, ArrayList<Foto> fotos, Hora horarioCheckIn,
 			Hora horarioCheckOut, ArrayList<FormaDePago> formasDePago, double precio, PoliticaDeCancelacion politicaDeCancelacion) {
-		// TODO Auto-generated constructor stub
-		this.dueÃ±o = dueÃ±o;
+		this.dueño = dueño;
 		this.tipoDeInmueble = tipoDeInmueble;
 		this.superficie = superficie;
 		this.pais = pais;
@@ -49,6 +51,8 @@ public class Inmueble {
 		this.precioPorDefecto = precio;
 		this.politicaDeCancelacion = politicaDeCancelacion;
 		this.listenersPaginas= new ArrayList<INotify>();
+		this.precioActual= precio;
+		
 	}
 
 	public List<INotify> getListenersPaginas() {
@@ -124,8 +128,8 @@ public class Inmueble {
 		return this.capacidad;
 	}
 
-	public Usuario getDueÃ±o() {
-		return this.dueÃ±o;
+	public Usuario getDueño() {
+		return this.dueño;
 	}
 
 	public ArrayList<FormaDePago> getFormasDePago() {
@@ -166,8 +170,15 @@ public class Inmueble {
 
 	public void cambiarPrecio() {
 		// TODO Auto-generated method stub
-		this.notificarBajaDePrecio();
 		
+		Double precioAnterior= this.getPrecioActual();
+		
+		precioActual= this.precioParaLaFecha(LocalDate.now());
+		
+		if (precioActual < precioAnterior) {
+		
+		this.notificarBajaDePrecio();
+		}
 		
 	} 
 
@@ -182,6 +193,7 @@ public class Inmueble {
 
 	private Double getPrecioActual() {
 		// TODO Auto-generated method stub
-		return 50000.0;
+		return precioActual;
 	}
+
 }
