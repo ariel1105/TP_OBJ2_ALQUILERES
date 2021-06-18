@@ -1,10 +1,34 @@
 package politicasDeCancelacion;
 
 
+import java.util.ArrayList;
+
 import reservas.Reserva;
 
 public class CancelacionIntermedia extends PoliticaDeCancelacion {
-
+	
+	private ArrayList<Accion> accionesPosibles;
+	
+	public CancelacionIntermedia(ArrayList<Accion> acciones) {
+		this.accionesPosibles = acciones;
+	}
+		//this.accionParaReserva.realizarAccionDePago;
+		//reserva.cancelar;
+	public Accion accionParaReserva(Reserva reserva) {
+		int i = 0;
+		while (!this.accionesPosibles.get(i).esAccionParaReserva(this, reserva)) {
+			i++;
+		}
+		return this.accionesPosibles.get(i);
+	}
+	@Override
+	public void cancelar(Reserva reserva) {
+		this.accionParaReserva(reserva).realizarAccionDePago(reserva);
+		reserva.cancelar();
+	}
+	
+	
+	/*	
 	@Override
 	public void cancelar(Reserva reserva) {
 		if (this.noTieneQueAbonar(reserva)) {
@@ -33,5 +57,6 @@ public class CancelacionIntermedia extends PoliticaDeCancelacion {
 		return ((!this.tieneQueAbonar50PorCiento(reserva))&& 
 				(!this.noTieneQueAbonar(reserva)));
 	}
+	*/
 
 }
