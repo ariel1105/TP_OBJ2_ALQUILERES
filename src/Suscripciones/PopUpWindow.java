@@ -1,4 +1,4 @@
-package sitio;
+package Suscripciones;
 
 public interface PopUpWindow {
 

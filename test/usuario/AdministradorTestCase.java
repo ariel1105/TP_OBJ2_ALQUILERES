@@ -1,5 +1,6 @@
 package usuario;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -44,15 +45,18 @@ class AdministradorTestCase {
 	private Usuario user11;
 	private Usuario user12;
 	
-	private ArrayList<Usuario> users= new ArrayList();
+	private ArrayList<Usuario> users2= new ArrayList();
+	private ArrayList<Usuario> usersDesordenados= new ArrayList();
 	
 	private Inmueble inmueble1;
 	private Inmueble inmueble2;
 	private Inmueble inmueble3;
 	private Inmueble inmueble4;
 	
+	
 	private ArrayList<Inmueble> inmuebles= new ArrayList();
 	
+
 	@BeforeEach
 	void setUp() {
 		
@@ -88,8 +92,8 @@ class AdministradorTestCase {
 		when(user1.vecesQueAlquilaron()).thenReturn(2);
 		when(user2.vecesQueAlquilaron()).thenReturn(2);
 		when(user3.vecesQueAlquilaron()).thenReturn(2);
-		when(user4.vecesQueAlquilaron()).thenReturn(0);
-		when(user5.vecesQueAlquilaron()).thenReturn(0);
+		when(user4.vecesQueAlquilaron()).thenReturn(5);
+		when(user5.vecesQueAlquilaron()).thenReturn(8);
 		when(user6.vecesQueAlquilaron()).thenReturn(2);
 		when(user7.vecesQueAlquilaron()).thenReturn(6);
 		when(user8.vecesQueAlquilaron()).thenReturn(2);
@@ -99,20 +103,34 @@ class AdministradorTestCase {
 		when(user12.vecesQueAlquilaron()).thenReturn(2);
 
 
-		users.add(user1);
-		users.add(user2);
-		users.add(user3);
-		users.add(user4);
-		users.add(user5);
-		users.add(user6);
-		users.add(user7);
-		users.add(user8);
-		users.add(user9);
-		users.add(user10);
-		users.add(user11);
-		users.add(user12);
+		users2.add(user1);
+		users2.add(user2);
+		users2.add(user3);
+		users2.add(user4);
+		users2.add(user5);
+		users2.add(user6);
+		users2.add(user7);
+		users2.add(user8);
+		users2.add(user9);
+		users2.add(user10);
+		users2.add(user11);
+		users2.add(user12);
 		
-		when(sitio.getUsuariosRegistrados()).thenReturn(users);
+		
+		usersDesordenados.add(user1);
+		usersDesordenados.add(user2);
+		usersDesordenados.add(user3);
+		usersDesordenados.add(user4);
+		usersDesordenados.add(user5);
+		usersDesordenados.add(user6);
+		usersDesordenados.add(user7);
+		usersDesordenados.add(user8);
+		usersDesordenados.add(user9);
+		usersDesordenados.add(user10);
+		usersDesordenados.add(user11);
+		usersDesordenados.add(user12);
+		
+		when(sitio.usuariosQueAlquilaron()).thenReturn(users2);
 		
 		inmueble1= mock(Inmueble.class);
 		inmueble2= mock(Inmueble.class);
@@ -130,6 +148,9 @@ class AdministradorTestCase {
 		inmuebles.add(inmueble4);
 		
 		when(sitio.getInmueblesPublicados()).thenReturn(inmuebles);
+		
+		
+
 	}
 
 	@Test
@@ -193,7 +214,9 @@ class AdministradorTestCase {
 	@Test
 	void testTopTenInquilinos() {
 
-		///falta hacer metodo que ordene listas
+//Se compara una lista desordenada que luego sera ordenada con la misma lista desordenada
+		assertFalse(administradorDelSitio.usuariosRank(sitio)== usersDesordenados);
+		assertEquals(administradorDelSitio.topTenInquilinos(sitio).size(), 10 );
 	}
 	
 	@Test
@@ -203,6 +226,8 @@ class AdministradorTestCase {
 		
 		int cant=administradorDelSitio.inmueblesLibres(sitio).size();
 		assertEquals(cant, 2);
+		
+
 
 	}
 	

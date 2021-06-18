@@ -8,6 +8,7 @@ import java.util.Observable;
 import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 
+import Suscripciones.SitioWeb;
 import inmueble.Inmueble;
 import reservas.Reserva;
 
@@ -103,9 +104,9 @@ public class Sitio {
 		
 		List <Usuario> usuarios = new ArrayList<Usuario>();
 		for (int i=0; i< usuariosRegistrados.size(); i++) {
-			if (usuariosRegistrados.get(i).vecesQueAlquilaron() > 0)
+			if (usuariosRegistrados.get(i).vecesQueAlquilaron() > 0) {
 				usuarios.add(usuariosRegistrados.get(i));
-			
+			}
 		}
 		return  usuarios;
 	}
@@ -119,10 +120,6 @@ public class Sitio {
 		return inmueblesPublicados;
 	}
 
-	public void addObserver(SitioWeb trivago) {
-		// TODO Auto-generated method stub
-		this.listenersPaginas.add(trivago);
-	}
 
 	public void notificarBajaDePrecio(String tipoDeInmueble, Double precio) {
 		// TODO Auto-generated method stub
