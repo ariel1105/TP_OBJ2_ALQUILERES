@@ -2,13 +2,16 @@ package inmueble;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
+import Suscripciones.INotify;
+import Suscripciones.SitioWeb;
 import periodo.PeriodoPrecio;
 import politicasDeCancelacion.PoliticaDeCancelacion;
 import usuario.Usuario;
 
 public class Inmueble {
-	private Usuario dueño;
+	private Usuario dueÃ±o;
 	private String tipoDeInmueble;
 	private double superficie;
 	private String pais;
@@ -24,11 +27,13 @@ public class Inmueble {
 	private double precioPorDefecto;
 	private PoliticaDeCancelacion politicaDeCancelacion;
 	
-	public Inmueble(Usuario dueño, String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion,
+	public List <INotify> listenersPaginas;
+	
+	public Inmueble(Usuario dueÃ±o, String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion,
 			ArrayList<String> servicios, int capacidad, ArrayList<Foto> fotos, Hora horarioCheckIn,
 			Hora horarioCheckOut, ArrayList<FormaDePago> formasDePago, double precio, PoliticaDeCancelacion politicaDeCancelacion) {
 		// TODO Auto-generated constructor stub
-		this.dueño = dueño;
+		this.dueÃ±o = dueÃ±o;
 		this.tipoDeInmueble = tipoDeInmueble;
 		this.superficie = superficie;
 		this.pais = pais;
@@ -43,6 +48,11 @@ public class Inmueble {
 		this.periodosConPrecios = new ArrayList<PeriodoPrecio>();
 		this.precioPorDefecto = precio;
 		this.politicaDeCancelacion = politicaDeCancelacion;
+		this.listenersPaginas= new ArrayList<INotify>();
+	}
+
+	public List<INotify> getListenersPaginas() {
+		return listenersPaginas;
 	}
 
 	public String getTipoDeInmueble() {
@@ -114,8 +124,8 @@ public class Inmueble {
 		return this.capacidad;
 	}
 
-	public Usuario getDueño() {
-		return this.dueño;
+	public Usuario getDueÃ±o() {
+		return this.dueÃ±o;
 	}
 
 	public ArrayList<FormaDePago> getFormasDePago() {
@@ -131,10 +141,47 @@ public class Inmueble {
 		return false;
 	}
 
+	public void addObserver(INotify notif) {
+		// TODO Auto-generated method stub
+		this.listenersPaginas.add(notif);
+	}
+
+	public void cancelarReserva() {
+		// TODO Auto-generated method stub
+		this.notificarCancelado();
+	}
+
+	public void notificarCancelado() {
+		// TODO Auto-generated method stub
+		for (INotify listener : this.getListenersPaginas()) {
+		listener.popUp("El/la "+this.getTipoDeInmueble()+ " que te interesa se ha liberado! Corre a reservarlo!", "Rojo", 3);
+	}
+	}
+
 	public Double precioParaRango(LocalDate fechaInicio, LocalDate fechaFin) {
 		return 0d;
 	}
 
 	
 
+	public void cambiarPrecio() {
+		// TODO Auto-generated method stub
+		this.notificarBajaDePrecio();
+		
+		
+	} 
+
+	public void notificarBajaDePrecio() {
+		// TODO Auto-generated method stub
+		for (INotify listener : this.getListenersPaginas()) {
+		listener.publish("No te pierdas esta oferta: Un inmueble " + this.getTipoDeInmueble()+ " a tan solo " + this.getPrecioActual() + " pesos!");
+		
+		}
+		
+	}
+
+	private Double getPrecioActual() {
+		// TODO Auto-generated method stub
+		return 50000.0;
+	}
 }
