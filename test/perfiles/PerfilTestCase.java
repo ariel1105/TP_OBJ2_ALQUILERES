@@ -20,6 +20,7 @@ class PerfilTestCase {
 	private Perfil perfil;
 	private Categoria cat1;
 	private Categoria cat2;
+	private ArrayList<String> comentarios;
 	private ArrayList<Categoria> categorias;
 	private Map<Categoria,Integer> popularidad;
 
@@ -30,6 +31,7 @@ class PerfilTestCase {
 		cat2 = mock(Categoria.class);
 		popularidad = new HashMap<Categoria, Integer>();
 		categorias = new ArrayList<Categoria>();
+		comentarios = new ArrayList<String>();
 		categorias.add(cat1);
 		categorias.add(cat2);
 		perfil.setCategorias(categorias);
@@ -104,6 +106,14 @@ class PerfilTestCase {
 		when(cat2.getPuntaje()).thenReturn(5);
 		Double promedioTotal = perfil.promedioTotal();
 		assertEquals(5d, promedioTotal);
+	}
+	
+	@Test
+	void testRecibirComentarios() {
+		perfil.recibirComentarios("comentario");
+		comentarios.add("comentario");
+		ArrayList <String> comentariosDePerfil = perfil.getComentarios();
+		assertEquals(comentarios, comentariosDePerfil);
 	}
 
 }

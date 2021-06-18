@@ -3,8 +3,10 @@ package usuario;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
 
-import administradorDeReservas.AdministadorDeReservas;
+import administradorDeReservas.AdministadorDeReservasInquilino;
 import inmueble.DatosDePago;
 import inmueble.Inmueble;
 import reservas.Reserva;
@@ -14,9 +16,10 @@ public class Usuario  implements Comparable<Usuario> {
 	private String nombreCompleto;
 	private String mail;
 	private String telefono;
-	private AdministadorDeReservas admin;
+	private AdministadorDeReservasInquilino admin;
 	private ArrayList<Inmueble>inmuebles;
 	private ArrayList<Reserva>reservasPendientesDeConfirmacion;
+	private ArrayList<Reserva>reservasConfirmadas;
 	private LocalDate fechaActual;
 	private Integer vecesQueAlquilo;
 	private Integer inmueblesAlquilados;
@@ -28,7 +31,8 @@ public class Usuario  implements Comparable<Usuario> {
 		this.telefono = telefono;
 		this.inmuebles = new ArrayList<Inmueble>();
 		this.reservasPendientesDeConfirmacion = new ArrayList<Reserva>();
-		this.admin = new AdministadorDeReservas(fechaActual);//lo ideal no seria pasarlo por 
+		this.reservasConfirmadas = new ArrayList<Reserva>();
+		this.admin = new AdministadorDeReservasInquilino(fechaActual);//lo ideal no seria pasarlo por 
 														     //parametro, en un programa normal
 															 //la fecha se instanciaria de otra manera
 	}
@@ -86,6 +90,24 @@ public class Usuario  implements Comparable<Usuario> {
 		return new Integer(this.vecesQueAlquilaron()).compareTo(new Integer(o.vecesQueAlquilaron()));
 	}
 
+	public int tiempoComoUsuario() {
+		return 0;
+	}
+
+	public ArrayList<Reserva> getReservasConfirmadas() {
+		return this.reservasConfirmadas;
+	}
+
+	public String getTelefono() {
+		return this.telefono;
+	}
+
+	public String getMail() {
+		return this.mail;
+	}
+
+	
+	
 
 	
 	

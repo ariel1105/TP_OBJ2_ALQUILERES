@@ -66,4 +66,8 @@ public abstract class Perfil {
 		}
 		return puntosTotales/cantPuntuaciones;
 	}
+
+	public void recibirComentarios(String comentario) {
+		this.comentarios.add(comentario);
+	}
 }
