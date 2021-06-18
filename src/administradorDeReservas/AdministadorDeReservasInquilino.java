@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import reservas.Reserva;
 
-public class AdministadorDeReservas {
+public class AdministadorDeReservasInquilino {
 	private ArrayList<Reserva> reservas;
 	private LocalDate fechaActual;
 	
@@ -13,7 +13,7 @@ public class AdministadorDeReservas {
 		reservas.add(reserva);
 	}
 
-	public AdministadorDeReservas(LocalDate fechaActual) {
+	public AdministadorDeReservasInquilino(LocalDate fechaActual) {
 		this.reservas = new ArrayList<Reserva>();
 		this.fechaActual = fechaActual;
 	}

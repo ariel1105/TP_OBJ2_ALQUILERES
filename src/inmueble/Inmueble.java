@@ -20,7 +20,6 @@ public class Inmueble {
 	private Hora horarioCheckIn;
 	private Hora horarioCheckOut;
 	private ArrayList<FormaDePago> formasDePago;
-	private double precio;
 	private ArrayList<PeriodoPrecio> periodosConPrecios;
 	private double precioPorDefecto;
 	private PoliticaDeCancelacion politicaDeCancelacion;

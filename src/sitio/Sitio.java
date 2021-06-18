@@ -135,11 +135,13 @@ public class Sitio {
 		}
 		
 	}
-
 	
-	
-	public ArrayList<Reserva> getResevasConfirmadas() {
-		return this.reservasConfirmadas;
+	public ArrayList<Reserva> todasLasResevasConfirmadas() {
+		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+		for (Usuario us : this.usuariosRegistrados) {
+			reservas.addAll(us.getReservasConfirmadas());
+		}
+		return reservas;
 	}
 	
 
