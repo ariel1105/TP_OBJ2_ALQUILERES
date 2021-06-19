@@ -55,11 +55,6 @@ class ReservaTestCase {
 		reserva = new Reserva(inquilino, inmueble, dias, datosDePago, politica);
 	}
 
-	@Test
-	void testIngresarReservaEnSitio() {
-		reserva.ingresarEnSitio(sitio);
-		verify(sitio).agegarReserva(reserva);
-	}
 
 	@Test 
 	void testConfirmarReserva() {

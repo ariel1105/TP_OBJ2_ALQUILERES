@@ -6,11 +6,14 @@ import java.util.List;
 
 import Suscripciones.INotify;
 import Suscripciones.SitioWeb;
+import perfiles.PerfilInmueble;
 import periodo.PeriodoPrecio;
 import politicasDeCancelacion.PoliticaDeCancelacion;
+import sitio.Categoria;
+import usuario.PuntuablePorEstadia;
 import usuario.Usuario;
 
-public class Inmueble {
+public class Inmueble implements PuntuablePorEstadia{
 	private Usuario dueño;
 	private String tipoDeInmueble;
 	private double superficie;
@@ -26,6 +29,7 @@ public class Inmueble {
 	private ArrayList<PeriodoPrecio> periodosConPrecios;
 	private double precioPorDefecto;
 	private PoliticaDeCancelacion politicaDeCancelacion;
+	private PerfilInmueble perfil;
 	
 	public List <INotify> listenersPaginas;
 	
@@ -182,6 +186,20 @@ public class Inmueble {
 	private Double getPrecioActual() {
 		// TODO Auto-generated method stub
 		return 50000.0;
+	}
+
+	public void setPerfilInmueble(PerfilInmueble perfil) {
+		this.perfil = perfil;
+	}
+
+	@Override
+	public boolean puedeRecibirPuntuacionPorEstadiaPor(Usuario usuario) {
+		return usuario.getAdmin().alquilo(this);
+	}
+
+	@Override
+	public void recibirPuntuacionPorEstadia(Categoria categoria, int puntos) {
+		this.perfil.recibirPuntuacion(categoria, puntos);
 	}
 
 }

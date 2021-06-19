@@ -3,7 +3,9 @@ package administradorDeReservas;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import inmueble.Inmueble;
 import reservas.Reserva;
+import usuario.Usuario;
 
 public class AdministadorDeReservasInquilino {
 	private ArrayList<Reserva> reservas;
@@ -37,6 +39,17 @@ public class AdministadorDeReservasInquilino {
 		}
 		return reservas;
 	}
+	
+	public ArrayList<Reserva> reservasConcretadas() {
+		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+		ArrayList<Reserva> todasLasReservas = this.reservas;
+		for(int i = 0; i < todasLasReservas.size(); i++) {
+			if(!this.esReservaFutura(todasLasReservas.get(i))) {
+				reservas.add(todasLasReservas.get(i));
+			}
+		}
+		return reservas;
+	}
 
 	public ArrayList<Reserva> reservasDeCiudad(String ciudad) {
 		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
@@ -62,5 +75,31 @@ public class AdministadorDeReservasInquilino {
 		if (this.reservas.contains(reserva)) {
 			reserva.IniciarCancelacion(fechaActual);
 		}
+	}
+
+	public Integer cantidadeDeReservas() {
+		return this.reservas.size();
+	}
+
+	public boolean leAlquiloA(Usuario propietario) {
+		ArrayList <Reserva> reservasPasadas = this.reservasConcretadas();
+		boolean resultado = false;
+		for (int i = 0; i < reservasPasadas.size(); i++) {
+			if (reservasPasadas.get(i).getInmueble().getDueño().equals(propietario)) {
+				resultado = true;
+			}
+		}
+		return resultado;
+	}
+
+	public boolean alquilo(Inmueble inmueble) {
+		ArrayList <Reserva> reservasPasadas = this.reservasConcretadas();
+		boolean resultado = false;
+		for (int i = 0; i < reservasPasadas.size(); i++) {
+			if (reservasPasadas.get(i).getInmueble().equals(inmueble)) {
+				resultado = true;
+			}
+		}
+		return resultado;
 	}
 }

@@ -28,16 +28,9 @@ public class Reserva {
 		this.politicaDeCancelacion = p;
 		this.estado = new PendienteDeConfirmacion();
 	}
-	
-	
- 
-	public void ingresarEnSitio(Sitio sitio) {
-		sitio.agegarReserva(this);
-	}
 
 	
 	public void confirmarseEn(Sitio sitio) {
-		this.ingresarEnSitio(sitio);
 		sitio.enviarMailDeConfirmacion(this);
 		this.estado = new Confirmada();
 	}

@@ -12,12 +12,16 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import administradorDeReservas.AdministadorDeReservasInquilino;
+import perfiles.PerfilInmueble;
 import periodo.PeriodoPrecio;
 import politicasDeCancelacion.PoliticaDeCancelacion;
+import sitio.Categoria;
 import usuario.Usuario;
 
 class InmuebleTestCase {
 	private Usuario dueño;
+	private AdministadorDeReservasInquilino admin;
 	private Inmueble casa;
 	private String tipoDeInmueble;
 	private PoliticaDeCancelacion politica;
@@ -38,16 +42,19 @@ class InmuebleTestCase {
 	private LocalDate fecha2;
 	private LocalDate fecha3;
 	private LocalDate fecha4;
+	private PerfilInmueble perfil;
+	private Categoria cat;
 	
 	@BeforeEach
 	void setUp() throws Exception {;
 	
 		dueño = mock(Usuario.class);
-		
+		admin = mock(AdministadorDeReservasInquilino.class);
 		fecha1 = mock(LocalDate.class);
 		fecha2 = mock(LocalDate.class);
 		periodoPrecio1 = mock(PeriodoPrecio.class);
-		
+		perfil = mock(PerfilInmueble.class);
+		cat = mock(Categoria.class);
 		fecha3 = mock(LocalDate.class);
 		fecha4 = mock(LocalDate.class);
 		periodoPrecio2 = mock(PeriodoPrecio.class);
@@ -177,5 +184,18 @@ class InmuebleTestCase {
 		assertEquals(precio, 6000d);
 	}
 	
-
+	@Test
+	void testPuedeRecibirPuntaje() {
+		when(dueño.getAdmin()).thenReturn(admin);
+		when(admin.alquilo(casa)).thenReturn(true);
+		boolean puedeRecibirPuntos = casa.puedeRecibirPuntuacionPorEstadiaPor(dueño);
+		assertTrue(puedeRecibirPuntos);
+	}
+	
+	@Test
+	void testRecibePuntaje() {
+		casa.setPerfilInmueble(perfil);
+		casa.recibirPuntuacionPorEstadia(cat, 5);
+		verify(perfil).recibirPuntuacion(cat, 5);
+	}
 }

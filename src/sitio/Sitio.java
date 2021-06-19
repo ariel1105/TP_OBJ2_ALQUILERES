@@ -10,6 +10,9 @@ import java.util.stream.Collectors;
 
 import Suscripciones.SitioWeb;
 import inmueble.Inmueble;
+import perfiles.PerfilDueño;
+import perfiles.PerfilInmueble;
+import perfiles.PerfilInquilino;
 import reservas.Reserva;
 
 import usuario.Usuario;
@@ -17,7 +20,6 @@ import usuario.Usuario;
 public class Sitio {
 	private ArrayList<Usuario> usuariosRegistrados;
 	private ArrayList<Inmueble> inmueblesPublicados;
-	private ArrayList<Reserva> reservasConfirmadas;
 	private ArrayList<Categoria> categoriasParaInmueble;
 	private ArrayList <Categoria> categoriasParaPropietario;
 	private ArrayList <Categoria> categoriasParaInquilino;
@@ -40,8 +42,14 @@ public class Sitio {
 	public void registrarUsuario(Usuario usuario) {
 		// TODO Auto-generated method stub
 		if(!this.elUsuarioEstaRegistrado(usuario)) {
+			this.crearPerfilInquilino(usuario);
 			usuariosRegistrados.add(usuario);
 		}
+	}
+
+	public void crearPerfilInquilino(Usuario usuario) {
+		PerfilInquilino perfil = new PerfilInquilino(this.categoriasParaInquilino, usuario);
+		usuario.setPerfilInquilino(perfil);
 	}
 
 	public boolean elUsuarioEstaRegistrado(Usuario usuario) {
@@ -50,12 +58,17 @@ public class Sitio {
 	}
 	
 
-	public void agregar(Inmueble inmueble) {
+	public void publicar(Inmueble inmueble, Usuario propietario) {
+		PerfilDueño perfil = new PerfilDueño(categoriasParaPropietario, propietario);
+		propietario.setPerfilPropietario(perfil);
+		this.crearPerfilInmueble(inmueble, perfil);
 		this.inmueblesPublicados.add(inmueble);
 	}
 
-	public void agegarReserva(Reserva reserva) {
-		this.reservasConfirmadas.add(reserva);
+	public void crearPerfilInmueble(Inmueble inmueble, PerfilDueño perfil) {
+		PerfilInmueble perfil2 = new PerfilInmueble(this.categoriasParaInmueble, inmueble, perfil);
+		inmueble.setPerfilInmueble(perfil2);
+		
 	}
 
 	public void enviarMailDeConfirmacion(Reserva reserva) {
@@ -141,7 +154,5 @@ public class Sitio {
 		return reservas;
 	}
 	
-
-
 
 }

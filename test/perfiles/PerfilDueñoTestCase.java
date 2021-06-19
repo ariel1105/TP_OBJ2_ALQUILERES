@@ -37,7 +37,7 @@ public class PerfilDueñoTestCase {
 		reservas.add(reserva2);
 		when(inmueble.getDueño()).thenReturn(dueño);
 		when(dueño.getReservasConfirmadas()).thenReturn(reservas);
-		perfil = new PerfilDueño(categorias, inmueble);
+		perfil = new PerfilDueño(categorias, dueño);
 		
 	}
 	
