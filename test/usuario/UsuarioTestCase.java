@@ -2,6 +2,7 @@ package usuario;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -10,32 +11,48 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
+import administradorDeReservas.AdministadorDeReservasInquilino;
 import inmueble.DatosDePago;
 import inmueble.Inmueble;
+import perfiles.PerfilDueño;
+import perfiles.PerfilInquilino;
 import reservas.Reserva;
+import sitio.Categoria;
 import sitio.Sitio;
 
 class UsuarioTestCase {
 	
 	private Usuario inquilino;
-	private Usuario propietario;
+	//private Usuario propietario;
 	private Inmueble inmueble;
 	private DatosDePago datosDePago;
 	private Sitio sitio;
 	private LocalDate fecha;
 	private Reserva reserva;
+	private AdministadorDeReservasInquilino admin;
+	private Categoria cat;
 	private ArrayList<Inmueble> galeriaDeInmuebles = new ArrayList<Inmueble>();
 	private ArrayList<LocalDate> diasDeReserva = new ArrayList<LocalDate>();
 	private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+	private PerfilDueño perfilDueño;
+	private PerfilInquilino perfilInquilino;
+	private Usuario propietario;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		inquilino = new Usuario("nombre", "mail", "telefono");
-		propietario = new Usuario("nombre2", "mail2", "telefono2");
+		admin = mock(AdministadorDeReservasInquilino.class);
+		perfilDueño = mock(PerfilDueño.class);
+		perfilInquilino = mock(PerfilInquilino.class);
+		inquilino = new Usuario("nombre", "mail", "telefono",admin);
+		propietario = new Usuario("nombre2", "mail2", "telefono2",admin);
 		inmueble = mock(Inmueble.class);
 		datosDePago = mock(DatosDePago.class);
 		reserva = mock(Reserva.class);
+		cat = mock(Categoria.class);
 		sitio = mock(Sitio.class);
 		fecha = mock(LocalDate.class);
 		galeriaDeInmuebles.add(inmueble);
@@ -50,23 +67,20 @@ class UsuarioTestCase {
 	}
 	
 	@Test
-	void testAgregarInmueble() {
-		propietario.agregar(inmueble);
-		ArrayList<Inmueble> inmuebles = propietario.getInmuebles();
-		assertEquals(galeriaDeInmuebles, inmuebles);
+	void testPublicarSinRegistrarsePreviamente() {
+		when(sitio.elUsuarioEstaRegistrado(propietario)).thenReturn(false);
+		propietario.publicar(inmueble, sitio);
+		verify(sitio, never()).publicar(inmueble, propietario);
 	}
 	
 	@Test
-	void testSubirInmueble() {
-		propietario.registrarse(sitio);
+	void testPublicarConRegistroPrevio() {
+		when(sitio.elUsuarioEstaRegistrado(propietario)).thenReturn(true);
 		propietario.publicar(inmueble, sitio);
-		when(sitio.elUsuarioEstaRegistrado(inquilino)).thenReturn(true);
-		verify(sitio).agregar(inmueble);
-		ArrayList<Inmueble> inmuebles = propietario.getInmuebles();
-		assertEquals(galeriaDeInmuebles, inmuebles);
-
+		verify(sitio).publicar(inmueble, propietario);
 	}
 	
+		
 	@Test
 	void testRecibirSolicitudDeReserva() {
 		propietario.recibirSolicitudDeReserva(reserva);
@@ -98,9 +112,16 @@ class UsuarioTestCase {
 	}
 	
 	@Test
+	void testRecibirConfirmacionReserva() {
+		inquilino.recibirConfirmacion(reserva);
+		verify(admin).ingresar(reserva);
+	}
+	
+	@Test
 	void testConfirmarReserva() {
 		when(reserva.getInmueble()).thenReturn(inmueble);
 		when(inmueble.getDueño()).thenReturn(propietario);
+		when(reserva.getInquilino()).thenReturn(inquilino);
 		when(reserva.getDatosDePago()).thenReturn(datosDePago);
 		when(datosDePago.sonDatosAdmitidosPara(inmueble)).thenReturn(true);
 		inquilino.solicitarReserva(reserva);
@@ -109,7 +130,95 @@ class UsuarioTestCase {
 		ArrayList<Reserva> sinReservas = new ArrayList<Reserva>();
 		assertEquals(sinReservas, reservasPendientesDeConfirmacion);
 		verify(reserva).confirmarseEn(sitio);
+		verify(admin).ingresar(reserva);
 	}
 	
+	@Test
+	void testNoSeConfirmaReservaSinSolicitarse() {
+		propietario.confirmar(reserva, sitio);
+		verify(reserva, never()).confirmarseEn(sitio);
+		verify(admin, never()).ingresar(reserva);
+	}
+	
+	@Test
+	void testCantidadDeReservas() {
+		when(admin.cantidadeDeReservas()).thenReturn(5);
+		int vecesQueInquilinoAlquilo = inquilino.vecesQueAlquilaron();
+		assertEquals(5, vecesQueInquilinoAlquilo);
+	}
+	
+	@Test
+	void testPropietarioPuedeRecibirPuntuacionDeInquilino() {
+		when(admin.leAlquiloA(propietario)).thenReturn(true);
+		boolean puedeRecibirPuntuacion = propietario.puedeRecibirPuntuacionPorEstadiaPor(inquilino);
+		assertTrue(puedeRecibirPuntuacion);
+	}
+	
+	@Test
+	void testRecibirPuntuacionPorEstadia() {
+		propietario.setPerfilPropietario(perfilDueño);
+		propietario.recibirPuntuacionPorEstadia(cat, 5);
+		verify(perfilDueño).recibirPuntuacion(cat, 5);
+	}
+	
+	@Test
+	void testPuntuarComoInquilino() {
+		propietario.setPerfilPropietario(perfilDueño);
+		when(admin.leAlquiloA(propietario)).thenReturn(true);
+		inquilino.puntuarComoInquilino(propietario, cat, 5);
+		verify(perfilDueño).recibirPuntuacion(cat, 5);
+	}
+	
+	@Test
+	void testNoSeRealizaPuntuacionComoInquilino() {
+		propietario.setPerfilPropietario(perfilDueño);
+		when(admin.leAlquiloA(propietario)).thenReturn(false);
+		inquilino.puntuarComoInquilino(propietario, cat, 5);
+		verify(perfilDueño, never()).recibirPuntuacion(cat, 5);
+	}
+	
+	@Test
+	void testPuntuarInmueble() {
+		when(inmueble.puedeRecibirPuntuacionPorEstadiaPor(inquilino)).thenReturn(true);
+		inquilino.puntuarComoInquilino(inmueble, cat, 5);
+		verify(inmueble).recibirPuntuacionPorEstadia(cat, 5);
+	}
+	
+	@Test
+	void testNoSeRealizaPuntuacionEnInmueble() {
+		when(inmueble.puedeRecibirPuntuacionPorEstadiaPor(inquilino)).thenReturn(false);
+		inquilino.puntuarComoInquilino(inmueble,cat,5);
+		verify(inmueble, never()).recibirPuntuacionPorEstadia(cat, 5);
+	}
+	
+	@Test
+	void testRecibirPuntuacionComoIniquilino() {
+		inquilino.setPerfilInquilino(perfilInquilino);
+		inquilino.recibirPuntuacionComoInquilino(cat, 5);
+		verify(perfilInquilino).recibirPuntuacion(cat, 5);
+	}
+	
+	@Test
+	void testPuedePuntuarInquilino() {
+		when(admin.leAlquiloA(propietario)).thenReturn(true);
+		boolean puedeRecibirPuntuacion = inquilino.puedeRecibirPuntuacionComoInquilinoPor(propietario);
+		assertTrue(puedeRecibirPuntuacion);
+	}
+	
+	@Test
+	void testPuntuarComoDueño() {
+		inquilino.setPerfilInquilino(perfilInquilino);
+		when(admin.leAlquiloA(propietario)).thenReturn(true);
+		propietario.puntuarComoDueño(inquilino, cat, 5);
+		verify(perfilInquilino).recibirPuntuacion(cat, 5);
+	}
+	
+	@Test
+	void testNoSeRealizaPuntuacion() {
+		inquilino.setPerfilInquilino(perfilInquilino);
+		when(admin.leAlquiloA(propietario)).thenReturn(false);
+		propietario.puntuarComoDueño(inquilino, cat, 5);
+		verify(perfilInquilino, never()).recibirPuntuacion(cat, 5);
+	}
 	
 }

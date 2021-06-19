@@ -6,13 +6,16 @@ import java.util.List;
 
 import Suscripciones.INotify;
 import Suscripciones.SitioWeb;
+import perfiles.PerfilInmueble;
 import periodo.PeriodoPrecio;
 import politicasDeCancelacion.PoliticaDeCancelacion;
+import sitio.Categoria;
+import usuario.PuntuablePorEstadia;
 import usuario.Usuario;
 
-public class Inmueble {
-//github.com/ariel1105/unqui-po2-Coria-Scaglioni-Segovia-TPFinal.git
-	private Usuario dueño;
+public class Inmueble implements PuntuablePorEstadia{
+
+	private Usuario dueÃ±o;
 	private String tipoDeInmueble;
 	private double superficie;
 	private String pais;
@@ -27,14 +30,15 @@ public class Inmueble {
 	private ArrayList<PeriodoPrecio> periodosConPrecios;
 	private double precioPorDefecto;
 	private PoliticaDeCancelacion politicaDeCancelacion;
+	private PerfilInmueble perfil;
 	private double precioActual;
 	
 	public List <INotify> listenersPaginas;
 	
-	public Inmueble(Usuario dueño,  String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion,
+	public Inmueble(Usuario dueÃ±o,  String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion,
 			ArrayList<String> servicios, int capacidad, ArrayList<Foto> fotos, Hora horarioCheckIn,
 			Hora horarioCheckOut, ArrayList<FormaDePago> formasDePago, double precio, PoliticaDeCancelacion politicaDeCancelacion) {
-		this.dueño = dueño;
+		this.dueÃ±o = dueÃ±o;
 		this.tipoDeInmueble = tipoDeInmueble;
 		this.superficie = superficie;
 		this.pais = pais;
@@ -127,8 +131,8 @@ public class Inmueble {
 		return this.capacidad;
 	}
 
-	public Usuario getDueño() {
-		return this.dueño;
+	public Usuario getDueÃ±o() {
+		return this.dueÃ±o;
 	}
 
 	public ArrayList<FormaDePago> getFormasDePago() {
@@ -193,6 +197,20 @@ public class Inmueble {
 	private Double getPrecioActual() {
 		// TODO Auto-generated method stub
 		return precioActual;
+	}
+
+	public void setPerfilInmueble(PerfilInmueble perfil) {
+		this.perfil = perfil;
+	}
+
+	@Override
+	public boolean puedeRecibirPuntuacionPorEstadiaPor(Usuario usuario) {
+		return usuario.getAdmin().alquilo(this);
+	}
+
+	@Override
+	public void recibirPuntuacionPorEstadia(Categoria categoria, int puntos) {
+		this.perfil.recibirPuntuacion(categoria, puntos);
 	}
 
 }

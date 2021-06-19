@@ -1,7 +1,5 @@
 package perfiles;
 
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,11 +14,10 @@ public class PerfilDueño extends Perfil {
 	private Usuario dueño;
 	private Inmueble inmuebleDePerfil;
 	
-	public PerfilDueño(ArrayList<Categoria> categoriasDisponibles, Inmueble inmuebleDePerfil) {
+	public PerfilDueño(ArrayList<Categoria> categoriasDisponibles, Usuario dueño) {
 		super();
 		this.setCategorias(categoriasDisponibles);
-		this.inmuebleDePerfil = inmuebleDePerfil;
-		this.dueño = this.inmuebleDePerfil.getDueño();
+		this.dueño = dueño;
 	}
 	
 	public int tiempoComoUsuario() { 

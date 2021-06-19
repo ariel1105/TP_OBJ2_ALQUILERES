@@ -11,12 +11,15 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import inmueble.Inmueble;
 import politicasDeCancelacion.PoliticaDeCancelacion;
 import reservas.Reserva;
+import usuario.Usuario;
 
 class AdministradorDeReservasTestCase {
 	
 	private AdministadorDeReservasInquilino admin;
+	private Usuario propietario;
 	private Reserva reserva;
 	private Reserva reserva2;
 	private LocalDate fechaActual;
@@ -24,6 +27,7 @@ class AdministradorDeReservasTestCase {
 	private LocalDate fechaReserva2;
 	private ArrayList <Reserva> reservas;
 	private PoliticaDeCancelacion politica;
+	private Inmueble inmueble;
 	
 
 	@BeforeEach
@@ -36,7 +40,9 @@ class AdministradorDeReservasTestCase {
 		fechaReserva = mock(LocalDate.class);
 		fechaReserva2 = mock(LocalDate.class); 
 		admin = new AdministadorDeReservasInquilino(fechaActual);
-		politica = mock(PoliticaDeCancelacion.class); 
+		politica = mock(PoliticaDeCancelacion.class);
+		propietario = mock(Usuario.class);
+		inmueble = mock(Inmueble.class);
 	}
 
 	@Test
@@ -109,5 +115,44 @@ class AdministradorDeReservasTestCase {
 		verify(reserva).IniciarCancelacion(fechaActual);
 	}
 	
-
+	@Test
+	void testCantidadDeReservas() {
+		admin.ingresar(reserva);
+		admin.ingresar(reserva2);
+		int cantidad = admin.cantidadeDeReservas();
+		assertEquals(2, cantidad);
+	}
+	
+	@Test
+	void testReservasConcretadas() {
+		when(reserva.primerDia()).thenReturn(fechaReserva);
+		when(fechaActual.isBefore(fechaReserva)).thenReturn(false);
+		when(reserva2.primerDia()).thenReturn(fechaReserva2);
+		when(fechaActual.isBefore(fechaReserva2)).thenReturn(true);
+		admin.ingresar(reserva);
+		admin.ingresar(reserva2);
+		ArrayList<Reserva> reservasConcretadas = admin.reservasConcretadas();
+		assertEquals(reservas, reservasConcretadas);
+	}
+	
+	@Test
+	void leAlquiloAPropietario() {
+		admin.ingresar(reserva);
+		when(reserva.primerDia()).thenReturn(fechaReserva);
+		when(fechaActual.isBefore(fechaReserva)).thenReturn(false);
+		when(reserva.getInmueble()).thenReturn(inmueble);
+		when(inmueble.getDueño()).thenReturn(propietario);
+		boolean alquilo = admin.leAlquiloA(propietario);
+		assertTrue(alquilo);
+	}
+	
+	@Test
+	void testAlquiloInmueble() {
+		admin.ingresar(reserva);
+		when(reserva.primerDia()).thenReturn(fechaReserva);
+		when(fechaActual.isBefore(fechaReserva)).thenReturn(false);
+		when(reserva.getInmueble()).thenReturn(inmueble);
+		boolean alquilo = admin.alquilo(inmueble);
+		assertTrue(alquilo);
+	}
 }
