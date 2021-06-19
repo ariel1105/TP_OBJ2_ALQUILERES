@@ -14,7 +14,8 @@ import usuario.PuntuablePorEstadia;
 import usuario.Usuario;
 
 public class Inmueble implements PuntuablePorEstadia{
-	private Usuario dueño;
+
+	private Usuario dueÃ±o;
 	private String tipoDeInmueble;
 	private double superficie;
 	private String pais;
@@ -30,13 +31,14 @@ public class Inmueble implements PuntuablePorEstadia{
 	private double precioPorDefecto;
 	private PoliticaDeCancelacion politicaDeCancelacion;
 	private PerfilInmueble perfil;
+	private double precioActual;
 	
 	public List <INotify> listenersPaginas;
 	
-	public Inmueble(Usuario dueño,  String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion,
+	public Inmueble(Usuario dueÃ±o,  String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion,
 			ArrayList<String> servicios, int capacidad, ArrayList<Foto> fotos, Hora horarioCheckIn,
 			Hora horarioCheckOut, ArrayList<FormaDePago> formasDePago, double precio, PoliticaDeCancelacion politicaDeCancelacion) {
-		this.dueño = dueño;
+		this.dueÃ±o = dueÃ±o;
 		this.tipoDeInmueble = tipoDeInmueble;
 		this.superficie = superficie;
 		this.pais = pais;
@@ -52,6 +54,8 @@ public class Inmueble implements PuntuablePorEstadia{
 		this.precioPorDefecto = precio;
 		this.politicaDeCancelacion = politicaDeCancelacion;
 		this.listenersPaginas= new ArrayList<INotify>();
+		this.precioActual= precio;
+		
 	}
 
 	public List<INotify> getListenersPaginas() {
@@ -127,8 +131,8 @@ public class Inmueble implements PuntuablePorEstadia{
 		return this.capacidad;
 	}
 
-	public Usuario getDueño() {
-		return this.dueño;
+	public Usuario getDueÃ±o() {
+		return this.dueÃ±o;
 	}
 
 	public ArrayList<FormaDePago> getFormasDePago() {
@@ -169,8 +173,15 @@ public class Inmueble implements PuntuablePorEstadia{
 
 	public void cambiarPrecio() {
 		// TODO Auto-generated method stub
-		this.notificarBajaDePrecio();
 		
+		Double precioAnterior= this.getPrecioActual();
+		
+		precioActual= this.precioParaLaFecha(LocalDate.now());
+		
+		if (precioActual < precioAnterior) {
+		
+		this.notificarBajaDePrecio();
+		}
 		
 	} 
 
@@ -185,7 +196,7 @@ public class Inmueble implements PuntuablePorEstadia{
 
 	private Double getPrecioActual() {
 		// TODO Auto-generated method stub
-		return 50000.0;
+		return precioActual;
 	}
 
 	public void setPerfilInmueble(PerfilInmueble perfil) {
