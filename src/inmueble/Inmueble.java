@@ -11,6 +11,7 @@ import politicasDeCancelacion.PoliticaDeCancelacion;
 import usuario.Usuario;
 
 public class Inmueble {
+//github.com/ariel1105/unqui-po2-Coria-Scaglioni-Segovia-TPFinal.git
 	private Usuario dueño;
 	private String tipoDeInmueble;
 	private double superficie;
@@ -26,6 +27,7 @@ public class Inmueble {
 	private ArrayList<PeriodoPrecio> periodosConPrecios;
 	private double precioPorDefecto;
 	private PoliticaDeCancelacion politicaDeCancelacion;
+	private double precioActual;
 	
 	public List <INotify> listenersPaginas;
 	
@@ -48,6 +50,8 @@ public class Inmueble {
 		this.precioPorDefecto = precio;
 		this.politicaDeCancelacion = politicaDeCancelacion;
 		this.listenersPaginas= new ArrayList<INotify>();
+		this.precioActual= precio;
+		
 	}
 
 	public List<INotify> getListenersPaginas() {
@@ -165,8 +169,15 @@ public class Inmueble {
 
 	public void cambiarPrecio() {
 		// TODO Auto-generated method stub
-		this.notificarBajaDePrecio();
 		
+		Double precioAnterior= this.getPrecioActual();
+		
+		precioActual= this.precioParaLaFecha(LocalDate.now());
+		
+		if (precioActual < precioAnterior) {
+		
+		this.notificarBajaDePrecio();
+		}
 		
 	} 
 
@@ -181,7 +192,7 @@ public class Inmueble {
 
 	private Double getPrecioActual() {
 		// TODO Auto-generated method stub
-		return 50000.0;
+		return precioActual;
 	}
 
 }

@@ -25,7 +25,7 @@ public class Usuario  {
 	private Integer inmueblesAlquilados;
 	
 	
-	Usuario(String nombreCompleto, String mail, String telefono){
+public	Usuario(String nombreCompleto, String mail, String telefono){
 		this.nombreCompleto = nombreCompleto;
 		this.mail = mail;
 		this.telefono = telefono;
@@ -103,8 +103,17 @@ public class Usuario  {
 		return this.mail;
 	}
 
-	
-	
+
+	public void actualizarPrecioAInmueble(Inmueble inmueble) {
+		// TODO Auto-generated method stub
+		if (this.getInmuebles().contains(inmueble)) {
+			
+			inmueble.cambiarPrecio();
+			
+		}
+	}
+
+
 
 	
 	
