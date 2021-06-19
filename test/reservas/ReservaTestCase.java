@@ -120,7 +120,7 @@ class ReservaTestCase {
 	
 	@Test
 	void testAbonarAlDueñoCantidad() {
-		when(inmueble.getDueño()).thenReturn(dueño);
+		when(inmueble.getPropietario()).thenReturn(dueño);
 		reserva.confirmarPagoPor(100d);
 		verify(datosDePago).abonar(dueño, 100d);
 	}

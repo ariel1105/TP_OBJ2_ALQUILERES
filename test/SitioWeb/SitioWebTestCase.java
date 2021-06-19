@@ -16,6 +16,7 @@ import Suscripciones.AppUser;
 import Suscripciones.INotify;
 import Suscripciones.PopUpWindow;
 import Suscripciones.SitioWeb;
+import administradorDeReservas.AdministadorDeReservasInquilino;
 import inmueble.Inmueble;
 import periodo.PeriodoPrecio;
 import sitio.Sitio;
@@ -32,6 +33,7 @@ class SitioWebTestCase {
 	private Inmueble inmueble2;
 	
 	private Usuario usuario;
+	private AdministadorDeReservasInquilino admin;
 	private PeriodoPrecio periodo1;
 	private PeriodoPrecio periodo2;
 	private PeriodoPrecio periodo3;
@@ -49,7 +51,8 @@ class SitioWebTestCase {
 		sitio1=mock(Sitio.class);
 		trivagoMobile= mock(AppUser.class);
 		trivago= mock(SitioWeb.class);
-		usuario=new Usuario("Lautaro", "lautaro@gmail.com", "42500197");
+		admin = mock(AdministadorDeReservasInquilino.class);
+		usuario=new Usuario("Lautaro", "lautaro@gmail.com", "42500197", admin);
 
 		
 		inmueble1= new Inmueble(null, "Depto", 0, null, null, null, null, 0, null, null, null, null, 50000.0, null);

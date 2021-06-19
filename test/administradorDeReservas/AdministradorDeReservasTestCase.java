@@ -141,7 +141,7 @@ class AdministradorDeReservasTestCase {
 		when(reserva.primerDia()).thenReturn(fechaReserva);
 		when(fechaActual.isBefore(fechaReserva)).thenReturn(false);
 		when(reserva.getInmueble()).thenReturn(inmueble);
-		when(inmueble.getDueño()).thenReturn(propietario);
+		when(inmueble.getPropietario()).thenReturn(propietario);
 		boolean alquilo = admin.leAlquiloA(propietario);
 		assertTrue(alquilo);
 	}

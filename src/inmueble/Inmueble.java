@@ -15,7 +15,7 @@ import usuario.Usuario;
 
 public class Inmueble implements PuntuablePorEstadia{
 
-	private Usuario dueño;
+	private Usuario propietario;
 	private String tipoDeInmueble;
 	private double superficie;
 	private String pais;
@@ -35,10 +35,10 @@ public class Inmueble implements PuntuablePorEstadia{
 	
 	public List <INotify> listenersPaginas;
 	
-	public Inmueble(Usuario dueño,  String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion,
+	public Inmueble(Usuario propietario,  String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion,
 			ArrayList<String> servicios, int capacidad, ArrayList<Foto> fotos, Hora horarioCheckIn,
 			Hora horarioCheckOut, ArrayList<FormaDePago> formasDePago, double precio, PoliticaDeCancelacion politicaDeCancelacion) {
-		this.dueño = dueño;
+		this.propietario = propietario;
 		this.tipoDeInmueble = tipoDeInmueble;
 		this.superficie = superficie;
 		this.pais = pais;
@@ -131,8 +131,8 @@ public class Inmueble implements PuntuablePorEstadia{
 		return this.capacidad;
 	}
 
-	public Usuario getDueño() {
-		return this.dueño;
+	public Usuario getPropietario() {
+		return this.propietario;
 	}
 
 	public ArrayList<FormaDePago> getFormasDePago() {

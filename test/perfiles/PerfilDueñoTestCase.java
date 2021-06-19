@@ -19,7 +19,7 @@ import usuario.Usuario;
 
 public class PerfilDueñoTestCase {
 
-	private PerfilDueño perfil;
+	private PerfilPropietario perfil;
 	private Inmueble inmueble;
 	private Usuario dueño;
 	private ArrayList<Categoria> categorias;
@@ -36,9 +36,9 @@ public class PerfilDueñoTestCase {
 		reservas = new ArrayList<Reserva>();
 		reservas.add(reserva1);
 		reservas.add(reserva2);
-		when(inmueble.getDueño()).thenReturn(dueño);
+		when(inmueble.getPropietario()).thenReturn(dueño);
 		when(dueño.getReservasConfirmadas()).thenReturn(reservas);
-		perfil = new PerfilDueño(categorias, dueño);
+		perfil = new PerfilPropietario(categorias, dueño);
 		
 	}
 	
