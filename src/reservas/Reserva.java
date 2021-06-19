@@ -83,7 +83,7 @@ public class Reserva {
 	}
 
 	public void confirmarPagoPor(double monto) {
-		this.datosDePago.abonar(this.inmueble.getDueño(),monto);
+		this.datosDePago.abonar(this.inmueble.getPropietario(),monto);
 	}
 
 	public double valorPorDias(int cantDias) {

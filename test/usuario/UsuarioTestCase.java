@@ -18,7 +18,7 @@ import org.mockito.MockitoAnnotations;
 import administradorDeReservas.AdministadorDeReservasInquilino;
 import inmueble.DatosDePago;
 import inmueble.Inmueble;
-import perfiles.PerfilDueño;
+import perfiles.PerfilPropietario;
 import perfiles.PerfilInquilino;
 import reservas.Reserva;
 import sitio.Categoria;
@@ -38,14 +38,14 @@ class UsuarioTestCase {
 	private ArrayList<Inmueble> galeriaDeInmuebles = new ArrayList<Inmueble>();
 	private ArrayList<LocalDate> diasDeReserva = new ArrayList<LocalDate>();
 	private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
-	private PerfilDueño perfilDueño;
+	private PerfilPropietario perfilDueño;
 	private PerfilInquilino perfilInquilino;
 	private Usuario propietario;
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		admin = mock(AdministadorDeReservasInquilino.class);
-		perfilDueño = mock(PerfilDueño.class);
+		perfilDueño = mock(PerfilPropietario.class);
 		perfilInquilino = mock(PerfilInquilino.class);
 		inquilino = new Usuario("nombre", "mail", "telefono",admin);
 		propietario = new Usuario("nombre2", "mail2", "telefono2",admin);
@@ -91,7 +91,7 @@ class UsuarioTestCase {
 	@Test
 	void testSolicitarReserva() {
 		when(reserva.getInmueble()).thenReturn(inmueble);
-		when(inmueble.getDueño()).thenReturn(propietario);
+		when(inmueble.getPropietario()).thenReturn(propietario);
 		when(reserva.getDatosDePago()).thenReturn(datosDePago);
 		when(datosDePago.sonDatosAdmitidosPara(inmueble)).thenReturn(true);
 		inquilino.solicitarReserva(reserva);
@@ -102,7 +102,7 @@ class UsuarioTestCase {
 	@Test
 	void testSolicitarReservaSeNiega() {
 		when(reserva.getInmueble()).thenReturn(inmueble);
-		when(inmueble.getDueño()).thenReturn(propietario);
+		when(inmueble.getPropietario()).thenReturn(propietario);
 		when(reserva.getDatosDePago()).thenReturn(datosDePago);
 		when(datosDePago.sonDatosAdmitidosPara(inmueble)).thenReturn(false);
 		inquilino.solicitarReserva(reserva);
@@ -120,7 +120,7 @@ class UsuarioTestCase {
 	@Test
 	void testConfirmarReserva() {
 		when(reserva.getInmueble()).thenReturn(inmueble);
-		when(inmueble.getDueño()).thenReturn(propietario);
+		when(inmueble.getPropietario()).thenReturn(propietario);
 		when(reserva.getInquilino()).thenReturn(inquilino);
 		when(reserva.getDatosDePago()).thenReturn(datosDePago);
 		when(datosDePago.sonDatosAdmitidosPara(inmueble)).thenReturn(true);
@@ -209,7 +209,7 @@ class UsuarioTestCase {
 	void testPuntuarComoDueño() {
 		inquilino.setPerfilInquilino(perfilInquilino);
 		when(admin.leAlquiloA(propietario)).thenReturn(true);
-		propietario.puntuarComoDueño(inquilino, cat, 5);
+		propietario.puntuarComoPropietario(inquilino, cat, 5);
 		verify(perfilInquilino).recibirPuntuacion(cat, 5);
 	}
 	
@@ -217,7 +217,7 @@ class UsuarioTestCase {
 	void testNoSeRealizaPuntuacion() {
 		inquilino.setPerfilInquilino(perfilInquilino);
 		when(admin.leAlquiloA(propietario)).thenReturn(false);
-		propietario.puntuarComoDueño(inquilino, cat, 5);
+		propietario.puntuarComoPropietario(inquilino, cat, 5);
 		verify(perfilInquilino, never()).recibirPuntuacion(cat, 5);
 	}
 	

@@ -17,7 +17,7 @@ import usuario.Usuario;
 class PerfilInmuebleTestCase {
 
 	private PerfilInmueble perfil;
-	private PerfilDueño perfilDueño;
+	private PerfilPropietario perfilDueño;
 	private Inmueble inmueble;
 	private Usuario dueño;
 	private Reserva reserva1;
@@ -30,7 +30,7 @@ class PerfilInmuebleTestCase {
 	void setUp() throws Exception {
 		categorias = new ArrayList<Categoria>();
 		reservas = new ArrayList<Reserva>();
-		perfilDueño = mock(PerfilDueño.class);
+		perfilDueño = mock(PerfilPropietario.class);
 		inmueble = mock(Inmueble.class);
 		dueño = mock(Usuario.class);
 		reserva1 = mock(Reserva.class);
@@ -55,7 +55,7 @@ class PerfilInmuebleTestCase {
 	
 	@Test
 	void testVecesQueSeAlquiloLaPropiedad() {
-		when(inmueble.getDueño()).thenReturn(dueño);
+		when(inmueble.getPropietario()).thenReturn(dueño);
 		when(dueño.getReservasConfirmadas()).thenReturn(reservas);
 		when(reserva1.getInmueble()).thenReturn(inmueble);
 		when(reserva2.getInmueble()).thenReturn(inmueble);

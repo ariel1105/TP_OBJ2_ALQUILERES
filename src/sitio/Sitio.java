@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 import Suscripciones.SitioWeb;
 import inmueble.Inmueble;
-import perfiles.PerfilDueño;
+import perfiles.PerfilPropietario;
 import perfiles.PerfilInmueble;
 import perfiles.PerfilInquilino;
 import reservas.Reserva;
@@ -59,13 +59,13 @@ public class Sitio {
 	
 
 	public void publicar(Inmueble inmueble, Usuario propietario) {
-		PerfilDueño perfil = new PerfilDueño(categoriasParaPropietario, propietario);
+		PerfilPropietario perfil = new PerfilPropietario(categoriasParaPropietario, propietario);
 		propietario.setPerfilPropietario(perfil);
 		this.crearPerfilInmueble(inmueble, perfil);
 		this.inmueblesPublicados.add(inmueble);
 	}
 
-	public void crearPerfilInmueble(Inmueble inmueble, PerfilDueño perfil) {
+	public void crearPerfilInmueble(Inmueble inmueble, PerfilPropietario perfil) {
 		PerfilInmueble perfil2 = new PerfilInmueble(this.categoriasParaInmueble, inmueble, perfil);
 		inmueble.setPerfilInmueble(perfil2);
 		

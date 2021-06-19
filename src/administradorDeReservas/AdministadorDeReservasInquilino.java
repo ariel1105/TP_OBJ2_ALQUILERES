@@ -85,7 +85,7 @@ public class AdministadorDeReservasInquilino {
 		ArrayList <Reserva> reservasPasadas = this.reservasConcretadas();
 		boolean resultado = false;
 		for (int i = 0; i < reservasPasadas.size(); i++) {
-			if (reservasPasadas.get(i).getInmueble().getDueño().equals(propietario)) {
+			if (reservasPasadas.get(i).getInmueble().getPropietario().equals(propietario)) {
 				resultado = true;
 			}
 		}

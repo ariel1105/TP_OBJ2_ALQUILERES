@@ -9,8 +9,9 @@ import java.util.Set;
 import administradorDeReservas.AdministadorDeReservasInquilino;
 import inmueble.DatosDePago;
 import inmueble.Inmueble;
-import perfiles.PerfilDueño;
+import perfiles.PerfilPropietario;
 import perfiles.PerfilInquilino;
+import perfiles.PerfilPropietario;
 import reservas.Reserva;
 import sitio.Categoria;
 import sitio.Sitio;
@@ -20,21 +21,22 @@ public class Usuario implements PuntuablePorEstadia {
 	private String mail;
 	private String telefono;
 	private AdministadorDeReservasInquilino admin;
+	private ArrayList<Inmueble> inmuebles;
 	private ArrayList<Reserva>reservasPendientesDeConfirmacion;
-	private ArrayList<Reserva>reservasConfirmadasDueño;
+	private ArrayList<Reserva>reservasConfirmadasPropietario;
 	private LocalDate fechaActual;
 	private Integer vecesQueAlquilo;
-	private Integer inmueblesAlquilados;
 	private PerfilInquilino perfilInquilino;
-	private PerfilDueño perfilPropietario;
+	private PerfilPropietario perfilPropietario;
 	
-	Usuario(String nombreCompleto, String mail, String telefono, AdministadorDeReservasInquilino admin){
+	public Usuario(String nombreCompleto, String mail, String telefono, AdministadorDeReservasInquilino admin){
 	
 		this.nombreCompleto = nombreCompleto;
 		this.mail = mail;
 		this.telefono = telefono;
+		this.inmuebles = new ArrayList<Inmueble>();
 		this.reservasPendientesDeConfirmacion = new ArrayList<Reserva>();
-		this.reservasConfirmadasDueño = new ArrayList<Reserva>();
+		this.reservasConfirmadasPropietario = new ArrayList<Reserva>();
 		this.admin = admin;
 	}
 	
@@ -43,7 +45,7 @@ public class Usuario implements PuntuablePorEstadia {
 	}
 
 	public ArrayList<Reserva> getReservasConfirmadas() {
-		return this.reservasConfirmadasDueño;
+		return this.reservasConfirmadasPropietario;
 	}
 	
 	public String getTelefono() {
@@ -58,7 +60,7 @@ public class Usuario implements PuntuablePorEstadia {
 		this.perfilInquilino = perfil;
 	}
 
-	public void setPerfilPropietario(PerfilDueño perfil) {
+	public void setPerfilPropietario(PerfilPropietario perfil) {
 		this.perfilPropietario = perfil;
 	}
 	
@@ -78,7 +80,7 @@ public class Usuario implements PuntuablePorEstadia {
 	
 	public void solicitarReserva(Reserva reserva) {
 		if (reserva.getDatosDePago().sonDatosAdmitidosPara(reserva.getInmueble())) {
-			reserva.getInmueble().getDueño().recibirSolicitudDeReserva(reserva);
+			reserva.getInmueble().getPropietario().recibirSolicitudDeReserva(reserva);
 		}
 	}
 
@@ -141,7 +143,11 @@ public class Usuario implements PuntuablePorEstadia {
 	}
 
 
-	public void puntuarComoDueño(Usuario inquilino, Categoria cat, int puntos) {
+	public ArrayList<Inmueble> getInmuebles() {
+		return this.inmuebles;
+	}
+
+	public void puntuarComoPropietario(Usuario inquilino, Categoria cat, int puntos) {
 		if(inquilino.puedeRecibirPuntuacionComoInquilinoPor(this)) {
 			inquilino.recibirPuntuacionComoInquilino(cat, puntos);
 		}

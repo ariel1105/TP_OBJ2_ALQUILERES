@@ -9,12 +9,12 @@ import reservas.Reserva;
 import sitio.Categoria;
 import usuario.Usuario;
 
-public class PerfilDueño extends Perfil {
+public class PerfilPropietario extends Perfil {
 
 	private Usuario dueño;
 	private Inmueble inmuebleDePerfil;
 	
-	public PerfilDueño(ArrayList<Categoria> categoriasDisponibles, Usuario dueño) {
+	public PerfilPropietario(ArrayList<Categoria> categoriasDisponibles, Usuario dueño) {
 		super();
 		this.setCategorias(categoriasDisponibles);
 		this.dueño = dueño;

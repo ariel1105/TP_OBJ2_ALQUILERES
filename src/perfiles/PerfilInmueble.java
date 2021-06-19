@@ -9,9 +9,9 @@ import sitio.Categoria;
 public class PerfilInmueble extends Perfil {
 	
 	private Inmueble inmueble;
-	private PerfilDueño perfilDueño;
+	private PerfilPropietario perfilDueño;
 	
-	public PerfilInmueble(ArrayList<Categoria> categorias, Inmueble inmueble, PerfilDueño perfilDueño) {
+	public PerfilInmueble(ArrayList<Categoria> categorias, Inmueble inmueble, PerfilPropietario perfilDueño) {
 		super();
 		this.setCategorias(categorias);
 		this.inmueble = inmueble;
@@ -28,7 +28,7 @@ public class PerfilInmueble extends Perfil {
 	
 	public int vecesQueSeAlquiloEstaPropiedad() {
 		int cantidad = 0;
-		ArrayList<Reserva> reservas = this.inmueble.getDueño().getReservasConfirmadas();
+		ArrayList<Reserva> reservas = this.inmueble.getPropietario().getReservasConfirmadas();
 		for (Reserva reserva : reservas) {
 			if (reserva.getInmueble().equals(this.inmueble)) {
 				cantidad++;
