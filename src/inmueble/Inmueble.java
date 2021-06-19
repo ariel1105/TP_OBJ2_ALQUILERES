@@ -11,8 +11,7 @@ import politicasDeCancelacion.PoliticaDeCancelacion;
 import usuario.Usuario;
 
 public class Inmueble {
-
-
+//github.com/ariel1105/unqui-po2-Coria-Scaglioni-Segovia-TPFinal.git
 	private Usuario dueño;
 	private String tipoDeInmueble;
 	private double superficie;
