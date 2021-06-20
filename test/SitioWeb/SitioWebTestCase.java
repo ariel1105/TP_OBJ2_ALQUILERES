@@ -45,16 +45,21 @@ class SitioWebTestCase {
 	//Fechas
 	private ArrayList<LocalDate> fechas1= new ArrayList<LocalDate>();
 	
+	private ArrayList<Usuario> usuariosRegistrados= new ArrayList<Usuario>();
+	
 
 	@BeforeEach
 	void setUp() {
-		sitio1=mock(Sitio.class);
+		//sitio1=mock(Sitio.class);
+		sitio1= new Sitio();
 		trivagoMobile= mock(AppUser.class);
 		trivago= mock(SitioWeb.class);
 		admin = mock(AdministadorDeReservasInquilino.class);
 		usuario=new Usuario("Lautaro", "lautaro@gmail.com", "42500197", admin);
 
+		usuario.registrarse(sitio1);
 		
+		usuariosRegistrados.add(usuario);
 		inmueble1= new Inmueble(null, "Depto", 0, null, null, null, null, 0, null, null, null, null, 50000.0, null);
 		inmueble2= mock(Inmueble.class);
 		inmuebles.add(inmueble1);
@@ -63,6 +68,7 @@ class SitioWebTestCase {
 		trivago2= new SitioWeb(inmuebles);
 		trivagoMobile2= new AppUser(inmuebles);
 		
+	
 		when(trivago.getInmueblesConInteres()).thenReturn(inmuebles);
 		when(trivagoMobile.getInmueblesConInteres()).thenReturn(inmuebles);
 

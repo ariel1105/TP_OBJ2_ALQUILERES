@@ -75,6 +75,7 @@ public class Usuario implements PuntuablePorEstadia {
 	public void publicar(Inmueble inmueble, Sitio sitio) {
 		if (sitio.elUsuarioEstaRegistrado(this)) {
 			sitio.publicar(inmueble,this);
+			inmuebles.add(inmueble);
 		}
 	}
 	
