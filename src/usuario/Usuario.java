@@ -25,7 +25,6 @@ public class Usuario implements PuntuablePorEstadia {
 	private ArrayList<Reserva>reservasPendientesDeConfirmacion;
 	private ArrayList<Reserva>reservasConfirmadasPropietario;
 	private LocalDate fechaActual;
-	private Integer vecesQueAlquilo;
 	private PerfilInquilino perfilInquilino;
 	private PerfilPropietario perfilPropietario;
 	
@@ -72,7 +71,7 @@ public class Usuario implements PuntuablePorEstadia {
 		sitio.registrarUsuario(this);
 	}
 
-	public void publicar(Inmueble inmueble, Sitio sitio) {
+	public void publicar(Inmueble inmueble, Sitio sitio) { //falta agregar a inmuebles
 		if (sitio.elUsuarioEstaRegistrado(this)) {
 			sitio.publicar(inmueble,this);
 			inmuebles.add(inmueble);
@@ -115,7 +114,7 @@ public class Usuario implements PuntuablePorEstadia {
 			puntuable.recibirPuntuacionPorEstadia(categoria, puntos);
 		}
 	}
-
+ 
 	@Override
 	public boolean puedeRecibirPuntuacionPorEstadiaPor(Usuario inquilino) {
 		return inquilino.getAdmin().leAlquiloA(this);

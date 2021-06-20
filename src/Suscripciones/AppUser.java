@@ -7,7 +7,7 @@ import java.util.Observer;
 
 import inmueble.Inmueble;
 
-public class AppUser implements PopUpWindow, INotify{
+public class AppUser implements  INotify{
 	
 	private List<Inmueble> inmueblesDeInteres;
 	
@@ -30,19 +30,11 @@ public class AppUser implements PopUpWindow, INotify{
 		// TODO Auto-generated method stub
 		System.out.println(message);
 	}
-
+		@Override
 	public  List<Inmueble> getInmueblesConInteres() {
 		// TODO Auto-generated method stub
 		return inmueblesDeInteres;
 	}
-
-
-
-
-
-		
-	
-
 
 
 	@Override

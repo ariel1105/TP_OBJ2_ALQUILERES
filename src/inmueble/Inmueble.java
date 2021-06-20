@@ -31,7 +31,7 @@ public class Inmueble implements PuntuablePorEstadia{
 	private double precioPorDefecto;
 	private PoliticaDeCancelacion politicaDeCancelacion;
 	private PerfilInmueble perfil;
-	private double precioActual;
+	private double precioActual;	
 	
 	public List <INotify> listenersPaginas;
 	
