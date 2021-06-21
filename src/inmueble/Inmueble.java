@@ -176,6 +176,8 @@ public class Inmueble implements PuntuablePorEstadia{
 		
 		Double precioAnterior= this.getPrecioActual();
 		
+		
+		
 		precioActual= this.precioParaLaFecha(LocalDate.now());
 		
 		if (precioActual < precioAnterior) {

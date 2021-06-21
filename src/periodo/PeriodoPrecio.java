@@ -15,11 +15,9 @@ public class PeriodoPrecio {
 
 
 	public boolean perteneceLaFecha(LocalDate fecha) {
-		int i = 0;
-		while (i < this.periodo.size() && !(this.sonLaMismaFecha(fecha, this.periodo.get(i)))) {
-			i++;
-		}
-		return this.sonLaMismaFecha(fecha, this.periodo.get(i));
+
+		return periodo.contains(fecha);
+
 	}
 
 

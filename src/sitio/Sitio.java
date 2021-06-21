@@ -32,12 +32,20 @@ public class Sitio {
 		this.usuariosRegistrados = new ArrayList<Usuario>();
 		this.inmueblesPublicados= new ArrayList<Inmueble>();
 		this.listenersPaginas= new ArrayList<SitioWeb>();
+		this.categoriasParaInmueble= new ArrayList <Categoria>();
+		this.categoriasParaPropietario= new ArrayList <Categoria>();
+		this.categoriasParaInquilino= new ArrayList <Categoria>();
+		this.tipoDeInmuebles= new ArrayList <String>();
+		this.servicios= new ArrayList<String>();
 	}
+
+
 
 	public ArrayList<Usuario> obtenerUsuariosRegistrados() {
 		// TODO Auto-generated method stub
 		return usuariosRegistrados;
 	}
+
 
 	public void registrarUsuario(Usuario usuario) {
 		// TODO Auto-generated method stub
@@ -112,7 +120,7 @@ public class Sitio {
 		}
 	}
 
-	public List<Usuario> usuariosQueAlquilaron() {
+	public List<Usuario> usuariosQueAlquilaron() { //Esto tiene que ir en administrador
 		// TODO Auto-generated method stub
 		
 		List <Usuario> usuarios = new ArrayList<Usuario>();
@@ -124,10 +132,7 @@ public class Sitio {
 		return  usuarios;
 	}
 
-	public ArrayList<Usuario> getUsuariosRegistrados() {
-		return usuariosRegistrados;
-	}
-	
+
 
 	public ArrayList<Inmueble> getInmueblesPublicados() {
 		return inmueblesPublicados;
@@ -144,4 +149,24 @@ public class Sitio {
 	}
 	
 
+
+	public ArrayList<Categoria> getCategoriasParaInmueble() {
+		return categoriasParaInmueble;
+	}
+
+	public ArrayList<Categoria> getCategoriasParaPropietario() {
+		return categoriasParaPropietario;
+	}
+
+	public ArrayList<Categoria> getCategoriasParaInquilino() {
+		return categoriasParaInquilino;
+	}
+	
+	public ArrayList<String> getTipoDeInmuebles() {
+		return tipoDeInmuebles;
+	}
+
+	public ArrayList<String> getServicios() {
+		return servicios;
+	}
 }

@@ -31,7 +31,7 @@ public class PerfilDueñoTestCase {
 	
 	private Usuario dueño2;
 	private Sitio sitio;
-	private Perfil perfil2;
+	private PerfilPropietario perfil2;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -55,7 +55,7 @@ public class PerfilDueñoTestCase {
 	@Test //agrego un test para chequear bien el tiempo como usuario
 	void testTiempoComoUsuario2() {
 		dueño2.registrarse(sitio);
-		long dias= dueño2.tiempoComoUser();
+		long dias= perfil2.tiempoComoUsuario();
 		assertEquals(dias, 0); //va a dar 0 dias porque se registro en el mismo dias que le pido el dato (osea hoy)
 	}
 	
