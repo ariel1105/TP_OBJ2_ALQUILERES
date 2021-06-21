@@ -20,8 +20,8 @@ public class PerfilPropietario extends Perfil {
 		this.dueño = dueño;
 	}
 	
-	public int tiempoComoUsuario() { 
-		return this.dueño.tiempoComoUsuario();
+	public long tiempoComoUsuario() { 
+		return this.dueño.tiempoComoUser();
 	}
 	
 	

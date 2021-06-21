@@ -1,6 +1,7 @@
 package usuario;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -27,6 +28,7 @@ public class Usuario implements PuntuablePorEstadia {
 	private LocalDate fechaActual;
 	private PerfilInquilino perfilInquilino;
 	private PerfilPropietario perfilPropietario;
+	private LocalDate fechaQueSeRegistro;
 	
 	public Usuario(String nombreCompleto, String mail, String telefono, AdministadorDeReservasInquilino admin){
 	
@@ -69,6 +71,12 @@ public class Usuario implements PuntuablePorEstadia {
 
 	public void registrarse(Sitio sitio) {
 		sitio.registrarUsuario(this);
+		fechaQueSeRegistro= LocalDate.now();
+		  
+	}
+
+	public LocalDate getFechaQueSeRegistro() {
+		return fechaQueSeRegistro;
 	}
 
 	public void publicar(Inmueble inmueble, Sitio sitio) { //falta agregar a inmuebles
@@ -105,10 +113,13 @@ public class Usuario implements PuntuablePorEstadia {
 		return this.admin.cantidadeDeReservas();
 	}
 
-	public int tiempoComoUsuario() {
-		return 0;
-	}
 
+
+	public long tiempoComoUser() {
+		long result = ChronoUnit.DAYS.between(this.getFechaQueSeRegistro(), LocalDate.now());
+		return result;
+	}
+	
 	public void puntuarComoInquilino(PuntuablePorEstadia puntuable, Categoria categoria, int puntos) {
 		if(puntuable.puedeRecibirPuntuacionPorEstadiaPor(this)) {
 			puntuable.recibirPuntuacionPorEstadia(categoria, puntos);
