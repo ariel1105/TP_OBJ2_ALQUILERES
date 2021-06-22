@@ -26,12 +26,10 @@ public class Sitio {
 	private ArrayList <String> tipoDeInmuebles;
 	private ArrayList <String> servicios;
 	
-	private List <SitioWeb> listenersPaginas;
 	
 	public Sitio() {
 		this.usuariosRegistrados = new ArrayList<Usuario>();
-		this.inmueblesPublicados= new ArrayList<Inmueble>();
-		this.listenersPaginas= new ArrayList<SitioWeb>();
+		this.inmueblesPublicados= new ArrayList<Inmueble>();	
 		this.categoriasParaInmueble= new ArrayList <Categoria>();
 		this.categoriasParaPropietario= new ArrayList <Categoria>();
 		this.categoriasParaInquilino= new ArrayList <Categoria>();
@@ -120,26 +118,6 @@ public class Sitio {
 		}
 	}
 
-	public List<Usuario> usuariosQueAlquilaron() { //Esto tiene que ir en administrador
-		// TODO Auto-generated method stub
-		
-		List <Usuario> usuarios = new ArrayList<Usuario>();
-		for (int i=0; i< usuariosRegistrados.size(); i++) {
-			if (usuariosRegistrados.get(i).vecesQueAlquilaron() > 0) {
-				usuarios.add(usuariosRegistrados.get(i));
-			}
-		}
-		return  usuarios;
-	}
-
-
-
-	public ArrayList<Inmueble> getInmueblesPublicados() {
-		return inmueblesPublicados;
-	}
-
-
-
 	public ArrayList<Reserva> todasLasResevasConfirmadas() {
 		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 		for (Usuario us : this.usuariosRegistrados) {
@@ -148,7 +126,9 @@ public class Sitio {
 		return reservas;
 	}
 	
-
+	public ArrayList<Inmueble> getInmueblesPublicados() {
+		return inmueblesPublicados;
+	}
 
 	public ArrayList<Categoria> getCategoriasParaInmueble() {
 		return categoriasParaInmueble;
