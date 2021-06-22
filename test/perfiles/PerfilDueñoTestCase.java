@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import inmueble.Inmueble;
 import reservas.Reserva;
 import sitio.Categoria;
+import sitio.Sitio;
 import usuario.Usuario;
 
 public class PerfilDueñoTestCase {
@@ -26,6 +28,10 @@ public class PerfilDueñoTestCase {
 	private ArrayList<Reserva> reservas;
 	private Reserva reserva1;
 	private Reserva reserva2;
+	
+	private Usuario dueño2;
+	private Sitio sitio;
+	private PerfilPropietario perfil2;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -40,12 +46,24 @@ public class PerfilDueñoTestCase {
 		when(dueño.getReservasConfirmadas()).thenReturn(reservas);
 		perfil = new PerfilPropietario(categorias, dueño);
 		
+		
+		sitio= mock(Sitio.class);
+		dueño2 = new Usuario(null, null, null, null);
+		perfil2= new PerfilPropietario(categorias, dueño2);
 	}
+	
+	@Test //agrego un test para chequear bien el tiempo como usuario
+	void testTiempoComoUsuario2() {
+		dueño2.registrarse(sitio);
+		long dias= perfil2.tiempoComoUsuario();
+		assertEquals(dias, 0); //va a dar 0 dias porque se registro en el mismo dias que le pido el dato (osea hoy)
+	}
+	
 	
 	@Test
 	void testTiempoComoUsuario() {
-		when(dueño.tiempoComoUsuario()).thenReturn(20);
-		int dias = perfil.tiempoComoUsuario();
+		when(dueño.tiempoComoUser()).thenReturn((long) 20);
+		long dias = perfil.tiempoComoUsuario();
 		assertEquals(dias, 20);
 	}
 	

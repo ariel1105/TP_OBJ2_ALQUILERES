@@ -26,18 +26,24 @@ public class Sitio {
 	private ArrayList <String> tipoDeInmuebles;
 	private ArrayList <String> servicios;
 	
-	private List <SitioWeb> listenersPaginas;
 	
 	public Sitio() {
 		this.usuariosRegistrados = new ArrayList<Usuario>();
-		this.inmueblesPublicados= new ArrayList<Inmueble>();
-		this.listenersPaginas= new ArrayList<SitioWeb>();
+		this.inmueblesPublicados= new ArrayList<Inmueble>();	
+		this.categoriasParaInmueble= new ArrayList <Categoria>();
+		this.categoriasParaPropietario= new ArrayList <Categoria>();
+		this.categoriasParaInquilino= new ArrayList <Categoria>();
+		this.tipoDeInmuebles= new ArrayList <String>();
+		this.servicios= new ArrayList<String>();
 	}
+
+
 
 	public ArrayList<Usuario> obtenerUsuariosRegistrados() {
 		// TODO Auto-generated method stub
 		return usuariosRegistrados;
 	}
+
 
 	public void registrarUsuario(Usuario usuario) {
 		// TODO Auto-generated method stub
@@ -58,12 +64,28 @@ public class Sitio {
 	}
 	
 
-	public void publicar(Inmueble inmueble, Usuario propietario) {
+	public void publicar(Inmueble inmueble, Usuario propietario, ArrayList<String> servicios2) {
 		PerfilPropietario perfil = new PerfilPropietario(categoriasParaPropietario, propietario);
 		propietario.setPerfilPropietario(perfil);
+		this.seleccionarServicios(inmueble, servicios2);
 		this.crearPerfilInmueble(inmueble, perfil);
 		this.inmueblesPublicados.add(inmueble);
 	}
+
+	private void seleccionarServicios(Inmueble inmueble, ArrayList<String> servicios2) {
+		// TODO Auto-generated method stub
+		
+		for (int i=0; i< servicios2.size(); i++) {
+			
+			if (servicios.contains(servicios2.get(i))) {
+				
+				inmueble.agregarServicio(servicios2.get(i));
+			}
+		}
+		
+	}
+
+
 
 	public void crearPerfilInmueble(Inmueble inmueble, PerfilPropietario perfil) {
 		PerfilInmueble perfil2 = new PerfilInmueble(this.categoriasParaInmueble, inmueble, perfil);
@@ -112,40 +134,6 @@ public class Sitio {
 		}
 	}
 
-	public List<Usuario> usuariosQueAlquilaron() {
-		// TODO Auto-generated method stub
-		
-		List <Usuario> usuarios = new ArrayList<Usuario>();
-		for (int i=0; i< usuariosRegistrados.size(); i++) {
-			if (usuariosRegistrados.get(i).vecesQueAlquilaron() > 0) {
-				usuarios.add(usuariosRegistrados.get(i));
-			}
-		}
-		return  usuarios;
-	}
-
-	public ArrayList<Usuario> getUsuariosRegistrados() {
-		return usuariosRegistrados;
-	}
-	
-
-	public ArrayList<Inmueble> getInmueblesPublicados() {
-		return inmueblesPublicados;
-	}
-
-
-	public void notificarBajaDePrecio(String tipoDeInmueble, Double precio) {
-		// TODO Auto-generated method stub
-		
-		for (SitioWeb listener : this.listenersPaginas) {
-				
-			if (listener.getInmueblesConInteres().contains(tipoDeInmueble)) {
-				listener.publish("El inmueble " + tipoDeInmueble + " esta a solo " + precio + " pesos!.");
-			}
-		}
-		
-	}
-	
 	public ArrayList<Reserva> todasLasResevasConfirmadas() {
 		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 		for (Usuario us : this.usuariosRegistrados) {
@@ -154,5 +142,27 @@ public class Sitio {
 		return reservas;
 	}
 	
+	public ArrayList<Inmueble> getInmueblesPublicados() {
+		return inmueblesPublicados;
+	}
 
+	public ArrayList<Categoria> getCategoriasParaInmueble() {
+		return categoriasParaInmueble;
+	}
+
+	public ArrayList<Categoria> getCategoriasParaPropietario() {
+		return categoriasParaPropietario;
+	}
+
+	public ArrayList<Categoria> getCategoriasParaInquilino() {
+		return categoriasParaInquilino;
+	}
+	
+	public ArrayList<String> getTipoDeInmuebles() {
+		return tipoDeInmuebles;
+	}
+
+	public ArrayList<String> getServicios() {
+		return servicios;
+	}
 }

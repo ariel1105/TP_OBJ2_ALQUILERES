@@ -40,21 +40,27 @@ class SitioWebTestCase {
 	
 	private List<Inmueble> inmuebles= new ArrayList<Inmueble>();
 	private List<INotify> listeners= new ArrayList<INotify>();
+	private ArrayList<String> servicios= new ArrayList<String>();
 	
 	
 	//Fechas
 	private ArrayList<LocalDate> fechas1= new ArrayList<LocalDate>();
 	
+	private ArrayList<Usuario> usuariosRegistrados= new ArrayList<Usuario>();
+	
 
 	@BeforeEach
 	void setUp() {
-		sitio1=mock(Sitio.class);
+		//sitio1=mock(Sitio.class);
+		sitio1= new Sitio();
 		trivagoMobile= mock(AppUser.class);
 		trivago= mock(SitioWeb.class);
 		admin = mock(AdministadorDeReservasInquilino.class);
 		usuario=new Usuario("Lautaro", "lautaro@gmail.com", "42500197", admin);
 
+		usuario.registrarse(sitio1);
 		
+		usuariosRegistrados.add(usuario);
 		inmueble1= new Inmueble(null, "Depto", 0, null, null, null, null, 0, null, null, null, null, 50000.0, null);
 		inmueble2= mock(Inmueble.class);
 		inmuebles.add(inmueble1);
@@ -63,18 +69,24 @@ class SitioWebTestCase {
 		trivago2= new SitioWeb(inmuebles);
 		trivagoMobile2= new AppUser(inmuebles);
 		
+	
 		when(trivago.getInmueblesConInteres()).thenReturn(inmuebles);
 		when(trivagoMobile.getInmueblesConInteres()).thenReturn(inmuebles);
 
 		//Seteo el precio y fechas de los periodos
 		fechas1.add(LocalDate.of(2021, 06, 18));
 		fechas1.add(LocalDate.of(2021, 06, 19));
-		fechas1.add(LocalDate.of(2021, 06, 20));
+		fechas1.add(LocalDate.of(2021, 06, 21));
+		fechas1.add(LocalDate.of(2021, 06, 22));
 		
-		usuario.publicar(inmueble1, sitio1);
+		usuario.publicar(inmueble1, sitio1, servicios);
 		
 		periodo1= new PeriodoPrecio(40000.0, fechas1);
 		inmueble1.establecerPeriodosConPrecios(periodo1);
+		
+		servicios.add("WIFI");
+		servicios.add("Aire acondicionado");
+		servicios.add("Estufa");
 	}
 
 
@@ -105,7 +117,5 @@ class SitioWebTestCase {
 		verify(trivagoMobile).popUp("El/la Depto que te interesa se ha liberado! Corre a reservarlo!", "Rojo", 3);
 		
 	}
-	
-///fgdds
 
 }

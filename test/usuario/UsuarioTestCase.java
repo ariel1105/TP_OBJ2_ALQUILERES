@@ -41,6 +41,7 @@ class UsuarioTestCase {
 	private PerfilPropietario perfilDueño;
 	private PerfilInquilino perfilInquilino;
 	private Usuario propietario;
+	private ArrayList<String> servicios= new ArrayList<String>();
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -58,6 +59,9 @@ class UsuarioTestCase {
 		galeriaDeInmuebles.add(inmueble);
 		diasDeReserva.add(fecha);
 		reservas.add(reserva);
+		servicios.add("WIFI");
+		servicios.add("Aire acondicionado");
+		servicios.add("Estufa");
 	}
 
 	@Test
@@ -69,15 +73,15 @@ class UsuarioTestCase {
 	@Test
 	void testPublicarSinRegistrarsePreviamente() {
 		when(sitio.elUsuarioEstaRegistrado(propietario)).thenReturn(false);
-		propietario.publicar(inmueble, sitio);
-		verify(sitio, never()).publicar(inmueble, propietario);
+		propietario.publicar(inmueble, sitio,servicios);
+		verify(sitio, never()).publicar(inmueble, propietario,servicios);
 	}
 	
 	@Test
 	void testPublicarConRegistroPrevio() {
 		when(sitio.elUsuarioEstaRegistrado(propietario)).thenReturn(true);
-		propietario.publicar(inmueble, sitio);
-		verify(sitio).publicar(inmueble, propietario);
+		propietario.publicar(inmueble, sitio,servicios);
+		verify(sitio).publicar(inmueble, propietario, servicios);
 	}
 	
 		

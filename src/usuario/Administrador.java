@@ -59,20 +59,25 @@ public class Administrador  {
 	
 	public List<Usuario> usuariosRank(Sitio sitio ) {
 		
-	List<Usuario> users=sitio.usuariosQueAlquilaron();
+	List<Usuario> users=this.usuariosQueAlquilaron(sitio);
 		
-	
-    
 	Collections.sort(users, new CompararUsuarios());
 		
-		
-		
-	
-	
 	return users;
 		
-			
 }
+	
+	public List<Usuario> usuariosQueAlquilaron(Sitio sitio) { //Esto tiene que ir en administrador
+		// TODO Auto-generated method stub
+		
+		List <Usuario> usuarios = new ArrayList<Usuario>();
+		for (int i=0; i< sitio.obtenerUsuariosRegistrados().size(); i++) {
+			if (sitio.obtenerUsuariosRegistrados().get(i).vecesQueAlquilaron() > 0) {
+				usuarios.add(sitio.obtenerUsuariosRegistrados().get(i));
+			}
+		}
+		return  usuarios;
+	}
 	
 
 
