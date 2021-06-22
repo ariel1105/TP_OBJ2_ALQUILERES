@@ -8,6 +8,7 @@ import java.util.Observable;
 import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 
+import Categorias.Categoria;
 import Suscripciones.SitioWeb;
 import inmueble.Inmueble;
 import perfiles.PerfilPropietario;

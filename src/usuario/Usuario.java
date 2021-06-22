@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
+import Categorias.Categoria;
 import administradorDeReservas.AdministadorDeReservasInquilino;
 import inmueble.DatosDePago;
 import inmueble.Inmueble;
@@ -14,7 +15,6 @@ import perfiles.PerfilPropietario;
 import perfiles.PerfilInquilino;
 import perfiles.PerfilPropietario;
 import reservas.Reserva;
-import sitio.Categoria;
 import sitio.Sitio;
 
 public class Usuario implements PuntuablePorEstadia {

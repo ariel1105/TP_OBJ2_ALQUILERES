@@ -1,4 +1,4 @@
-package usuario;
+package administradorSitio;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,9 +13,11 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import AdministradorDelSitio.Administrador;
+import Categorias.Categoria;
 import inmueble.Inmueble;
-import sitio.Categoria;
 import sitio.Sitio;
+import usuario.Usuario;
 
 class AdministradorTestCase {
 	

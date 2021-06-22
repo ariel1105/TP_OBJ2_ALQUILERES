@@ -15,13 +15,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import Categorias.Categoria;
 import administradorDeReservas.AdministadorDeReservasInquilino;
 import inmueble.DatosDePago;
 import inmueble.Inmueble;
 import perfiles.PerfilPropietario;
 import perfiles.PerfilInquilino;
 import reservas.Reserva;
-import sitio.Categoria;
 import sitio.Sitio;
 
 class UsuarioTestCase {

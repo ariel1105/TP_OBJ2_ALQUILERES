@@ -4,12 +4,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import Categorias.Categoria;
 import Suscripciones.INotify;
 import Suscripciones.SitioWeb;
 import perfiles.PerfilInmueble;
 import periodo.PeriodoPrecio;
 import politicasDeCancelacion.PoliticaDeCancelacion;
-import sitio.Categoria;
 import usuario.PuntuablePorEstadia;
 import usuario.Usuario;
 

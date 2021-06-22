@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import Categorias.Categoria;
 import inmueble.Inmueble;
 import reservas.Reserva;
-import sitio.Categoria;
 import usuario.Usuario;
 
 public class PerfilPropietario extends Perfil {

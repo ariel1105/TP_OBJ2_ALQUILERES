@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import Categorias.Categoria;
 import administradorDeReservas.AdministadorDeReservasInquilino;
 import perfiles.PerfilInmueble;
 import periodo.PeriodoPrecio;
 import politicasDeCancelacion.PoliticaDeCancelacion;
-import sitio.Categoria;
 import usuario.Usuario;
 
 class InmuebleTestCase {

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import Categorias.Categoria;
 import inmueble.Inmueble;
 import usuario.Usuario;
 
