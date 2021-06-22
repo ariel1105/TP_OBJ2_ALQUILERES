@@ -44,7 +44,7 @@ public class Inmueble implements PuntuablePorEstadia{
 		this.pais = pais;
 		this.ciudad = ciudad;
 		this.direccion = direccion;
-		this.servicios = servicios;
+		this.servicios = new ArrayList<String>();
 		this.capacidad = capacidad;
 		this.fotos = fotos;
 		this.horarioCheckIn = horarioCheckIn;
@@ -213,6 +213,15 @@ public class Inmueble implements PuntuablePorEstadia{
 	@Override
 	public void recibirPuntuacionPorEstadia(Categoria categoria, int puntos) {
 		this.perfil.recibirPuntuacion(categoria, puntos);
+	}
+
+	public void agregarServicio(String string) {
+		// TODO Auto-generated method stub
+		this.servicios.add(string);
+	}
+
+	public ArrayList<String> getServicios() {
+		return servicios;
 	}
 
 }

@@ -19,6 +19,7 @@ class SitioTestCase {
 	private Inmueble inmueble1;
 	private Inmueble inmueble2;
 	private Inmueble inmueble3;
+	private Inmueble inmueble4;
 	private Categoria categoria1;
 	private Categoria categoria2;
 	private Categoria categoria3;
@@ -28,7 +29,9 @@ class SitioTestCase {
 	private Categoria categoriaI1;
 	private Categoria categoriaI2;
 	private Categoria categoriaI3;
-
+	private ArrayList<String> servicios1= new ArrayList<String>();
+	private ArrayList<String> servicios2= new ArrayList<String>();
+	private ArrayList<String> servicios3= new ArrayList<String>();
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -47,6 +50,16 @@ class SitioTestCase {
 		inmueble1=mock(Inmueble.class);
 		inmueble2=mock(Inmueble.class);
 		inmueble3=mock(Inmueble.class);
+		inmueble4= new Inmueble(usuario1, null, 0, null, null, null, null, 0, null, null, null, null, 0, null);
+		servicios1.add("WIFI");
+		servicios1.add("Aire acondicionado");
+		servicios1.add("Estufa");
+		servicios2.add("TV con cable");
+		servicios2.add("Jacuzzi");
+		servicios2.add("Caloventor");
+		servicios3.add("Frigovar");
+		servicios3.add("Estacionamiento");
+		servicios3.add("Cama Solar");
 		
 	}
 
@@ -172,11 +185,24 @@ class SitioTestCase {
 		inmueblesRegistrados.add(inmueble3);
 		
 
-		sitio.publicar(inmueble1, usuario1);
-		sitio.publicar(inmueble2, usuario1);
-		sitio.publicar(inmueble3, usuario2);
+		sitio.publicar(inmueble1, usuario1, servicios1);
+		sitio.publicar(inmueble2, usuario1, servicios2);
+		sitio.publicar(inmueble3, usuario2, servicios3);
 		assertEquals(inmueblesRegistrados, sitio.getInmueblesPublicados());
 		
 		
+	}
+	
+	@Test
+	void seleccionarCategorias() {
+		ArrayList<String> serviciosQueEstanParaSeleccionar = new ArrayList<String>();
+		serviciosQueEstanParaSeleccionar.add("WIFI");
+		serviciosQueEstanParaSeleccionar.add("Estufa");
+		sitio.altaServicio("WIFI");
+		sitio.altaServicio("Jacuzzi");
+		sitio.altaServicio("Estufa");
+		sitio.publicar(inmueble4, usuario1, servicios1);
+
+		assertEquals(inmueble4.getServicios(), serviciosQueEstanParaSeleccionar);
 	}
 }

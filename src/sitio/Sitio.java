@@ -64,12 +64,28 @@ public class Sitio {
 	}
 	
 
-	public void publicar(Inmueble inmueble, Usuario propietario) {
+	public void publicar(Inmueble inmueble, Usuario propietario, ArrayList<String> servicios2) {
 		PerfilPropietario perfil = new PerfilPropietario(categoriasParaPropietario, propietario);
 		propietario.setPerfilPropietario(perfil);
+		this.seleccionarServicios(inmueble, servicios2);
 		this.crearPerfilInmueble(inmueble, perfil);
 		this.inmueblesPublicados.add(inmueble);
 	}
+
+	private void seleccionarServicios(Inmueble inmueble, ArrayList<String> servicios2) {
+		// TODO Auto-generated method stub
+		
+		for (int i=0; i< servicios2.size(); i++) {
+			
+			if (servicios.contains(servicios2.get(i))) {
+				
+				inmueble.agregarServicio(servicios2.get(i));
+			}
+		}
+		
+	}
+
+
 
 	public void crearPerfilInmueble(Inmueble inmueble, PerfilPropietario perfil) {
 		PerfilInmueble perfil2 = new PerfilInmueble(this.categoriasParaInmueble, inmueble, perfil);
