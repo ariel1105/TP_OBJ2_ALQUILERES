@@ -80,7 +80,7 @@ class SitioWebTestCase {
 		fechas1.add(LocalDate.of(2021, 06, 18));
 		fechas1.add(LocalDate.of(2021, 06, 19));
 		fechas1.add(LocalDate.of(2021, 06, 21));
-		fechas1.add(LocalDate.of(2021, 06, 22));
+		fechas1.add(LocalDate.now());
 		
 		usuario.publicar(inmueble1, sitio1, servicios);
 		
