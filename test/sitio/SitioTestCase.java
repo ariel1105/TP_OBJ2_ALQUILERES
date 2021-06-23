@@ -51,7 +51,7 @@ class SitioTestCase {
 		inmueble1=mock(Inmueble.class);
 		inmueble2=mock(Inmueble.class);
 		inmueble3=mock(Inmueble.class);
-		inmueble4= new Inmueble(usuario1, null, 0, null, null, null, null, 0, null, null, null, null, 0, null);
+		inmueble4= new Inmueble(usuario1, null, 0, null, null, null, 0, null, null, null, null, 0, null);
 		servicios1.add("WIFI");
 		servicios1.add("Aire acondicionado");
 		servicios1.add("Estufa");

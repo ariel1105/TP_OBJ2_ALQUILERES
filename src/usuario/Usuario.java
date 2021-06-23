@@ -163,7 +163,8 @@ public class Usuario implements PuntuablePorEstadia {
 			inquilino.recibirPuntuacionComoInquilino(cat, puntos);
 		}
 	}
-	
+
+
 	
 	
 }

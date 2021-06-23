@@ -36,7 +36,7 @@ public class Inmueble implements PuntuablePorEstadia{
 	public List <INotify> listenersPaginas;
 	
 	public Inmueble(Usuario propietario,  String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion,
-			ArrayList<String> servicios, int capacidad, ArrayList<Foto> fotos, Hora horarioCheckIn,
+			 int capacidad, ArrayList<Foto> fotos, Hora horarioCheckIn,
 			Hora horarioCheckOut, ArrayList<FormaDePago> formasDePago, double precio, PoliticaDeCancelacion politicaDeCancelacion) {
 		this.propietario = propietario;
 		this.tipoDeInmueble = tipoDeInmueble;

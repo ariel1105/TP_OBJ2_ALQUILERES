@@ -60,7 +60,7 @@ class InmuebleTestCase {
 		periodoPrecio2 = mock(PeriodoPrecio.class);
 		
 		casa = new Inmueble(dueño, tipoDeInmueble, superficie,pais,
-				ciudad,direccion,servicios,capacidad,fotos,
+				ciudad,direccion,capacidad,fotos,
 				horarioCheckIn, horarioCheckOut, formasDePago,3000d, politica);
 		
 		casa.establecerPeriodosConPrecios(periodoPrecio1);

@@ -73,7 +73,7 @@ public class AdministadorDeReservasInquilino {
 
 	public void cancelarReserva(Reserva reserva, LocalDate fechaActual) {
 		if (this.reservas.contains(reserva)) {
-			reserva.IniciarCancelacion(fechaActual);
+			reserva.iniciarCancelacion(fechaActual);
 		}
 	}
 
