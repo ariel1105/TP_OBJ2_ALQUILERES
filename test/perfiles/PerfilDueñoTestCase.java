@@ -13,9 +13,11 @@ import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import Categorias.Categoria;
+import Suscripciones.AppUser;
+import administradorDeReservas.AdministadorDeReservasInquilino;
 import inmueble.Inmueble;
 import reservas.Reserva;
-import sitio.Categoria;
 import sitio.Sitio;
 import usuario.Usuario;
 
@@ -28,13 +30,15 @@ public class PerfilDueñoTestCase {
 	private ArrayList<Reserva> reservas;
 	private Reserva reserva1;
 	private Reserva reserva2;
-	
+	private AdministadorDeReservasInquilino admin;
 	private Usuario dueño2;
 	private Sitio sitio;
 	private PerfilPropietario perfil2;
+	private AppUser aplicacion;
 	
 	@BeforeEach
 	void setUp() throws Exception {
+		admin= mock(AdministadorDeReservasInquilino.class);
 		inmueble = mock(Inmueble.class);
 		dueño = mock(Usuario.class);
 		reserva1 = mock(Reserva.class);
@@ -45,14 +49,13 @@ public class PerfilDueñoTestCase {
 		when(inmueble.getPropietario()).thenReturn(dueño);
 		when(dueño.getReservasConfirmadas()).thenReturn(reservas);
 		perfil = new PerfilPropietario(categorias, dueño);
-		
-		
+		aplicacion=mock(AppUser.class);
 		sitio= mock(Sitio.class);
-		dueño2 = new Usuario(null, null, null, null);
+		dueño2 = new Usuario("Lucas Rodriguez", "LucasR21@T-mail.com", "1551408422", admin, aplicacion);
 		perfil2= new PerfilPropietario(categorias, dueño2);
 	}
 	
-	@Test //agrego un test para chequear bien el tiempo como usuario
+	@Test 
 	void testTiempoComoUsuario2() {
 		dueño2.registrarse(sitio);
 		long dias= perfil2.tiempoComoUsuario();

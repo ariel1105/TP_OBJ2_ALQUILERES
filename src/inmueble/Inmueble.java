@@ -4,12 +4,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import Categorias.Categoria;
 import Suscripciones.INotify;
 import Suscripciones.SitioWeb;
 import perfiles.PerfilInmueble;
 import periodo.PeriodoPrecio;
 import politicasDeCancelacion.PoliticaDeCancelacion;
-import sitio.Categoria;
 import usuario.PuntuablePorEstadia;
 import usuario.Usuario;
 
@@ -36,7 +36,7 @@ public class Inmueble implements PuntuablePorEstadia{
 	public List <INotify> listenersPaginas;
 	
 	public Inmueble(Usuario propietario,  String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion,
-			ArrayList<String> servicios, int capacidad, ArrayList<Foto> fotos, Hora horarioCheckIn,
+			 int capacidad, ArrayList<Foto> fotos, Hora horarioCheckIn,
 			Hora horarioCheckOut, ArrayList<FormaDePago> formasDePago, double precio, PoliticaDeCancelacion politicaDeCancelacion) {
 		this.propietario = propietario;
 		this.tipoDeInmueble = tipoDeInmueble;

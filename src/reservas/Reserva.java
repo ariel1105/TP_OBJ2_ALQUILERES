@@ -52,9 +52,10 @@ public class Reserva {
 		return this.fechas;
 	}
 
-	public void IniciarCancelacion(LocalDate fechaActual) {
+	public void iniciarCancelacion(LocalDate fechaActual) {
 		this.politicaDeCancelacion.actualizarFecha(fechaActual);
 		this.politicaDeCancelacion.cancelar(this);
+		inmueble.cancelarReserva();
 	}
 	
 	public void cancelar() {

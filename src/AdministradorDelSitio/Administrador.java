@@ -1,4 +1,4 @@
-package usuario;
+package AdministradorDelSitio;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,9 +6,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import Categorias.Categoria;
 import inmueble.Inmueble;
-import sitio.Categoria;
 import sitio.Sitio;
+import usuario.Usuario;
 
 public class Administrador  {
 

@@ -1,6 +1,6 @@
 package usuario;
 
-import sitio.Categoria;
+import Categorias.Categoria;
 
 public interface PuntuablePorEstadia {
 

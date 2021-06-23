@@ -8,6 +8,7 @@ import java.util.Observable;
 import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 
+import Categorias.Categoria;
 import Suscripciones.SitioWeb;
 import inmueble.Inmueble;
 import perfiles.PerfilPropietario;
@@ -65,11 +66,13 @@ public class Sitio {
 	
 
 	public void publicar(Inmueble inmueble, Usuario propietario, ArrayList<String> servicios2) {
+		if (this.tipoDeInmuebles.contains(inmueble.getTipoDeInmueble())) {
 		PerfilPropietario perfil = new PerfilPropietario(categoriasParaPropietario, propietario);
 		propietario.setPerfilPropietario(perfil);
 		this.seleccionarServicios(inmueble, servicios2);
 		this.crearPerfilInmueble(inmueble, perfil);
 		this.inmueblesPublicados.add(inmueble);
+		}
 	}
 
 	private void seleccionarServicios(Inmueble inmueble, ArrayList<String> servicios2) {

@@ -1,6 +1,8 @@
-package usuario;
+package AdministradorDelSitio;
 
 import java.util.Comparator;
+
+import usuario.Usuario;
 
 public class CompararUsuarios  implements Comparator<Usuario> {
 

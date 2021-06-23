@@ -15,13 +15,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import Categorias.Categoria;
+import Suscripciones.AppUser;
 import administradorDeReservas.AdministadorDeReservasInquilino;
 import inmueble.DatosDePago;
 import inmueble.Inmueble;
 import perfiles.PerfilPropietario;
 import perfiles.PerfilInquilino;
 import reservas.Reserva;
-import sitio.Categoria;
 import sitio.Sitio;
 
 class UsuarioTestCase {
@@ -42,14 +43,16 @@ class UsuarioTestCase {
 	private PerfilInquilino perfilInquilino;
 	private Usuario propietario;
 	private ArrayList<String> servicios= new ArrayList<String>();
+	private AppUser aplicacion;
 	
 	@BeforeEach
 	void setUp() throws Exception {
+		aplicacion=mock(AppUser.class);
 		admin = mock(AdministadorDeReservasInquilino.class);
 		perfilDueño = mock(PerfilPropietario.class);
 		perfilInquilino = mock(PerfilInquilino.class);
-		inquilino = new Usuario("nombre", "mail", "telefono",admin);
-		propietario = new Usuario("nombre2", "mail2", "telefono2",admin);
+		inquilino = new Usuario("nombre", "mail", "telefono",admin,aplicacion);
+		propietario = new Usuario("nombre2", "mail2", "telefono2",admin, aplicacion);
 		inmueble = mock(Inmueble.class);
 		datosDePago = mock(DatosDePago.class);
 		reserva = mock(Reserva.class);
