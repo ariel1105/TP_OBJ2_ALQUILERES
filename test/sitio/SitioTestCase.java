@@ -2,6 +2,7 @@ package sitio;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -51,7 +52,10 @@ class SitioTestCase {
 		inmueble1=mock(Inmueble.class);
 		inmueble2=mock(Inmueble.class);
 		inmueble3=mock(Inmueble.class);
-		inmueble4= new Inmueble(usuario1, null, 0, null, null, null, 0, null, null, null, null, 0, null);
+		when(inmueble1.getTipoDeInmueble()).thenReturn("Departamento");
+		when(inmueble2.getTipoDeInmueble()).thenReturn("Hotel");
+		when(inmueble3.getTipoDeInmueble()).thenReturn("Cabaña");
+		inmueble4= new Inmueble(usuario1, "Loft", 0, null, null, null, 0, null, null, null, null, 0, null);
 		servicios1.add("WIFI");
 		servicios1.add("Aire acondicionado");
 		servicios1.add("Estufa");
@@ -185,7 +189,9 @@ class SitioTestCase {
 		inmueblesRegistrados.add(inmueble2);
 		inmueblesRegistrados.add(inmueble3);
 		
-
+		sitio.altaDeTipoInmueble("Departamento");
+		sitio.altaDeTipoInmueble("Hotel");
+		sitio.altaDeTipoInmueble("Cabaña");
 		sitio.publicar(inmueble1, usuario1, servicios1);
 		sitio.publicar(inmueble2, usuario1, servicios2);
 		sitio.publicar(inmueble3, usuario2, servicios3);
@@ -202,6 +208,7 @@ class SitioTestCase {
 		sitio.altaServicio("WIFI");
 		sitio.altaServicio("Jacuzzi");
 		sitio.altaServicio("Estufa");
+		sitio.altaDeTipoInmueble("Loft");
 		sitio.publicar(inmueble4, usuario1, servicios1);
 
 		assertEquals(inmueble4.getServicios(), serviciosQueEstanParaSeleccionar);

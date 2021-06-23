@@ -66,11 +66,13 @@ public class Sitio {
 	
 
 	public void publicar(Inmueble inmueble, Usuario propietario, ArrayList<String> servicios2) {
+		if (this.tipoDeInmuebles.contains(inmueble.getTipoDeInmueble())) {
 		PerfilPropietario perfil = new PerfilPropietario(categoriasParaPropietario, propietario);
 		propietario.setPerfilPropietario(perfil);
 		this.seleccionarServicios(inmueble, servicios2);
 		this.crearPerfilInmueble(inmueble, perfil);
 		this.inmueblesPublicados.add(inmueble);
+		}
 	}
 
 	private void seleccionarServicios(Inmueble inmueble, ArrayList<String> servicios2) {

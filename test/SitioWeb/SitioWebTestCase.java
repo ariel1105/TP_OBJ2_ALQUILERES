@@ -58,7 +58,7 @@ class SitioWebTestCase {
 		trivagoMobile= mock(AppUser.class);
 		trivago= mock(SitioWeb.class);
 		admin = new AdministadorDeReservasInquilino(LocalDate.now());
-		usuario=new Usuario("Lautaro", "lautaro@gmail.com", "42500197", admin);
+		usuario=new Usuario("Lautaro", "lautaro@gmail.com", "42500197", admin, trivagoMobile);
 		usuario.registrarse(sitio1);
 		usuariosRegistrados.add(usuario);
 		inmueble1= new Inmueble(null, "Depto", 0, null, null, null, 0, null, null, null, null, 50000.0, null);
