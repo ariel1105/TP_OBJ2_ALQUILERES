@@ -13,7 +13,7 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import sitio.Categoria;
+import Categorias.Categoria;
 
 class PerfilTestCase {
 	

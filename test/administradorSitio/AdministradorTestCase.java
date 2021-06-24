@@ -1,4 +1,4 @@
-package usuario;
+package administradorSitio;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,9 +13,11 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import AdministradorDelSitio.Administrador;
+import Categorias.Categoria;
 import inmueble.Inmueble;
-import sitio.Categoria;
 import sitio.Sitio;
+import usuario.Usuario;
 
 class AdministradorTestCase {
 	
@@ -115,7 +117,19 @@ class AdministradorTestCase {
 		users2.add(user10);
 		users2.add(user11);
 		users2.add(user12);
-		
+
+		sitio2.registrarUsuario(user1);
+		sitio2.registrarUsuario(user2);
+		sitio2.registrarUsuario(user3);
+		sitio2.registrarUsuario(user4);
+		sitio2.registrarUsuario(user5);
+		sitio2.registrarUsuario(user6);
+		sitio2.registrarUsuario(user7);
+		sitio2.registrarUsuario(user8);
+		sitio2.registrarUsuario(user9);
+		sitio2.registrarUsuario(user10);
+		sitio2.registrarUsuario(user11);
+		sitio2.registrarUsuario(user12);
 		
 		usersDesordenados.add(user1);
 		usersDesordenados.add(user2);
@@ -130,7 +144,6 @@ class AdministradorTestCase {
 		usersDesordenados.add(user11);
 		usersDesordenados.add(user12);
 		
-		when(sitio.usuariosQueAlquilaron()).thenReturn(users2);
 		
 		inmueble1= mock(Inmueble.class);
 		inmueble2= mock(Inmueble.class);
@@ -215,8 +228,8 @@ class AdministradorTestCase {
 	void testTopTenInquilinos() {
 
 //Se compara una lista desordenada que luego sera ordenada con la misma lista desordenada
-		assertFalse(administradorDelSitio.usuariosRank(sitio)== usersDesordenados);
-		assertEquals(administradorDelSitio.topTenInquilinos(sitio).size(), 10 );
+		assertFalse(administradorDelSitio.usuariosRank(sitio2)== usersDesordenados);
+		assertEquals(administradorDelSitio.topTenInquilinos(sitio2).size(), 10 );
 	}
 	
 	@Test
@@ -228,7 +241,7 @@ class AdministradorTestCase {
 		assertEquals(cant, 2);
 		
 
-//sdfdcfcfgfd
+
 	}
 	
 	@Test

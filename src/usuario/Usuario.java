@@ -1,12 +1,15 @@
 package usuario;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import Categorias.Categoria;
+import Suscripciones.AppUser;
 import administradorDeReservas.AdministadorDeReservasInquilino;
 import inmueble.DatosDePago;
 import inmueble.Inmueble;
@@ -14,7 +17,6 @@ import perfiles.PerfilPropietario;
 import perfiles.PerfilInquilino;
 import perfiles.PerfilPropietario;
 import reservas.Reserva;
-import sitio.Categoria;
 import sitio.Sitio;
 
 public class Usuario implements PuntuablePorEstadia {
@@ -25,12 +27,14 @@ public class Usuario implements PuntuablePorEstadia {
 	private ArrayList<Inmueble> inmuebles;
 	private ArrayList<Reserva>reservasPendientesDeConfirmacion;
 	private LocalDate fechaActual;
-	private Integer vecesQueAlquilo;
 	private PerfilInquilino perfilInquilino;
 	private PerfilPropietario perfilPropietario;
+
 	private HashMap<Reserva, ArrayList<Reserva>> reservasConfirmadasYEncoladas;
+	private LocalDate fechaQueSeRegistro;
+	private AppUser aplicacionMovil;
 	
-	public Usuario(String nombreCompleto, String mail, String telefono, AdministadorDeReservasInquilino admin){
+	public Usuario(String nombreCompleto, String mail, String telefono, AdministadorDeReservasInquilino admin, AppUser aplicacion){
 	
 		this.nombreCompleto = nombreCompleto;
 		this.mail = mail;
@@ -39,6 +43,7 @@ public class Usuario implements PuntuablePorEstadia {
 		this.reservasPendientesDeConfirmacion = new ArrayList<Reserva>();
 		this.reservasConfirmadasYEncoladas = new HashMap<Reserva, ArrayList<Reserva>>();
 		this.admin = admin;
+		this.aplicacionMovil= aplicacion;
 	}
 	
 	public ArrayList<Reserva> getReservasPendientes() {
@@ -77,11 +82,18 @@ public class Usuario implements PuntuablePorEstadia {
 
 	public void registrarse(Sitio sitio) {
 		sitio.registrarUsuario(this);
+		fechaQueSeRegistro= LocalDate.now();
+		  
 	}
 
-	public void publicar(Inmueble inmueble, Sitio sitio) {
+	public LocalDate getFechaQueSeRegistro() {
+		return fechaQueSeRegistro;
+	}
+
+	public void publicar(Inmueble inmueble, Sitio sitio, ArrayList<String> servicios) { //falta agregar a inmuebles
 		if (sitio.elUsuarioEstaRegistrado(this)) {
-			sitio.publicar(inmueble,this);
+			sitio.publicar(inmueble,this, servicios);
+			inmuebles.add(inmueble);
 		}
 	}
 	
@@ -118,16 +130,19 @@ public class Usuario implements PuntuablePorEstadia {
 		return this.admin.cantidadeDeReservas();
 	}
 
-	public int tiempoComoUsuario() {
-		return 0;
-	}
 
+
+	public long tiempoComoUser() {
+		long result = ChronoUnit.DAYS.between(this.getFechaQueSeRegistro(), LocalDate.now());
+		return result;
+	}
+	
 	public void puntuarComoInquilino(PuntuablePorEstadia puntuable, Categoria categoria, int puntos) {
 		if(puntuable.puedeRecibirPuntuacionPorEstadiaPor(this)) {
 			puntuable.recibirPuntuacionPorEstadia(categoria, puntos);
 		}
 	}
-
+ 
 	@Override
 	public boolean puedeRecibirPuntuacionPorEstadiaPor(Usuario inquilino) {
 		return inquilino.getAdmin().leAlquiloA(this);

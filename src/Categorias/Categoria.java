@@ -1,4 +1,4 @@
-package sitio;
+package Categorias;
 
 public class Categoria {
 	

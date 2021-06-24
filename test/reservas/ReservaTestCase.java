@@ -127,7 +127,7 @@ class ReservaTestCase {
 	
 	@Test 
 	void testIniciarCancelacion() {
-		reserva.IniciarCancelacion(dia);//supone la fecha en la q se realiza la reserva
+		reserva.iniciarCancelacion(dia);//supone la fecha en la q se realiza la reserva
 		verify(politica).cancelar(reserva);
 		verify(politica).actualizarFecha(dia);
 	}

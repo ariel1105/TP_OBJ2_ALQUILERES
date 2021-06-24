@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import sitio.Categoria;
+import Categorias.Categoria;
 import usuario.Usuario;
 
 class PerfilInquilinoTestCase {

@@ -2,7 +2,7 @@ package perfiles;
 
 import java.util.ArrayList;
 
-import sitio.Categoria;
+import Categorias.Categoria;
 import usuario.Usuario;
 
 public class PerfilInquilino extends Perfil {

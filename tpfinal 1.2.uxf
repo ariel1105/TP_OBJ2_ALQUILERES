@@ -24,14 +24,14 @@
 
 
 // This text will be stored with each diagram;  use it for notes.</help_text>
-  <zoom_level>3</zoom_level>
+  <zoom_level>6</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1086</x>
-      <y>273</y>
-      <w>210</w>
-      <h>264</h>
+      <x>2172</x>
+      <y>108</y>
+      <w>420</w>
+      <h>528</h>
     </coordinates>
     <panel_attributes>Sitio
 --
@@ -54,8 +54,8 @@
 +altaDeCategoriaInquilino(Categoria): void
 +altaDeTipoDeInmueble(String): void
 +altaServicio(String): void
-+usuariosQueAlquilaron(): List &lt;Usuario&gt;
 +todasLasReservasConfirmadas(): ArrayList&lt;Reserva&gt;
++obtenerUsuariosRegistrados(): ArrayList&lt;Usuario&gt;
 
 
 
@@ -65,10 +65,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>810</x>
-      <y>312</y>
-      <w>150</w>
-      <h>204</h>
+      <x>1614</x>
+      <y>78</y>
+      <w>336</w>
+      <h>528</h>
     </coordinates>
     <panel_attributes>Inmueble
 --
@@ -91,6 +91,9 @@
 -precioActual: Double
 -listeners: List&lt;INotify&gt;	
 --
++new(Usuario, String, double, String, String, String,
+			ArrayList&lt;String&gt;, int, ArrayList&lt;Foto&gt;, Hora,
+			Hora, ArrayList&lt;FormaDePago&gt;, double, PoliticaDeCancelacion)
 +precioParaLaFecha(LocalDate ): double
 +perteneceLaFechaAAlgunPeriodo(LocalDate): boolean
 +obtenerElPrecioParaLaFecha(LocalDate): double
@@ -114,10 +117,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>843</x>
-      <y>264</y>
-      <w>105</w>
-      <h>33</h>
+      <x>1674</x>
+      <y>0</y>
+      <w>210</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Interface&gt;&gt;
 PuntuablePorEstadia
@@ -130,10 +133,10 @@ PuntuablePorEstadia
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>618</x>
-      <y>489</y>
-      <w>75</w>
-      <h>87</h>
+      <x>1236</x>
+      <y>540</y>
+      <w>150</w>
+      <h>174</h>
     </coordinates>
     <panel_attributes>DatosDePago
 --
@@ -141,8 +144,8 @@ PuntuablePorEstadia
 -nombreCompleto: String
 -direccion: String
 -email: String
--
 --
++new(FormaDePago , String , String , String)
 +abonar(Usuario, double): void
 +sonDatosAdmitidosPara(Inmueble): boolean
 
@@ -152,22 +155,22 @@ PuntuablePorEstadia
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>786</x>
-      <y>267</y>
-      <w>63</w>
-      <h>15</h>
+      <x>1566</x>
+      <y>18</y>
+      <w>120</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
 implements</panel_attributes>
-    <additional_attributes>190.0;30.0;10.0;30.0</additional_attributes>
+    <additional_attributes>180.0;10.0;10.0;40.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>873</x>
-      <y>639</y>
-      <w>48</w>
-      <h>39</h>
+      <x>1746</x>
+      <y>840</y>
+      <w>96</w>
+      <h>78</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.
 implements</panel_attributes>
@@ -176,15 +179,16 @@ implements</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>981</x>
-      <y>738</y>
-      <w>147</w>
-      <h>60</h>
+      <x>1962</x>
+      <y>1038</y>
+      <w>294</w>
+      <h>120</h>
     </coordinates>
     <panel_attributes>SitioWeb
 --
 -inmueblesDeInteres: List&lt;Inmueble&gt;
 --
++new(List &lt;Inmueble&gt;)
 +popUp(String, String, int): void
 +getInmueblesConInteres(): List&lt;Inmueble&gt;
 +publish(String): void
@@ -196,10 +200,10 @@ implements</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>516</x>
-      <y>270</y>
-      <w>75</w>
-      <h>24</h>
+      <x>1032</x>
+      <y>102</y>
+      <w>150</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>Foto
 --
@@ -210,10 +214,10 @@ implements</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>807</x>
-      <y>537</y>
-      <w>105</w>
-      <h>39</h>
+      <x>1614</x>
+      <y>636</y>
+      <w>210</w>
+      <h>78</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Enumeration&gt;&gt;
 FormaDePago
@@ -227,10 +231,10 @@ Efectivo
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>612</x>
-      <y>270</y>
-      <w>177</w>
-      <h>201</h>
+      <x>1218</x>
+      <y>30</y>
+      <w>354</w>
+      <h>504</h>
     </coordinates>
     <panel_attributes>Usuario
 --
@@ -246,7 +250,7 @@ Efectivo
 -perfilPropietario: PerfilPropietario
 
 --
-
++new(String, String, String, AdministradorDeReservasInquilino)
 +registrarse(Sitio): void
 +publicar(Inmueble, Sitio): void
 +solicitarReserva(Reserva): void 
@@ -279,16 +283,17 @@ Efectivo
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>183</x>
-      <y>432</y>
-      <w>177</w>
-      <h>51</h>
+      <x>366</x>
+      <y>426</y>
+      <w>354</w>
+      <h>102</h>
     </coordinates>
     <panel_attributes>PerfilInquilino
 --
 inquilino: Usuario
 categorias: ArrayList&lt;Categoria&gt;
 --
++new(ArrayList&lt;Categoria&gt; , PerfilPropietario)
 +telefonoInquilino() String
 +mailInquilino(): String
 
@@ -298,10 +303,10 @@ categorias: ArrayList&lt;Categoria&gt;
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>180</x>
-      <y>276</y>
-      <w>177</w>
-      <h>114</h>
+      <x>360</x>
+      <y>114</y>
+      <w>354</w>
+      <h>228</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Abstract&gt;&gt;
 Perfil
@@ -327,16 +332,17 @@ categoriasDisponibles: &lt;Categoria&gt;
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>378</x>
-      <y>432</y>
-      <w>177</w>
-      <h>51</h>
+      <x>756</x>
+      <y>426</y>
+      <w>354</w>
+      <h>102</h>
     </coordinates>
     <panel_attributes>PerfilPropietario
 --
 -propietario: Usuario
 -inmuebleDePerfil: Inmueble
 --
++new(ArrayList&lt;Categoria&gt;,Usuario)
 +tiempoComoUsuario(): int
 +inmueblesAlquilados(): Set&lt;Inmueble&gt;
 +cantidadDeAlquileres(): int
@@ -347,15 +353,16 @@ categoriasDisponibles: &lt;Categoria&gt;
     <id>UMLClass</id>
     <coordinates>
       <x>0</x>
-      <y>432</y>
-      <w>177</w>
-      <h>51</h>
+      <y>426</y>
+      <w>354</w>
+      <h>102</h>
     </coordinates>
     <panel_attributes>PerfilInmueble
 --
 inmueble: Inmueble
 perfilPropietario: perfilDueño
 --
++new(ArrayList&lt;Categoria&gt; , Inmueble , PerfilPropietario)
 +getComentarios(): ArrayList&lt;String&gt;
 +vecesQueSeAlquiloEstaPropiedad(): int
 
@@ -365,10 +372,10 @@ perfilPropietario: perfilDueño
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>78</x>
-      <y>396</y>
-      <w>408</w>
-      <h>18</h>
+      <x>156</x>
+      <y>354</y>
+      <w>816</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>
 extends</panel_attributes>
@@ -377,10 +384,10 @@ extends</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>267</x>
-      <y>402</y>
-      <w>9</w>
-      <h>36</h>
+      <x>534</x>
+      <y>366</y>
+      <w>18</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
@@ -388,16 +395,17 @@ extends</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>981</x>
-      <y>273</y>
-      <w>75</w>
-      <h>87</h>
+      <x>1962</x>
+      <y>108</y>
+      <w>150</w>
+      <h>174</h>
     </coordinates>
     <panel_attributes>Categoria
 --
 -nombreCategoria: String
 -puntaje: Integer
 --
++new(String, Integer)
 +getNombreCategoria(): String
 +getPuntaje(): Integer
 +setNombreCategoria(String): void
@@ -411,10 +419,10 @@ extends</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>189</x>
-      <y>510</y>
-      <w>177</w>
-      <h>33</h>
+      <x>378</x>
+      <y>582</y>
+      <w>354</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Abstract&gt;&gt;
 Estado
@@ -427,10 +435,10 @@ Estado
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>276</x>
-      <y>540</y>
-      <w>9</w>
-      <h>27</h>
+      <x>552</x>
+      <y>642</y>
+      <w>18</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
@@ -438,10 +446,10 @@ Estado
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>195</x>
-      <y>579</y>
-      <w>177</w>
-      <h>21</h>
+      <x>390</x>
+      <y>720</y>
+      <w>354</w>
+      <h>42</h>
     </coordinates>
     <panel_attributes>Confirmada
 --
@@ -451,10 +459,10 @@ Estado
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>387</x>
-      <y>579</y>
-      <w>177</w>
-      <h>21</h>
+      <x>774</x>
+      <y>720</y>
+      <w>354</w>
+      <h>42</h>
     </coordinates>
     <panel_attributes>PendienteDeConfirmacion
 --
@@ -466,10 +474,10 @@ Estado
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>9</x>
-      <y>579</y>
-      <w>177</w>
-      <h>21</h>
+      <x>18</x>
+      <y>720</y>
+      <w>354</w>
+      <h>42</h>
     </coordinates>
     <panel_attributes>Cancelada
 --
@@ -479,10 +487,10 @@ Estado
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>93</x>
-      <y>552</y>
-      <w>393</w>
-      <h>18</h>
+      <x>186</x>
+      <y>666</y>
+      <w>786</w>
+      <h>36</h>
     </coordinates>
     <panel_attributes>
 extends</panel_attributes>
@@ -491,10 +499,10 @@ extends</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>93</x>
-      <y>558</y>
-      <w>9</w>
-      <h>27</h>
+      <x>186</x>
+      <y>678</y>
+      <w>18</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
@@ -502,10 +510,10 @@ extends</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>267</x>
-      <y>387</y>
-      <w>9</w>
-      <h>24</h>
+      <x>534</x>
+      <y>336</y>
+      <w>18</w>
+      <h>48</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
@@ -513,10 +521,10 @@ extends</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>477</x>
-      <y>558</y>
-      <w>9</w>
-      <h>27</h>
+      <x>954</x>
+      <y>678</y>
+      <w>18</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
@@ -524,10 +532,527 @@ extends</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>615</x>
-      <y>597</y>
-      <w>177</w>
-      <h>159</h>
+      <x>2628</x>
+      <y>624</y>
+      <w>336</w>
+      <h>276</h>
+    </coordinates>
+    <panel_attributes>Busqueda
+--
+ciudad: String
+fechaInicio: LocalDate
+fechaFin: LocalDate
+CantHuespedes: Integer
+precioMaximo: Double
+precioMinimo: Double
+--
++esAdmitida(): boolean
++getCiudad(): String
++getFechaDeInicio(): LocalDate
++getFechaFin(): LocalDate
++setCantHuespedes(int): void
++getCantHuespedes(): Integer
++setPrecioMaximo(double): void
++getPrecioMaximo(): Double
++setPrecioMinimo(double): void
++getPrecioMinimo(): double
++setParametrosObligatorios(String, LocalDate, LocalDate): void
+ 
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1644</x>
+      <y>780</y>
+      <w>210</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+HomePagePublisher
+--
++publish(String): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1878</x>
+      <y>780</y>
+      <w>210</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+PopUpWindow
+--
++popUp(String, String, int)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1728</x>
+      <y>906</y>
+      <w>246</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+INotify
+--
++getInmueblesConInteres(): List&lt;Inmueble&gt;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1782</x>
+      <y>966</y>
+      <w>108</w>
+      <h>78</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+implements</panel_attributes>
+    <additional_attributes>10.0;10.0;110.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1854</x>
+      <y>636</y>
+      <w>294</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>PeriodoPrecio
+--
+-precio: double
+-periodo: ArrayList&lt;LocalDate&gt;
+--
++new(double, ArrayList&lt;LocalDate&gt;)
++perteneceALaFecha(LocalDate): boolean
++sonLaMismaFecha(LocalDate, LocalDate): boolean
++getPrecio(): double
++getPeriodo(): ArrayList&lt;LocalDate&gt;
++agregarFecha(LocalDate): void
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1632</x>
+      <y>1032</y>
+      <w>294</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>AppUser
+--
+-inmueblesDeInteres: List&lt;Inmueble&gt;
+--
++new(List &lt;Inmueble&gt;)
++popUp(String, String, int): void
++getInmueblesConInteres(): List&lt;Inmueble&gt;
++publish(String): void
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1938</x>
+      <y>966</y>
+      <w>96</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+implements</panel_attributes>
+    <additional_attributes>10.0;10.0;140.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>2670</x>
+      <y>84</y>
+      <w>78</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+implements</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2652</x>
+      <y>120</y>
+      <w>318</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>CompararUsuarios
+--
++compare(Usuario, Usuario): int
+
+	 
+
+	
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2646</x>
+      <y>192</y>
+      <w>318</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>Administrador
+--
++darDeAltaCategoriaParaPropietario(Categoria, Sitio): void
++darDeAltaCategoriaParaInquilino(Categoria, Sitio): void
++darDeAltaCategoriaParaInmueble(Categoria, Sitio): void
++darDeAltaTiposDeInmueble(Sitio, String): void
++darDeAltaServicios(Sitio, String): void
++topTenInquilinos(Sitio): List &lt;Usuario&gt;
++usuariosRank(Sitio): List &lt;Usuario&gt;
++inmueblesLibres(Sitio): List &lt;Inmueble&gt;
++tasaOcupacion(Sitio): Double
++inmueblesReservados(Sitio): Integer
++usuariosQueAlquilaron(): List &lt;Usuario&gt; 
+
+	
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>2580</x>
+      <y>24</y>
+      <w>210</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+Comparator
+--
++compare(Object, Object): int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1446</x>
+      <y>552</y>
+      <w>150</w>
+      <h>174</h>
+    </coordinates>
+    <panel_attributes>Hora
+--
+-hora: int
+-minuto: int
+--
++getHora(): int
++getMinuto(): int
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>954</x>
+      <y>366</y>
+      <w>18</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>156</x>
+      <y>366</y>
+      <w>18</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>552</x>
+      <y>678</y>
+      <w>18</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>396</x>
+      <y>1002</y>
+      <w>360</w>
+      <h>102</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract&gt;&gt;
+PoliticaDeCancelacion
+--
+-fechaActual: LocalDate
+--
++cancelar(Reserva): void
++getFechaActual(): LocalDate
++actualizarFecha(LocalDate): void
++	diferenciaDeDiasEsMayor(Reserva, int): boolean
+	
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>774</x>
+      <y>942</y>
+      <w>354</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>SinAbono
+--
++esAccionParaReserva(CancelacioIntermedia, Reserva): boolean
++realizarAccionDePago(Reserva): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>30</x>
+      <y>942</y>
+      <w>354</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>AbonoDel50PorCiento
+--
++esAccionParaReserva(CancelacioIntermedia, Reserva): boolean
++realizarAccionDePago(Reserva): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>402</x>
+      <y>942</y>
+      <w>354</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>AbonoTotal	
+--
++esAccionParaReserva(CancelacioIntermedia, Reserva): boolean
++realizarAccionDePago(Reserva): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>564</x>
+      <y>870</y>
+      <w>18</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>186</x>
+      <y>894</y>
+      <w>786</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>
+extends</panel_attributes>
+    <additional_attributes>10.0;30.0;1290.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>564</x>
+      <y>906</y>
+      <w>18</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>186</x>
+      <y>906</y>
+      <w>18</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>954</x>
+      <y>906</y>
+      <w>18</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>408</x>
+      <y>828</y>
+      <w>360</w>
+      <h>66</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Abstract&gt;&gt;
+Accion
+--
++esAccionParaReserva(CancelacioIntermedia, Reserva): boolean
++realizarAccionDePago(Reserva): void
+	
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>792</x>
+      <y>1170</y>
+      <w>354</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>SinCancelacion
+--
++cancelar(Reserva): void
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>48</x>
+      <y>1170</y>
+      <w>354</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>CancelacionGratuita
+--
++cancelar(Reserva): void
++noTieneQueAbonar(Reserva): boolean
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>420</x>
+      <y>1170</y>
+      <w>354</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>CancelacionIntermedia
+--
++new(ArrayList&lt;Accion&gt;)
++cancelar(Reserva): void
++accionParaReserva(Reserva): Accion
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>198</x>
+      <y>1110</y>
+      <w>786</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>
+extends</panel_attributes>
+    <additional_attributes>10.0;30.0;1290.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>582</x>
+      <y>1098</y>
+      <w>18</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>966</x>
+      <y>1122</y>
+      <w>18</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>198</x>
+      <y>1122</y>
+      <w>18</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>582</x>
+      <y>1122</y>
+      <w>18</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1902</x>
+      <y>840</y>
+      <w>96</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+implements</panel_attributes>
+    <additional_attributes>60.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1242</x>
+      <y>768</y>
+      <w>390</w>
+      <h>348</h>
     </coordinates>
     <panel_attributes>Reserva
 --
@@ -538,6 +1063,7 @@ extends</panel_attributes>
 -inquilino:	Usuario 
 -politicaDeCancelacion: PoliticaDeCancelacion
 --
++new(Usuario, Inmueble , ArrayList&lt;LocalDate&gt; , DatosDePago , PoliticaDeCancelacion)
 +confirmarseEnSitio(Sitio): void
 +ocupaFecha(LocalDate): boolean
 +iniciarCancelacion(LocalDate): void
@@ -561,484 +1087,48 @@ extends</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>822</x>
-      <y>609</y>
-      <w>105</w>
-      <h>33</h>
+      <x>2214</x>
+      <y>684</y>
+      <w>390</w>
+      <h>318</h>
     </coordinates>
-    <panel_attributes>&lt;&lt;Interface&gt;&gt;
-HomePagePublisher
+    <panel_attributes>AdministradorDeReservasInquilino
 --
-+publish(String): void
+-reservas: ArrayList&lt;Reserva&gt;
+-fechaActual: LocalDate	
+--
++new(LocalDate)
++ingresar(Reserva): void
++esReservaFutura(Reserva): boolean
++getTodasLasReservas(): ArrayList&lt;Reserva&gt;
++reservasFuturas(): ArrayList&lt;Reserva&gt;
++reservasConcretadas(): ArrayList&lt;Reserva&gt;
++reservasDeCiudad(): ArrayList&lt;Reserva&gt;
++ciudadesConReserva(): ArrayList&lt;String&gt;
++cancelarReserva(Reserva, LocalDate)
++cantidadDeReservas(): Integer
++leAlquiloA(Usuario): boolean
++alquilo(Inmueble): boolean
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>939</x>
-      <y>609</y>
-      <w>105</w>
-      <h>33</h>
+      <x>2640</x>
+      <y>420</y>
+      <w>312</w>
+      <h>144</h>
     </coordinates>
-    <panel_attributes>&lt;&lt;Interface&gt;&gt;
-PopUpWindow
+    <panel_attributes>Buscador
 --
-+popUp(String, String, int)
++inmueblesPara(Busqueda, Sitio): ArrayList&lt;Inmueble&gt;, String
++filtrarPorCiudad(ArrayList&lt;Inmueble&gt;, String): ArrayList&lt;Inmueble&gt;, String
++filtrarPorDisponibilidad(ArrayList&lt;Inmueble&gt;, String): ArrayList&lt;Inmueble&gt;
++filtrarPorCantDeHuespedes(ArrayList&lt;Inmueble&gt;, String, Integer): ArrayList&lt;Inmueble&gt;
++filtrarPorPrecioMaximo(ArrayList&lt;Inmueble&gt;, Double, LocalDate, LocalDate): ArrayList&lt;Inmueble&gt;
++filtrarPorPrecioMinimo(ArrayList&lt;Inmueble&gt;, Double, LocalDate, LocalDate): ArrayList&lt;Inmueble&gt;
 </panel_attributes>
     <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>864</x>
-      <y>672</y>
-      <w>123</w>
-      <h>33</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;Interface&gt;&gt;
-INotify
---
-+getInmueblesConInteres(): List&lt;Inmueble&gt;
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>891</x>
-      <y>702</y>
-      <w>54</w>
-      <h>39</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.
-implements</panel_attributes>
-    <additional_attributes>10.0;10.0;110.0;110.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>927</x>
-      <y>537</y>
-      <w>147</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes>PeriodoPrecio
---
--precio: double
--periodo: ArrayList&lt;LocalDate&gt;
---
-+perteneceALaFecha(LocalDate): boolean
-+sonLaMismaFecha(LocalDate, LocalDate): boolean
-+getPrecio(): double
-+getPeriodo(): ArrayList&lt;LocalDate&gt;
-+agregarFecha(LocalDate): void
-
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>816</x>
-      <y>735</y>
-      <w>147</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes>AppUser
---
--inmueblesDeInteres: List&lt;Inmueble&gt;
---
-+popUp(String, String, int): void
-+getInmueblesConInteres(): List&lt;Inmueble&gt;
-+publish(String): void
-
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>969</x>
-      <y>702</y>
-      <w>48</w>
-      <h>42</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.
-implements</panel_attributes>
-    <additional_attributes>10.0;10.0;140.0;120.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>1335</x>
-      <y>261</y>
-      <w>39</w>
-      <h>24</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.
-implements</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1326</x>
-      <y>279</y>
-      <w>159</w>
-      <h>27</h>
-    </coordinates>
-    <panel_attributes>CompararUsuarios
---
-+compare(Usuario, Usuario): int
-
-	 
-
-	
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1323</x>
-      <y>315</y>
-      <w>159</w>
-      <h>90</h>
-    </coordinates>
-    <panel_attributes>Administrador
-
---
-+darDeAltaCategoriaParaPropietario(Categoria, Sitio): void
-+darDeAltaCategoriaParaInquilino(Categoria, Sitio): void
-+darDeAltaCategoriaParaInmueble(Categoria, Sitio): void
-+darDeAltaTiposDeInmueble(Sitio, String): void
-+darDeAltaServicios(Sitio, String): void
-+topTenInquilinos(Sitio): List &lt;Usuario&gt;
-+usuariosRank(Sitio): List &lt;Usuario&gt;
-+inmueblesLibres(Sitio): List &lt;Inmueble&gt;
-+tasaOcupacion(Sitio): Double
-+inmueblesReservados(Sitio): Integer
-	 
-
-	
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>1290</x>
-      <y>231</y>
-      <w>105</w>
-      <h>33</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;Interface&gt;&gt;
-Comparator
---
-+compare(Object, Object): int</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>723</x>
-      <y>495</y>
-      <w>75</w>
-      <h>87</h>
-    </coordinates>
-    <panel_attributes>Hora
---
--hora: int
--minuto: int
---
-+getHora(): int
-+getMinuto(): int
-
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>477</x>
-      <y>402</y>
-      <w>9</w>
-      <h>36</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>78</x>
-      <y>402</y>
-      <w>9</w>
-      <h>36</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>276</x>
-      <y>558</y>
-      <w>9</w>
-      <h>27</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>198</x>
-      <y>720</y>
-      <w>180</w>
-      <h>51</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;Abstract&gt;&gt;
-PoliticaDeCancelacion
---
--fechaActual: LocalDate
---
-+cancelar(Reserva): void
-+getFechaActual(): LocalDate
-+actualizarFecha(LocalDate): void
-+	diferenciaDeDiasEsMayor(Reserva, int): boolean
-	
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>387</x>
-      <y>690</y>
-      <w>177</w>
-      <h>27</h>
-    </coordinates>
-    <panel_attributes>SinAbono
---
-+esAccionParaReserva(CancelacioIntermedia, Reserva): boolean
-+realizarAccionDePago(Reserva): void</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>15</x>
-      <y>690</y>
-      <w>177</w>
-      <h>27</h>
-    </coordinates>
-    <panel_attributes>AbonoDel50PorCiento
---
-+esAccionParaReserva(CancelacioIntermedia, Reserva): boolean
-+realizarAccionDePago(Reserva): void</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>201</x>
-      <y>690</y>
-      <w>177</w>
-      <h>27</h>
-    </coordinates>
-    <panel_attributes>AbonoTotal	
---
-+esAccionParaReserva(CancelacioIntermedia, Reserva): boolean
-+realizarAccionDePago(Reserva): void</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>282</x>
-      <y>654</y>
-      <w>9</w>
-      <h>27</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>93</x>
-      <y>666</y>
-      <w>393</w>
-      <h>18</h>
-    </coordinates>
-    <panel_attributes>
-extends</panel_attributes>
-    <additional_attributes>10.0;30.0;1290.0;30.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>282</x>
-      <y>672</y>
-      <w>9</w>
-      <h>24</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>93</x>
-      <y>672</y>
-      <w>9</w>
-      <h>24</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>477</x>
-      <y>672</y>
-      <w>9</w>
-      <h>24</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>204</x>
-      <y>633</y>
-      <w>180</w>
-      <h>33</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;Abstract&gt;&gt;
-Accion
---
-+esAccionParaReserva(CancelacioIntermedia, Reserva): boolean
-+realizarAccionDePago(Reserva): void
-	
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>396</x>
-      <y>804</y>
-      <w>177</w>
-      <h>27</h>
-    </coordinates>
-    <panel_attributes>SinCancelacion
---
-+cancelar(Reserva): void
-
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>24</x>
-      <y>804</y>
-      <w>177</w>
-      <h>27</h>
-    </coordinates>
-    <panel_attributes>CancelacionGratuita
---
-+cancelar(Reserva): void
-+noTieneQueAbonar(Reserva): boolean
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>210</x>
-      <y>804</y>
-      <w>177</w>
-      <h>27</h>
-    </coordinates>
-    <panel_attributes>CancelacionIntermedia
---
-+cancelar(Reserva): void
-+accionParaReserva(Reserva): Accion
-
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>99</x>
-      <y>774</y>
-      <w>393</w>
-      <h>18</h>
-    </coordinates>
-    <panel_attributes>
-extends</panel_attributes>
-    <additional_attributes>10.0;30.0;1290.0;30.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>291</x>
-      <y>768</y>
-      <w>9</w>
-      <h>21</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>483</x>
-      <y>780</y>
-      <w>9</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>99</x>
-      <y>780</y>
-      <w>9</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>291</x>
-      <y>780</y>
-      <w>9</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>951</x>
-      <y>639</y>
-      <w>48</w>
-      <h>36</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.
-implements</panel_attributes>
-    <additional_attributes>60.0;10.0;10.0;100.0</additional_attributes>
   </element>
 </diagram>
