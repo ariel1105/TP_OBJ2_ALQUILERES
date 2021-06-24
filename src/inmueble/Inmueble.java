@@ -229,9 +229,5 @@ public class Inmueble implements PuntuablePorEstadia{
 		return servicios;
 	}
 
-	public boolean estaDisponible(LocalDate fechaInicio, LocalDate fechaFin) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 }
