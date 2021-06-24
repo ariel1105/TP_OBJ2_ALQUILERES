@@ -3,6 +3,7 @@ package usuario;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,6 +29,7 @@ public class Usuario implements PuntuablePorEstadia {
 	private Integer vecesQueAlquilo;
 	private PerfilInquilino perfilInquilino;
 	private PerfilPropietario perfilPropietario;
+	private HashMap<Reserva, ArrayList<Reserva>> reservasConfirmadasYEncoladas;
 	
 	public Usuario(String nombreCompleto, String mail, String telefono, AdministadorDeReservasInquilino admin){
 	
@@ -37,6 +39,7 @@ public class Usuario implements PuntuablePorEstadia {
 		this.inmuebles = new ArrayList<Inmueble>();
 		this.reservasPendientesDeConfirmacion = new ArrayList<Reserva>();
 		this.reservasConfirmadasPropietario = new ArrayList<Reserva>();
+		this.reservasConfirmadasYEncoladas = new HashMap<Reserva, ArrayList<Reserva>>();
 		this.admin = admin;
 	}
 	
@@ -54,6 +57,10 @@ public class Usuario implements PuntuablePorEstadia {
 
 	public String getMail() {
 		return this.mail;
+	}
+	
+	public HashMap<Reserva, ArrayList<Reserva>> getReservasConfirmadasYEncoladas(){
+		return this.reservasConfirmadasYEncoladas;
 	}
 	
 	public void setPerfilInquilino(PerfilInquilino perfil) {
@@ -151,6 +158,46 @@ public class Usuario implements PuntuablePorEstadia {
 		if(inquilino.puedeRecibirPuntuacionComoInquilinoPor(this)) {
 			inquilino.recibirPuntuacionComoInquilino(cat, puntos);
 		}
+	}
+
+
+	public Reserva obtenerReservaQueImposibilitaReserva(Reserva reserva, ArrayList<Reserva> reservas) {
+		// TODO Auto-generated method stub
+		Reserva reservaEsperada = null;
+		int i = 0;
+		while(i < reservas.size()) {
+			if (reservas.get(i).esReservaQueImposibilita(reserva)){
+				reserva = reservas.get(i);
+			}
+			i++;
+		}
+		return reserva;
+	}
+
+	public ArrayList<Reserva> obtenerReservasEncoladas(Reserva reserva) {
+		// TODO Auto-generated method stub
+		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+		reservas.addAll(reservasConfirmadasYEncoladas.keySet());
+		
+		Reserva reservaEnLaQueSeEncolara = 
+			this.obtenerReservaQueImposibilitaReserva(reserva, reservas);
+
+			return reservasConfirmadasYEncoladas.get(reservaEnLaQueSeEncolara);
+	}
+
+	public void encolarReserva(Reserva reserva) {
+		// TODO Auto-generated method stub
+		this.obtenerReservasEncoladas(reserva).add(reserva);
+	}
+
+	public void quieroReservar(Reserva reserva) {
+		// TODO Auto-generated method stub
+		if(reserva.getInmueble().estaDisponible(reserva.primerDia(), reserva.ultimoDia())){
+			reserva.getInquilino().solicitarReserva(reserva);
+		}
+		else {
+			reserva.getInquilino().encolarReserva(reserva);
+		}		
 	}
 	
 	
