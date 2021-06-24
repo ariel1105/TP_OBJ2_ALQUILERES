@@ -23,7 +23,7 @@ import inmueble.Inmueble;
 import perfiles.PerfilPropietario;
 import perfiles.PerfilInquilino;
 import reservas.Reserva;
-import sitio.Categoria;
+import Categorias.Categoria;
 import sitio.Sitio;
 
 class UsuarioTestCase {
@@ -42,17 +42,18 @@ class UsuarioTestCase {
 	private ArrayList<Inmueble> galeriaDeInmuebles = new ArrayList<Inmueble>();
 	private ArrayList<LocalDate> diasDeReserva = new ArrayList<LocalDate>();
 	private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
-	private PerfilPropietario perfilDue�o;
+	private ArrayList<String> servicios = new ArrayList<String>();
+	private PerfilPropietario perfilPropietario;
 	private PerfilInquilino perfilInquilino;
 	private Usuario propietario;
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		admin = mock(AdministadorDeReservasInquilino.class);
-		perfilDue�o = mock(PerfilPropietario.class);
+		perfilPropietario = mock(PerfilPropietario.class);
 		perfilInquilino = mock(PerfilInquilino.class);
-		inquilino = new Usuario("nombre", "mail", "telefono",admin);
-		propietario = new Usuario("nombre2", "mail2", "telefono2",admin);
+		inquilino = new Usuario("nombre", "mail", "telefono",admin, null);
+		propietario = new Usuario("nombre2", "mail2", "telefono2",admin, null);
 		inmueble = mock(Inmueble.class);
 		datosDePago = mock(DatosDePago.class);
 		reserva = mock(Reserva.class);
@@ -75,15 +76,15 @@ class UsuarioTestCase {
 	@Test
 	void testPublicarSinRegistrarsePreviamente() {
 		when(sitio.elUsuarioEstaRegistrado(propietario)).thenReturn(false);
-		propietario.publicar(inmueble, sitio);
-		verify(sitio, never()).publicar(inmueble, propietario);
+		propietario.publicar(inmueble, sitio, servicios);
+		verify(sitio, never()).publicar(inmueble, propietario, servicios);
 	}
 	
 	@Test
 	void testPublicarConRegistroPrevio() {
 		when(sitio.elUsuarioEstaRegistrado(propietario)).thenReturn(true);
-		propietario.publicar(inmueble, sitio);
-		verify(sitio).publicar(inmueble, propietario);
+		propietario.publicar(inmueble, sitio, servicios);
+		verify(sitio).publicar(inmueble, propietario, servicios);
 	}
 	
 		
@@ -162,25 +163,25 @@ class UsuarioTestCase {
 	
 	@Test
 	void testRecibirPuntuacionPorEstadia() {
-		propietario.setPerfilPropietario(perfilDue�o);
+		propietario.setPerfilPropietario(perfilPropietario);
 		propietario.recibirPuntuacionPorEstadia(cat, 5);
-		verify(perfilDue�o).recibirPuntuacion(cat, 5);
+		verify(perfilPropietario).recibirPuntuacion(cat, 5);
 	}
 	
 	@Test
 	void testPuntuarComoInquilino() {
-		propietario.setPerfilPropietario(perfilDue�o);
+		propietario.setPerfilPropietario(perfilPropietario);
 		when(admin.leAlquiloA(propietario)).thenReturn(true);
 		inquilino.puntuarComoInquilino(propietario, cat, 5);
-		verify(perfilDue�o).recibirPuntuacion(cat, 5);
+		verify(perfilPropietario).recibirPuntuacion(cat, 5);
 	}
 	
 	@Test
 	void testNoSeRealizaPuntuacionComoInquilino() {
-		propietario.setPerfilPropietario(perfilDue�o);
+		propietario.setPerfilPropietario(perfilPropietario);
 		when(admin.leAlquiloA(propietario)).thenReturn(false);
 		inquilino.puntuarComoInquilino(propietario, cat, 5);
-		verify(perfilDue�o, never()).recibirPuntuacion(cat, 5);
+		verify(perfilPropietario, never()).recibirPuntuacion(cat, 5);
 	}
 	
 	@Test
@@ -212,7 +213,7 @@ class UsuarioTestCase {
 	}
 	
 	@Test
-	void testPuntuarComoDue�o() {
+	void testPuntuarComoPropietario() {
 		inquilino.setPerfilInquilino(perfilInquilino);
 		when(admin.leAlquiloA(propietario)).thenReturn(true);
 		propietario.puntuarComoPropietario(inquilino, cat, 5);
@@ -364,7 +365,7 @@ class UsuarioTestCase {
 		when(reserva.getInmueble()).thenReturn(inmueble);
 		when(reserva.getFechas()).thenReturn(diasDeReserva);
 		when(inmueble.getPropietario()).thenReturn(propietario);
-		when(inmueble.estaDisponible(diasDeReserva)).thenReturn(true);
+		when(inmueble.estaDisponible1(diasDeReserva)).thenReturn(true);
 		
 		propietario.agregarReservaAConfirmadas(reserva2);
 		propietario.agregarColaDeReservas(reserva2, reservas);
