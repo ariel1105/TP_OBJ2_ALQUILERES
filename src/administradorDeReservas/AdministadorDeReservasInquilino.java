@@ -1,4 +1,4 @@
-package administradorDeReservas;
+	package administradorDeReservas;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -71,9 +71,9 @@ public class AdministadorDeReservasInquilino {
 		return ciudades;
 	}
 
-	public void cancelarReserva(Reserva reserva, LocalDate fechaActual) {
+	public void cancelarReserva(Reserva reserva) {
 		if (this.reservas.contains(reserva)) {
-			reserva.IniciarCancelacion(fechaActual);
+			reserva.iniciarCancelacion(this.fechaActual);
 		}
 	}
 

@@ -7,7 +7,7 @@ import java.util.Observer;
 
 import inmueble.Inmueble;
 
-public class SitioWeb implements HomePagePublisher, INotify{
+public class SitioWeb implements INotify{
 
 	
 	private List<Inmueble> inmueblesDeInteres;

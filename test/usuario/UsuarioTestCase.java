@@ -1,3 +1,4 @@
+
 package usuario;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,14 +42,14 @@ class UsuarioTestCase {
 	private ArrayList<Inmueble> galeriaDeInmuebles = new ArrayList<Inmueble>();
 	private ArrayList<LocalDate> diasDeReserva = new ArrayList<LocalDate>();
 	private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
-	private PerfilPropietario perfilDueño;
+	private PerfilPropietario perfilDueï¿½o;
 	private PerfilInquilino perfilInquilino;
 	private Usuario propietario;
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		admin = mock(AdministadorDeReservasInquilino.class);
-		perfilDueño = mock(PerfilPropietario.class);
+		perfilDueï¿½o = mock(PerfilPropietario.class);
 		perfilInquilino = mock(PerfilInquilino.class);
 		inquilino = new Usuario("nombre", "mail", "telefono",admin);
 		propietario = new Usuario("nombre2", "mail2", "telefono2",admin);
@@ -161,25 +162,25 @@ class UsuarioTestCase {
 	
 	@Test
 	void testRecibirPuntuacionPorEstadia() {
-		propietario.setPerfilPropietario(perfilDueño);
+		propietario.setPerfilPropietario(perfilDueï¿½o);
 		propietario.recibirPuntuacionPorEstadia(cat, 5);
-		verify(perfilDueño).recibirPuntuacion(cat, 5);
+		verify(perfilDueï¿½o).recibirPuntuacion(cat, 5);
 	}
 	
 	@Test
 	void testPuntuarComoInquilino() {
-		propietario.setPerfilPropietario(perfilDueño);
+		propietario.setPerfilPropietario(perfilDueï¿½o);
 		when(admin.leAlquiloA(propietario)).thenReturn(true);
 		inquilino.puntuarComoInquilino(propietario, cat, 5);
-		verify(perfilDueño).recibirPuntuacion(cat, 5);
+		verify(perfilDueï¿½o).recibirPuntuacion(cat, 5);
 	}
 	
 	@Test
 	void testNoSeRealizaPuntuacionComoInquilino() {
-		propietario.setPerfilPropietario(perfilDueño);
+		propietario.setPerfilPropietario(perfilDueï¿½o);
 		when(admin.leAlquiloA(propietario)).thenReturn(false);
 		inquilino.puntuarComoInquilino(propietario, cat, 5);
-		verify(perfilDueño, never()).recibirPuntuacion(cat, 5);
+		verify(perfilDueï¿½o, never()).recibirPuntuacion(cat, 5);
 	}
 	
 	@Test
@@ -211,7 +212,7 @@ class UsuarioTestCase {
 	}
 	
 	@Test
-	void testPuntuarComoDueño() {
+	void testPuntuarComoDueï¿½o() {
 		inquilino.setPerfilInquilino(perfilInquilino);
 		when(admin.leAlquiloA(propietario)).thenReturn(true);
 		propietario.puntuarComoPropietario(inquilino, cat, 5);
@@ -353,6 +354,24 @@ class UsuarioTestCase {
 		boolean estaDisp = propietario.tieneDisponible(inmueble, diasDeReserva);
 		
 		assertFalse(estaDisp);
+	}
+	
+	@Test
+	void eliminarReserva() {
+		when(reserva2.getInmueble()).thenReturn(inmueble);
+		when(inmueble.getPropietario()).thenReturn(propietario);
+		
+		when(reserva.getInmueble()).thenReturn(inmueble);
+		when(reserva.getFechas()).thenReturn(diasDeReserva);
+		when(inmueble.getPropietario()).thenReturn(propietario);
+		when(inmueble.estaDisponible(diasDeReserva)).thenReturn(true);
+		
+		propietario.agregarReservaAConfirmadas(reserva2);
+		propietario.agregarColaDeReservas(reserva2, reservas);
+		propietario.eliminarReserva(reserva2);
+		HashMap<Reserva, ArrayList<Reserva>> reservasConfirmadas = propietario.getReservasConfirmadasYEncoladas();
+		assertFalse(reservasConfirmadas.containsKey(reserva2));
+		assertTrue(reservasConfirmadas.containsKey(reserva));
 	}
 	
 

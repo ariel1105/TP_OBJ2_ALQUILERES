@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import sitio.Categoria;
+import Categorias.Categoria;
 
 public abstract class Perfil {
 	private ArrayList <String> comentarios;

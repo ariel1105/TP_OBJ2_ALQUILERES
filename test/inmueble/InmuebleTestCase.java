@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import Categorias.Categoria;
 import administradorDeReservas.AdministadorDeReservasInquilino;
 import perfiles.PerfilInmueble;
 import periodo.PeriodoPrecio;
 import politicasDeCancelacion.PoliticaDeCancelacion;
-import sitio.Categoria;
 import usuario.Usuario;
 
 class InmuebleTestCase {
@@ -60,7 +60,7 @@ class InmuebleTestCase {
 		periodoPrecio2 = mock(PeriodoPrecio.class);
 		
 		casa = new Inmueble(dueño, tipoDeInmueble, superficie,pais,
-				ciudad,direccion,servicios,capacidad,fotos,
+				ciudad,direccion,capacidad,fotos,
 				horarioCheckIn, horarioCheckOut, formasDePago,3000d, politica);
 		
 		casa.establecerPeriodosConPrecios(periodoPrecio1);
