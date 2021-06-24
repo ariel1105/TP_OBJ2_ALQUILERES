@@ -1,7 +1,10 @@
 package reservas;
 
+import static org.mockito.Mockito.mock;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.function.BooleanSupplier;
 
 import inmueble.DatosDePago;
 import inmueble.FormaDePago;
@@ -102,5 +105,23 @@ public class Reserva {
 	public DatosDePago getDatosDePago() {
 		return this.datosDePago;
 	}
+
+
+	public boolean algunaDeLasFechasEstaOcupada(ArrayList<LocalDate> fechas) {
+		// TODO Auto-generated method stub
+		boolean resultado = false;
+		for(int i = 0; i < fechas.size(); i++){
+			resultado = resultado || this.fechas.contains(fechas.get(i));
+		}
+		return resultado;
+	}
+
+
+	public boolean esReservaQueImposibilita(Reserva reserva) {
+		// TODO Auto-generated method stub
+		return (this.getInmueble() == reserva.getInmueble() && 
+				this.algunaDeLasFechasEstaOcupada(reserva.getFechas()));
+	}
+
 
 }

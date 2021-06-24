@@ -123,7 +123,7 @@ public class Inmueble implements PuntuablePorEstadia{
 		return this.ciudad;
 	}
 
-	public Boolean estaDisponible(LocalDate fechaInicio, LocalDate fechaFin) {
+	public boolean estaDisponible(ArrayList<LocalDate> fechas) {
 		return true;
 	}
 
