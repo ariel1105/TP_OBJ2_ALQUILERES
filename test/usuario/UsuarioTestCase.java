@@ -266,17 +266,56 @@ class UsuarioTestCase {
 	@Test
 	void quieroReservarCuandoHayDisponibilidad() {
 		
-		when(inmueble.estaDisponible(diasDeReserva)).thenReturn(true);
-		
 		when(reserva.getInmueble()).thenReturn(inmueble);
+		when(inmueble.estaDisponible(diasDeReserva)).thenReturn(true);
+		when(reserva.getFechas()).thenReturn(diasDeReserva);
 		when(inmueble.getPropietario()).thenReturn(propietario);
 		when(reserva.getDatosDePago()).thenReturn(datosDePago);
 		when(datosDePago.sonDatosAdmitidosPara(inmueble)).thenReturn(true);
-		inquilino.solicitarReserva(reserva);
+		
+		
+		inquilino.iniciarTramiteDeReserva(reserva);
 		ArrayList<Reserva> reservasPendientesDeConfirmacion = propietario.getReservasPendientes();
-		propietario.quieroReservar(reserva3);
+		
+		
 		assertEquals(reservas, reservasPendientesDeConfirmacion);
 		
+	}
+	
+	@Test
+	void quieroReservarCuandoNoHayDisponibilidadTestCase(){
+		
+		when(inmueble.estaDisponible(diasDeReserva)).thenReturn(false);
+		when (reserva2.esReservaQueImposibilita(reserva3)).thenReturn(true);
+		
+		
+		HashMap<Reserva, ArrayList<Reserva>> reservasEsperadas = new HashMap<Reserva, ArrayList<Reserva>>();
+		reservas.add(reserva3);
+		reservasEsperadas.put(reserva2, reservas);
+		
+		HashMap<Reserva, ArrayList<Reserva>> reservasConfirmadasYEncoladas = propietario.getReservasConfirmadasYEncoladas();
+		
+		assertEquals(reservasConfirmadasYEncoladas,reservasEsperadas);
+		
+	}
+	
+	@Test
+	void iniciarTramiteParaElPrimeroDeLaFila() {
+		when(reserva.getInmueble()).thenReturn(inmueble);
+		when(inmueble.estaDisponible(diasDeReserva)).thenReturn(true);
+		when(reserva.getFechas()).thenReturn(diasDeReserva);
+		when(inmueble.getPropietario()).thenReturn(propietario);
+		when(reserva.getDatosDePago()).thenReturn(datosDePago);
+		when(datosDePago.sonDatosAdmitidosPara(inmueble)).thenReturn(true);
+		
+		
+		inquilino.iniciarTramiteDeReserva(reserva);
+		ArrayList<Reserva> reservasPendientesDeConfirmacion = propietario.getReservasPendientes();
+		
+		
+		assertEquals(reservas, reservasPendientesDeConfirmacion);
+		
+		propietario.iniciarTramiteParaElPrimeroDeLaFila(reserva3);
 	}
 	
 

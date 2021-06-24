@@ -123,10 +123,4 @@ public class Reserva {
 	}
 
 
-	public Object ultimoDia() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 }

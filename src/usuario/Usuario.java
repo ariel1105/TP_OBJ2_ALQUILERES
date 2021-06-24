@@ -190,14 +190,32 @@ public class Usuario implements PuntuablePorEstadia {
 		this.obtenerReservasEncoladas(reserva).add(reserva);
 	}
 
-	public void quieroReservar(Reserva reserva) {
+	public void iniciarTramiteDeReserva(Reserva reserva) {
 		// TODO Auto-generated method stub
-		if(reserva.getInmueble().estaDisponible(reserva.primerDia(), reserva.ultimoDia())){
-			reserva.getInquilino().solicitarReserva(reserva);
+		if(reserva.getInmueble().estaDisponible(reserva.getFechas())){
+			this.solicitarReserva(reserva);
 		}
 		else {
-			reserva.getInquilino().encolarReserva(reserva);
-		}		
+			this.encolarReserva(reserva);
+		}	
+	}
+	
+	public void iniciarTramiteParaElPrimeroDeLaFila(Reserva reserva) {
+		
+		Reserva reservaATramitar = reservasConfirmadasYEncoladas.get(reserva).get(0);
+		ArrayList <Reserva> reservasAActualizar = this.reservasConfirmadasYEncoladas.get(reserva);
+		reservasAActualizar.remove(0);
+		
+		iniciarTramiteDeReserva(reservaATramitar);
+		actualizarReservasEncoladas(reservasAActualizar);
+	}
+	
+	public void actualizarReservasEncoladas(ArrayList<Reserva> reservas) {
+		
+		for(int i=0; i<reservas.size(); i++) {
+			Usuario inquilino = reservas.get(i).getInquilino();
+			inquilino.iniciarTramiteDeReserva(reservas.get(i));
+		}
 	}
 	
 	
