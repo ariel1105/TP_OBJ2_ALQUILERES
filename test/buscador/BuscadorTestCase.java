@@ -34,14 +34,14 @@ class BuscadorTestCase {
 		busqueda = mock(Busqueda.class);
 		inmueblesTotales = new ArrayList <Inmueble>();
 		inmueblesEsperados = new ArrayList<Inmueble>();
-		fechaInicio = mock(LocalDate.class);
-		fechaFin = mock(LocalDate.class);
 		inmueble1 = mock(Inmueble.class);
 		inmueble2 = mock(Inmueble.class);
 		inmueble3 = mock(Inmueble.class);
 		inmueblesTotales.add(inmueble1);
 		inmueblesTotales.add(inmueble2);
 		inmueblesTotales.add(inmueble3);
+		fechaInicio = mock(LocalDate.class);
+		fechaFin = mock(LocalDate.class);
 		sitio = mock(Sitio.class);
 	}
 

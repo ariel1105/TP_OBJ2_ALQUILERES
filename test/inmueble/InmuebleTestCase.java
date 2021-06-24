@@ -207,7 +207,7 @@ class InmuebleTestCase {
 		
 		when(dueño.tieneDisponible(casa, fechas)).thenReturn(true);
 		
-		boolean estaDisp = casa.estaDisponible(fechas);
+		boolean estaDisp = casa.estaDisponible1(fechas);
 		
 		assertTrue(estaDisp);
 	}

@@ -195,7 +195,7 @@ public class Usuario implements PuntuablePorEstadia {
 
 	public void iniciarTramiteDeReserva(Reserva reserva) {
 		Usuario propietario = reserva.getInmueble().getPropietario();
-		if(reserva.getInmueble().estaDisponible(reserva.getFechas())){
+		if(reserva.getInmueble().estaDisponible1(reserva.getFechas())){
 			propietario.agregarReservaAConfirmadas(reserva);
 		}
 		else {

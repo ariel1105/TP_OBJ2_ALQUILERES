@@ -269,7 +269,7 @@ class UsuarioTestCase {
 		
 		when(reserva.getInmueble()).thenReturn(inmueble);
 		when(reserva.getFechas()).thenReturn(diasDeReserva);
-		when(inmueble.estaDisponible(diasDeReserva)).thenReturn(true);
+		when(inmueble.estaDisponible1(diasDeReserva)).thenReturn(true);
 		when(inmueble.getPropietario()).thenReturn(propietario);
 		when(reserva.getDatosDePago()).thenReturn(datosDePago);
 		when(datosDePago.sonDatosAdmitidosPara(inmueble)).thenReturn(true);
@@ -285,7 +285,7 @@ class UsuarioTestCase {
 		when(reserva.getFechas()).thenReturn(diasDeReserva);
 		when(reserva.getInmueble()).thenReturn(inmueble);
 		when(inmueble.getPropietario()).thenReturn(propietario);
-		when(inmueble.estaDisponible(diasDeReserva)).thenReturn(false);
+		when(inmueble.estaDisponible1(diasDeReserva)).thenReturn(false);
 		when(reserva2.esReservaQueImposibilita(reserva)).thenReturn(true);
 		
 		HashMap<Reserva, ArrayList<Reserva>> reservasEsperadas = new HashMap<Reserva, ArrayList<Reserva>>();
@@ -323,7 +323,7 @@ class UsuarioTestCase {
 		when(reserva.getInmueble()).thenReturn(inmueble);
 		when(reserva.getFechas()).thenReturn(diasDeReserva);
 		when(inmueble.getPropietario()).thenReturn(propietario);
-		when(inmueble.estaDisponible(diasDeReserva)).thenReturn(true);
+		when(inmueble.estaDisponible1(diasDeReserva)).thenReturn(true);
 		
 		reservas.add(reserva3);
 		propietario.agregarReservaAConfirmadas(reserva2);
