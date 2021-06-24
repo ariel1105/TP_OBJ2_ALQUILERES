@@ -42,7 +42,7 @@ class UsuarioTestCase {
 	private ArrayList<Inmueble> galeriaDeInmuebles = new ArrayList<Inmueble>();
 	private ArrayList<LocalDate> diasDeReserva = new ArrayList<LocalDate>();
 	private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
-	private PerfilPropietario perfilDueño;
+	private PerfilPropietario perfilPropietario;
 	private PerfilInquilino perfilInquilino;
 	private Usuario propietario;
 	private ArrayList<String> servicios= new ArrayList<String>();
@@ -52,7 +52,7 @@ class UsuarioTestCase {
 	void setUp() throws Exception {
 		aplicacion=mock(AppUser.class);
 		admin = mock(AdministadorDeReservasInquilino.class);
-		perfilDueño = mock(PerfilPropietario.class);
+		perfilPropietario = mock(PerfilPropietario.class);
 		perfilInquilino = mock(PerfilInquilino.class);
 		inquilino = new Usuario("nombre", "mail", "telefono",admin,aplicacion);
 		propietario = new Usuario("nombre2", "mail2", "telefono2",admin, aplicacion);
@@ -169,25 +169,25 @@ class UsuarioTestCase {
 	
 	@Test
 	void testRecibirPuntuacionPorEstadia() {
-		propietario.setPerfilPropietario(perfilDueño);
+		propietario.setPerfilPropietario(perfilPropietario);
 		propietario.recibirPuntuacionPorEstadia(cat, 5);
-		verify(perfilDueño).recibirPuntuacion(cat, 5);
+		verify(perfilPropietario).recibirPuntuacion(cat, 5);
 	}
 	
 	@Test
 	void testPuntuarComoInquilino() {
-		propietario.setPerfilPropietario(perfilDueño);
+		propietario.setPerfilPropietario(perfilPropietario);
 		when(admin.leAlquiloA(propietario)).thenReturn(true);
 		inquilino.puntuarComoInquilino(propietario, cat, 5);
-		verify(perfilDueño).recibirPuntuacion(cat, 5);
+		verify(perfilPropietario).recibirPuntuacion(cat, 5);
 	}
 	
 	@Test
 	void testNoSeRealizaPuntuacionComoInquilino() {
-		propietario.setPerfilPropietario(perfilDueño);
+		propietario.setPerfilPropietario(perfilPropietario);
 		when(admin.leAlquiloA(propietario)).thenReturn(false);
 		inquilino.puntuarComoInquilino(propietario, cat, 5);
-		verify(perfilDueño, never()).recibirPuntuacion(cat, 5);
+		verify(perfilPropietario, never()).recibirPuntuacion(cat, 5);
 	}
 	
 	@Test
@@ -219,7 +219,7 @@ class UsuarioTestCase {
 	}
 	
 	@Test
-	void testPuntuarComoDueño() {
+	void testPuntuarComoPropietario() {
 		inquilino.setPerfilInquilino(perfilInquilino);
 		when(admin.leAlquiloA(propietario)).thenReturn(true);
 		propietario.puntuarComoPropietario(inquilino, cat, 5);
@@ -304,25 +304,6 @@ class UsuarioTestCase {
 		
 		assertEquals(reservasConfirmadasYEncoladas,reservasEsperadas);
 		
-	}
-	
-	@Test
-	void iniciarTramiteParaElPrimeroDeLaFila() {
-		when(reserva.getInmueble()).thenReturn(inmueble);
-		when(inmueble.estaDisponible(diasDeReserva)).thenReturn(true);
-		when(reserva.getFechas()).thenReturn(diasDeReserva);
-		when(inmueble.getPropietario()).thenReturn(propietario);
-		when(reserva.getDatosDePago()).thenReturn(datosDePago);
-		when(datosDePago.sonDatosAdmitidosPara(inmueble)).thenReturn(true);
-		
-		
-		inquilino.iniciarTramiteDeReserva(reserva);
-		ArrayList<Reserva> reservasPendientesDeConfirmacion = propietario.getReservasPendientes();
-		
-		
-		assertEquals(reservas, reservasPendientesDeConfirmacion);
-		
-		propietario.iniciarTramiteParaElPrimeroDeLaFila(reserva3);
 	}
 	
 

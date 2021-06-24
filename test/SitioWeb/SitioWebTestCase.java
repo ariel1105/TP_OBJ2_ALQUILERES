@@ -117,7 +117,7 @@ class SitioWebTestCase {
 	void testAlertaEnAplicacion() {
 		inmueble1.addObserver(trivagoMobile);
 		inmueble1.addObserver(trivago);
-		admin.cancelarReserva(reserva, LocalDate.of(2021, 06, 22));
+		admin.cancelarReserva(reserva);
 		verify(trivagoMobile).popUp("El/la Depto que te interesa se ha liberado! Corre a reservarlo!", "Rojo", 3);
 		
 	}

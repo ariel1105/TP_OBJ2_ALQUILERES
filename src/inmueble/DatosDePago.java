@@ -1,6 +1,5 @@
 package inmueble;
 
-import java.util.function.BooleanSupplier;
 
 import usuario.Usuario;
 

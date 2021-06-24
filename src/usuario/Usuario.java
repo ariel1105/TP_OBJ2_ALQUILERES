@@ -27,10 +27,8 @@ public class Usuario implements PuntuablePorEstadia {
 	private ArrayList<Inmueble> inmuebles;
 	private ArrayList<Reserva>reservasPendientesDeConfirmacion;
 	private ArrayList<Reserva>reservasConfirmadasPropietario;
-	private LocalDate fechaActual;
 	private PerfilInquilino perfilInquilino;
 	private PerfilPropietario perfilPropietario;
-
 	private HashMap<Reserva, ArrayList<Reserva>> reservasConfirmadasYEncoladas;
 	private LocalDate fechaQueSeRegistro;
 	private AppUser aplicacionMovil;
