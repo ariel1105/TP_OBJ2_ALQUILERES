@@ -112,7 +112,7 @@ class AdministradorDeReservasTestCase {
 	void testCancelarReservaConFechaActual() {
 		admin.ingresar(reserva);
 		admin.cancelarReserva(reserva, fechaActual);
-		verify(reserva).IniciarCancelacion(fechaActual);
+		verify(reserva).iniciarCancelacion(fechaActual);
 	}
 	
 	@Test

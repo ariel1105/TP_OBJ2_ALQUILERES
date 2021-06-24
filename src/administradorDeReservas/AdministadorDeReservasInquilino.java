@@ -1,4 +1,4 @@
-package administradorDeReservas;
+	package administradorDeReservas;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -73,7 +73,7 @@ public class AdministadorDeReservasInquilino {
 
 	public void cancelarReserva(Reserva reserva, LocalDate fechaActual) {
 		if (this.reservas.contains(reserva)) {
-			reserva.IniciarCancelacion(fechaActual);
+			reserva.iniciarCancelacion(fechaActual);
 		}
 	}
 

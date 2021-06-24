@@ -16,13 +16,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import Categorias.Categoria;
+import Suscripciones.AppUser;
 import administradorDeReservas.AdministadorDeReservasInquilino;
 import inmueble.DatosDePago;
 import inmueble.Inmueble;
 import perfiles.PerfilPropietario;
 import perfiles.PerfilInquilino;
 import reservas.Reserva;
-import sitio.Categoria;
 import sitio.Sitio;
 
 class UsuarioTestCase {
@@ -41,17 +42,20 @@ class UsuarioTestCase {
 	private ArrayList<Inmueble> galeriaDeInmuebles = new ArrayList<Inmueble>();
 	private ArrayList<LocalDate> diasDeReserva = new ArrayList<LocalDate>();
 	private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
-	private PerfilPropietario perfilDueño;
+	private PerfilPropietario perfilDueÃ±o;
 	private PerfilInquilino perfilInquilino;
 	private Usuario propietario;
+	private ArrayList<String> servicios= new ArrayList<String>();
+	private AppUser aplicacion;
 	
 	@BeforeEach
 	void setUp() throws Exception {
+		aplicacion=mock(AppUser.class);
 		admin = mock(AdministadorDeReservasInquilino.class);
-		perfilDueño = mock(PerfilPropietario.class);
+		perfilDueÃ±o = mock(PerfilPropietario.class);
 		perfilInquilino = mock(PerfilInquilino.class);
-		inquilino = new Usuario("nombre", "mail", "telefono",admin);
-		propietario = new Usuario("nombre2", "mail2", "telefono2",admin);
+		inquilino = new Usuario("nombre", "mail", "telefono",admin,aplicacion);
+		propietario = new Usuario("nombre2", "mail2", "telefono2",admin, aplicacion);
 		inmueble = mock(Inmueble.class);
 		datosDePago = mock(DatosDePago.class);
 		reserva = mock(Reserva.class);
@@ -64,6 +68,9 @@ class UsuarioTestCase {
 		diasDeReserva.add(fecha);
 		reservas.add(reserva);
 		propietario.getReservasConfirmadasYEncoladas().put(reserva2, reservas);
+		servicios.add("WIFI");
+		servicios.add("Aire acondicionado");
+		servicios.add("Estufa");
 	}
 
 	@Test
@@ -75,15 +82,15 @@ class UsuarioTestCase {
 	@Test
 	void testPublicarSinRegistrarsePreviamente() {
 		when(sitio.elUsuarioEstaRegistrado(propietario)).thenReturn(false);
-		propietario.publicar(inmueble, sitio);
-		verify(sitio, never()).publicar(inmueble, propietario);
+		propietario.publicar(inmueble, sitio,servicios);
+		verify(sitio, never()).publicar(inmueble, propietario,servicios);
 	}
 	
 	@Test
 	void testPublicarConRegistroPrevio() {
 		when(sitio.elUsuarioEstaRegistrado(propietario)).thenReturn(true);
-		propietario.publicar(inmueble, sitio);
-		verify(sitio).publicar(inmueble, propietario);
+		propietario.publicar(inmueble, sitio,servicios);
+		verify(sitio).publicar(inmueble, propietario, servicios);
 	}
 	
 		
@@ -162,25 +169,25 @@ class UsuarioTestCase {
 	
 	@Test
 	void testRecibirPuntuacionPorEstadia() {
-		propietario.setPerfilPropietario(perfilDueño);
+		propietario.setPerfilPropietario(perfilDueÃ±o);
 		propietario.recibirPuntuacionPorEstadia(cat, 5);
-		verify(perfilDueño).recibirPuntuacion(cat, 5);
+		verify(perfilDueÃ±o).recibirPuntuacion(cat, 5);
 	}
 	
 	@Test
 	void testPuntuarComoInquilino() {
-		propietario.setPerfilPropietario(perfilDueño);
+		propietario.setPerfilPropietario(perfilDueÃ±o);
 		when(admin.leAlquiloA(propietario)).thenReturn(true);
 		inquilino.puntuarComoInquilino(propietario, cat, 5);
-		verify(perfilDueño).recibirPuntuacion(cat, 5);
+		verify(perfilDueÃ±o).recibirPuntuacion(cat, 5);
 	}
 	
 	@Test
 	void testNoSeRealizaPuntuacionComoInquilino() {
-		propietario.setPerfilPropietario(perfilDueño);
+		propietario.setPerfilPropietario(perfilDueÃ±o);
 		when(admin.leAlquiloA(propietario)).thenReturn(false);
 		inquilino.puntuarComoInquilino(propietario, cat, 5);
-		verify(perfilDueño, never()).recibirPuntuacion(cat, 5);
+		verify(perfilDueÃ±o, never()).recibirPuntuacion(cat, 5);
 	}
 	
 	@Test
@@ -212,7 +219,7 @@ class UsuarioTestCase {
 	}
 	
 	@Test
-	void testPuntuarComoDueño() {
+	void testPuntuarComoDueÃ±o() {
 		inquilino.setPerfilInquilino(perfilInquilino);
 		when(admin.leAlquiloA(propietario)).thenReturn(true);
 		propietario.puntuarComoPropietario(inquilino, cat, 5);

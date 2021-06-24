@@ -2,9 +2,9 @@ package perfiles;
 
 import java.util.ArrayList;
 
+import Categorias.Categoria;
 import inmueble.Inmueble;
 import reservas.Reserva;
-import sitio.Categoria;
 
 public class PerfilInmueble extends Perfil {
 	
