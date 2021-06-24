@@ -211,7 +211,7 @@ public class Usuario implements PuntuablePorEstadia {
 
 	public void iniciarTramiteDeReserva(Reserva reserva) {
 		Usuario propietario = reserva.getInmueble().getPropietario();
-		if(reserva.getInmueble().estaDisponible(reserva.getFechas())){
+		if(reserva.getInmueble().estaDisponible1(reserva.getFechas())){
 			propietario.agregarReservaAConfirmadas(reserva);
 		}
 		else {
@@ -239,9 +239,22 @@ public class Usuario implements PuntuablePorEstadia {
 		
 	}
 
-	public void eliminarReserva(Reserva reserva) {
+	public boolean tieneDisponible(Inmueble inmueble, ArrayList<LocalDate> fechas) {
+		// TODO Auto-generated method stub
+		Usuario propietario = inmueble.getPropietario();
+		ArrayList<Reserva> reservasConfirmadas= propietario.getReservasConfirmadas();
+		boolean resultado = true;
+		
+		for(int i=0; i<reservasConfirmadas.size();i++) {
+			resultado = resultado && !reservasConfirmadas.get(i).algunaDeLasFechasEstaOcupada(fechas);
+		}
+		return resultado;
+
+    
+  public void eliminarReserva(Reserva reserva) {
 		this.iniciarTramiteParaElPrimeroDeLaFila(reserva);
 		this.reservasConfirmadasYEncoladas.remove(reserva);
+
 	}
 
 	

@@ -140,6 +140,11 @@ class ReservaTestCase {
 	}
 	
 	@Test
+	void ningunaDeLasFechasEstaOcupadaTestCase() {
+		assertFalse (reserva.algunaDeLasFechasEstaOcupada(fechas));
+	}
+	
+	@Test
 	void noEsReservaQueImposibilitaTestCase() {
 		
 		assertFalse(reserva.esReservaQueImposibilita(reserva2));

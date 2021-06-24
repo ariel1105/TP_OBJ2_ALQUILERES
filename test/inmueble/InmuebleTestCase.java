@@ -198,4 +198,17 @@ class InmuebleTestCase {
 		casa.recibirPuntuacionPorEstadia(cat, 5);
 		verify(perfil).recibirPuntuacion(cat, 5);
 	}
+	
+	@Test
+	void estaDisponibleTestCase() {
+		ArrayList<LocalDate> fechas = new ArrayList<LocalDate>();
+		fechas.add(fecha1);
+		fechas.add(fecha2);
+		
+		when(dueño.tieneDisponible(casa, fechas)).thenReturn(true);
+		
+		boolean estaDisp = casa.estaDisponible1(fechas);
+		
+		assertTrue(estaDisp);
+	}
 }

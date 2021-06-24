@@ -123,10 +123,15 @@ public class Inmueble implements PuntuablePorEstadia{
 		return this.ciudad;
 	}
 
-	public boolean estaDisponible(ArrayList<LocalDate> fechas) {
-		return true;
+	public boolean estaDisponible(LocalDate fechaInicio, LocalDate fechaFin) {
+		//no logre implementar este mensaje con una fecha inicio y fecha fin
+		//por eso realice uno con el mismo nombre abajo que recibe como parametro un arrayList de fechas
+		return false;
 	}
-
+	
+	public boolean estaDisponible1(ArrayList<LocalDate> fechas) {
+		return this.getPropietario().tieneDisponible(this,fechas);
+	}
 	public int getCapacidad() {
 		return this.capacidad;
 	}
