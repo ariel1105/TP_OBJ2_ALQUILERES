@@ -1,3 +1,4 @@
+
 package usuario;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,14 +17,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import Categorias.Categoria;
-import Suscripciones.AppUser;
 import administradorDeReservas.AdministadorDeReservasInquilino;
 import inmueble.DatosDePago;
 import inmueble.Inmueble;
 import perfiles.PerfilPropietario;
 import perfiles.PerfilInquilino;
 import reservas.Reserva;
+import Categorias.Categoria;
 import sitio.Sitio;
 
 class UsuarioTestCase {
@@ -42,20 +42,20 @@ class UsuarioTestCase {
 	private ArrayList<Inmueble> galeriaDeInmuebles = new ArrayList<Inmueble>();
 	private ArrayList<LocalDate> diasDeReserva = new ArrayList<LocalDate>();
 	private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+	private ArrayList<String> servicios = new ArrayList<String>();
+	private PerfilPropietario perfil;
+
 	private PerfilPropietario perfilPropietario;
 	private PerfilInquilino perfilInquilino;
 	private Usuario propietario;
-	private ArrayList<String> servicios= new ArrayList<String>();
-	private AppUser aplicacion;
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		aplicacion=mock(AppUser.class);
 		admin = mock(AdministadorDeReservasInquilino.class);
 		perfilPropietario = mock(PerfilPropietario.class);
 		perfilInquilino = mock(PerfilInquilino.class);
-		inquilino = new Usuario("nombre", "mail", "telefono",admin,aplicacion);
-		propietario = new Usuario("nombre2", "mail2", "telefono2",admin, aplicacion);
+		inquilino = new Usuario("nombre", "mail", "telefono",admin, null);
+		propietario = new Usuario("nombre2", "mail2", "telefono2",admin, null);
 		inmueble = mock(Inmueble.class);
 		datosDePago = mock(DatosDePago.class);
 		reserva = mock(Reserva.class);
@@ -67,10 +67,7 @@ class UsuarioTestCase {
 		galeriaDeInmuebles.add(inmueble);
 		diasDeReserva.add(fecha);
 		reservas.add(reserva);
-		propietario.getReservasConfirmadasYEncoladas().put(reserva2, reservas);
-		servicios.add("WIFI");
-		servicios.add("Aire acondicionado");
-		servicios.add("Estufa");
+		servicios.add("servicio");
 	}
 
 	@Test
@@ -81,15 +78,16 @@ class UsuarioTestCase {
 	
 	@Test
 	void testPublicarSinRegistrarsePreviamente() {
+
 		when(sitio.elUsuarioEstaRegistrado(propietario)).thenReturn(false);
-		propietario.publicar(inmueble, sitio,servicios);
-		verify(sitio, never()).publicar(inmueble, propietario,servicios);
+		propietario.publicar(inmueble, sitio, servicios);
+		verify(sitio, never()).publicar(inmueble, propietario, servicios);
 	}
 	
 	@Test
 	void testPublicarConRegistroPrevio() {
 		when(sitio.elUsuarioEstaRegistrado(propietario)).thenReturn(true);
-		propietario.publicar(inmueble, sitio,servicios);
+		propietario.publicar(inmueble, sitio, servicios);
 		verify(sitio).publicar(inmueble, propietario, servicios);
 	}
 	
@@ -171,12 +169,14 @@ class UsuarioTestCase {
 	void testRecibirPuntuacionPorEstadia() {
 		propietario.setPerfilPropietario(perfilPropietario);
 		propietario.recibirPuntuacionPorEstadia(cat, 5);
+
 		verify(perfilPropietario).recibirPuntuacion(cat, 5);
 	}
 	
 	@Test
 	void testPuntuarComoInquilino() {
 		propietario.setPerfilPropietario(perfilPropietario);
+		
 		when(admin.leAlquiloA(propietario)).thenReturn(true);
 		inquilino.puntuarComoInquilino(propietario, cat, 5);
 		verify(perfilPropietario).recibirPuntuacion(cat, 5);
@@ -185,9 +185,11 @@ class UsuarioTestCase {
 	@Test
 	void testNoSeRealizaPuntuacionComoInquilino() {
 		propietario.setPerfilPropietario(perfilPropietario);
+
 		when(admin.leAlquiloA(propietario)).thenReturn(false);
 		inquilino.puntuarComoInquilino(propietario, cat, 5);
 		verify(perfilPropietario, never()).recibirPuntuacion(cat, 5);
+
 	}
 	
 	@Test
@@ -219,6 +221,7 @@ class UsuarioTestCase {
 	}
 	
 	@Test
+
 	void testPuntuarComoPropietario() {
 		inquilino.setPerfilInquilino(perfilInquilino);
 		when(admin.leAlquiloA(propietario)).thenReturn(true);
@@ -235,7 +238,7 @@ class UsuarioTestCase {
 	}
 	
 	@Test
-	void obtenerReservaDeInmueble_ConFechas_() {
+	void obtenerReservaQueImposibilita() {
 		reservas.add(reserva2);
 		when(reserva2.esReservaQueImposibilita(reserva)).thenReturn(true);
 		
@@ -247,63 +250,123 @@ class UsuarioTestCase {
 	@Test
 	void obtenerReservasEncoladas() {
 		
-		when (reserva2.esReservaQueImposibilita(reserva3)).thenReturn(true);
 		
-		ArrayList<Reserva> reservasEncoladas = propietario.obtenerReservasEncoladas(reserva3);
+		propietario.agregarReservaAConfirmadas(reserva3);
+		reservas.remove(reserva);
+		when(reserva3.esReservaQueImposibilita(reserva)).thenReturn(true);
+		ArrayList<Reserva> reservasEncoladas = propietario.obtenerReservasEncoladasParaAgregar(reserva);
 		
-		assertEquals(reservasEncoladas,reservas);
+		assertEquals(reservas,reservasEncoladas);
 	}
 	
 	@Test
 	void encolarReserva() {
 		
 		HashMap<Reserva, ArrayList<Reserva>> reservasEsperadas = new HashMap<Reserva, ArrayList<Reserva>>();
-		reservas.add(reserva3);
 		reservasEsperadas.put(reserva2, reservas);
 		
-		when (reserva2.esReservaQueImposibilita(reserva3)).thenReturn(true);
+		when (reserva2.esReservaQueImposibilita(reserva)).thenReturn(true);
 		
-		propietario.encolarReserva(reserva3);
+		propietario.agregarReservaAConfirmadas(reserva2);
+		propietario.encolarReserva(reserva);
 		
 		HashMap<Reserva, ArrayList<Reserva>> reservasConfirmadasYEncoladas = propietario.getReservasConfirmadasYEncoladas();
 		
-		assertEquals(reservasConfirmadasYEncoladas,reservasEsperadas);
+		assertEquals(reservasEsperadas,reservasConfirmadasYEncoladas);
 	}
 	
 	@Test
-	void quieroReservarCuandoHayDisponibilidad() {
+	void iniciarTramiteDeReservaCuandoHayDisponibilidad() {
 		
 		when(reserva.getInmueble()).thenReturn(inmueble);
-		when(inmueble.estaDisponible(diasDeReserva)).thenReturn(true);
 		when(reserva.getFechas()).thenReturn(diasDeReserva);
+		when(inmueble.estaDisponible(diasDeReserva)).thenReturn(true);
 		when(inmueble.getPropietario()).thenReturn(propietario);
 		when(reserva.getDatosDePago()).thenReturn(datosDePago);
 		when(datosDePago.sonDatosAdmitidosPara(inmueble)).thenReturn(true);
-		
-		
 		inquilino.iniciarTramiteDeReserva(reserva);
-		ArrayList<Reserva> reservasPendientesDeConfirmacion = propietario.getReservasPendientes();
+		ArrayList<Reserva> reservasConfirmadas = propietario.getReservasConfirmadas();
 		
-		
-		assertEquals(reservas, reservasPendientesDeConfirmacion);
+		assertEquals(reservas, reservasConfirmadas);
 		
 	}
 	
 	@Test
-	void quieroReservarCuandoNoHayDisponibilidadTestCase(){
-		
+	void IniciarTramiteDeReservaCuandoNoHayDisponibilidadTestCase(){
+		when(reserva.getFechas()).thenReturn(diasDeReserva);
+		when(reserva.getInmueble()).thenReturn(inmueble);
+		when(inmueble.getPropietario()).thenReturn(propietario);
 		when(inmueble.estaDisponible(diasDeReserva)).thenReturn(false);
-		when (reserva2.esReservaQueImposibilita(reserva3)).thenReturn(true);
-		
+		when(reserva2.esReservaQueImposibilita(reserva)).thenReturn(true);
 		
 		HashMap<Reserva, ArrayList<Reserva>> reservasEsperadas = new HashMap<Reserva, ArrayList<Reserva>>();
-		reservas.add(reserva3);
 		reservasEsperadas.put(reserva2, reservas);
+		propietario.agregarReservaAConfirmadas(reserva2);
+		inquilino.iniciarTramiteDeReserva(reserva);
 		
+		HashMap<Reserva, ArrayList<Reserva>> reservasConfirmadasYEncoladas = propietario.getReservasConfirmadasYEncoladas();
+		
+		assertEquals(reservasEsperadas,reservasConfirmadasYEncoladas);
+		
+	}
+	
+	@Test
+	void agregarColaDeReservasTestCase() {
+		when(reserva.getInmueble()).thenReturn(inmueble);
+		when(inmueble.getPropietario()).thenReturn(propietario);
+		
+		propietario.agregarColaDeReservas(reserva,reservas);
+		
+		HashMap<Reserva, ArrayList<Reserva>> reservasEsperadas = new HashMap<Reserva, ArrayList<Reserva>>();
+		reservasEsperadas.put(reserva, reservas);
+
 		HashMap<Reserva, ArrayList<Reserva>> reservasConfirmadasYEncoladas = propietario.getReservasConfirmadasYEncoladas();
 		
 		assertEquals(reservasConfirmadasYEncoladas,reservasEsperadas);
 		
+	}
+	@Test
+	void iniciarTramiteParaElPrimeroDeLaFila() {
+		when(reserva2.getInmueble()).thenReturn(inmueble);
+		when(inmueble.getPropietario()).thenReturn(propietario);
+		
+		when(reserva.getInmueble()).thenReturn(inmueble);
+		when(reserva.getFechas()).thenReturn(diasDeReserva);
+		when(inmueble.getPropietario()).thenReturn(propietario);
+		when(inmueble.estaDisponible(diasDeReserva)).thenReturn(true);
+		
+		reservas.add(reserva3);
+		propietario.agregarReservaAConfirmadas(reserva2);
+		propietario.agregarColaDeReservas(reserva2, reservas);
+		
+		propietario.iniciarTramiteParaElPrimeroDeLaFila(reserva2);
+		
+		HashMap<Reserva, ArrayList<Reserva>> reservasEsperadas = new HashMap<Reserva, ArrayList<Reserva>>();
+		ArrayList<Reserva> encoladas = new ArrayList<Reserva>();
+		encoladas.add(reserva3);
+		reservasEsperadas.put(reserva2, encoladas);
+		reservasEsperadas.put(reserva, encoladas);
+		
+		assertEquals(reservasEsperadas, propietario.getReservasConfirmadasYEncoladas());
+		
+	}
+	
+	@Test
+	void eliminarReserva() {
+		when(reserva2.getInmueble()).thenReturn(inmueble);
+		when(inmueble.getPropietario()).thenReturn(propietario);
+		
+		when(reserva.getInmueble()).thenReturn(inmueble);
+		when(reserva.getFechas()).thenReturn(diasDeReserva);
+		when(inmueble.getPropietario()).thenReturn(propietario);
+		when(inmueble.estaDisponible(diasDeReserva)).thenReturn(true);
+		
+		propietario.agregarReservaAConfirmadas(reserva2);
+		propietario.agregarColaDeReservas(reserva2, reservas);
+		propietario.eliminarReserva(reserva2);
+		HashMap<Reserva, ArrayList<Reserva>> reservasConfirmadas = propietario.getReservasConfirmadasYEncoladas();
+		assertFalse(reservasConfirmadas.containsKey(reserva2));
+		assertTrue(reservasConfirmadas.containsKey(reserva));
 	}
 	
 

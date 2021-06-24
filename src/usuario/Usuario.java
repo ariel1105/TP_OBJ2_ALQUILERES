@@ -27,6 +27,8 @@ public class Usuario implements PuntuablePorEstadia {
 	private ArrayList<Inmueble> inmuebles;
 	private ArrayList<Reserva>reservasPendientesDeConfirmacion;
 	private ArrayList<Reserva>reservasConfirmadasPropietario;
+
+	private LocalDate fechaActual;
 	private PerfilInquilino perfilInquilino;
 	private PerfilPropietario perfilPropietario;
 	private HashMap<Reserva, ArrayList<Reserva>> reservasConfirmadasYEncoladas;
@@ -40,7 +42,6 @@ public class Usuario implements PuntuablePorEstadia {
 		this.telefono = telefono;
 		this.inmuebles = new ArrayList<Inmueble>();
 		this.reservasPendientesDeConfirmacion = new ArrayList<Reserva>();
-		this.reservasConfirmadasPropietario = new ArrayList<Reserva>();
 		this.reservasConfirmadasYEncoladas = new HashMap<Reserva, ArrayList<Reserva>>();
 		this.admin = admin;
 		this.aplicacionMovil= aplicacion;
@@ -51,7 +52,9 @@ public class Usuario implements PuntuablePorEstadia {
 	}
 
 	public ArrayList<Reserva> getReservasConfirmadas() {
-		return this.reservasConfirmadasPropietario;
+		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+		reservas.addAll(reservasConfirmadasYEncoladas.keySet());
+		return reservas;
 	}
 	
 	public String getTelefono() {
@@ -110,8 +113,14 @@ public class Usuario implements PuntuablePorEstadia {
 		if (this.reservasPendientesDeConfirmacion.contains(reserva)) {
 			reserva.confirmarseEn(sitio);
 			reserva.getInquilino().recibirConfirmacion(reserva);
+			this.agregarReservaAConfirmadas(reserva);
 			this.reservasPendientesDeConfirmacion.remove(reserva);
 		}
+	}
+
+	public void agregarReservaAConfirmadas(Reserva reserva) {
+		ArrayList<Reserva> sinEncoladas = new ArrayList<Reserva>();
+		this.reservasConfirmadasYEncoladas.put(reserva, sinEncoladas);
 	}
 
 	public void recibirConfirmacion(Reserva reserva) {
@@ -175,62 +184,68 @@ public class Usuario implements PuntuablePorEstadia {
 
 
 	public Reserva obtenerReservaQueImposibilitaReserva(Reserva reserva, ArrayList<Reserva> reservas) {
-		// TODO Auto-generated method stub
 		Reserva reservaEsperada = null;
 		int i = 0;
 		while(i < reservas.size()) {
 			if (reservas.get(i).esReservaQueImposibilita(reserva)){
-				reserva = reservas.get(i);
+				reservaEsperada = reservas.get(i);
 			}
 			i++;
 		}
-		return reserva;
+		return reservaEsperada;
 	}
 
-	public ArrayList<Reserva> obtenerReservasEncoladas(Reserva reserva) {
-		// TODO Auto-generated method stub
-		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
-		reservas.addAll(reservasConfirmadasYEncoladas.keySet());
+	public ArrayList<Reserva> obtenerReservasEncoladasParaAgregar(Reserva reserva) {
+		ArrayList<Reserva> confirmadas = this.getReservasConfirmadas();
+		Reserva reservaQueImposibilita = this.obtenerReservaQueImposibilitaReserva(reserva, confirmadas);
 		
-		Reserva reservaEnLaQueSeEncolara = 
-			this.obtenerReservaQueImposibilitaReserva(reserva, reservas);
-
-			return reservasConfirmadasYEncoladas.get(reservaEnLaQueSeEncolara);
+		ArrayList<Reserva> colaDeReservas = reservasConfirmadasYEncoladas.get(reservaQueImposibilita);
+		
+		return colaDeReservas;
 	}
 
 	public void encolarReserva(Reserva reserva) {
-		// TODO Auto-generated method stub
-		this.obtenerReservasEncoladas(reserva).add(reserva);
+		
+		this.obtenerReservasEncoladasParaAgregar(reserva).add(reserva);
 	}
 
 	public void iniciarTramiteDeReserva(Reserva reserva) {
-		// TODO Auto-generated method stub
+		Usuario propietario = reserva.getInmueble().getPropietario();
 		if(reserva.getInmueble().estaDisponible(reserva.getFechas())){
-			this.solicitarReserva(reserva);
+			propietario.agregarReservaAConfirmadas(reserva);
 		}
 		else {
-			this.encolarReserva(reserva);
+			propietario.encolarReserva(reserva);
 		}	
 	}
 	
 	public void iniciarTramiteParaElPrimeroDeLaFila(Reserva reserva) {
-		
+		Usuario propietario = reserva.getInmueble().getPropietario();
 		Reserva reservaATramitar = reservasConfirmadasYEncoladas.get(reserva).get(0);
+		iniciarTramiteDeReserva(reservaATramitar);
+		
 		ArrayList <Reserva> reservasAActualizar = this.reservasConfirmadasYEncoladas.get(reserva);
 		reservasAActualizar.remove(0);
 		
-		iniciarTramiteDeReserva(reservaATramitar);
-		actualizarReservasEncoladas(reservasAActualizar);
-	}
-	
-	public void actualizarReservasEncoladas(ArrayList<Reserva> reservas) {
+		propietario.agregarColaDeReservas(reservaATramitar,reservasAActualizar);
 		
-		for(int i=0; i<reservas.size(); i++) {
-			Usuario inquilino = reservas.get(i).getInquilino();
-			inquilino.iniciarTramiteDeReserva(reservas.get(i));
-		}
 	}
+
+	public void agregarColaDeReservas(Reserva reservaATramitar, ArrayList<Reserva> reservasEncoladas) {
+		// TODO Auto-generated method stub
+		Usuario propietario = reservaATramitar.getInmueble().getPropietario();
+		
+		propietario.getReservasConfirmadasYEncoladas().put(reservaATramitar,reservasEncoladas);
+		
+	}
+
+	public void eliminarReserva(Reserva reserva) {
+		this.iniciarTramiteParaElPrimeroDeLaFila(reserva);
+		this.reservasConfirmadasYEncoladas.remove(reserva);
+	}
+
 	
+
 	
 	
 }

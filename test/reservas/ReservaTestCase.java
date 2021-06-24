@@ -38,15 +38,14 @@ class ReservaTestCase {
 	Sitio sitio;
 	DatosDePago datosDePago;
 	Usuario inquilino;
-	Usuario dueño;
-	Estado estado;
+	Usuario propietario;
 	PoliticaDeCancelacion politica;
 	ArrayList<Reserva> reservas;
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		inquilino = mock(Usuario.class);
-		dueño = mock(Usuario.class);
+		propietario = mock(Usuario.class);
 		dia = mock(LocalDate.class);
 		dia2 = mock(LocalDate.class);
 		dia3 = mock(LocalDate.class);
@@ -57,14 +56,13 @@ class ReservaTestCase {
 		fechas = new ArrayList<LocalDate>();
 		fechas.add(dia3);
 		fechas.add(dia4);
-		estado = mock(Estado.class);
 		inmueble = mock(Inmueble.class);
 		datosDePago = mock(DatosDePago.class);
 		sitio = mock(Sitio.class);
 		politica = mock(PoliticaDeCancelacion.class);
 		reservas = new ArrayList<Reserva>();
 		reserva = new Reserva(inquilino, inmueble, dias, datosDePago, politica);
-		reserva2 = new Reserva(dueño,inmueble,fechas,datosDePago,politica);
+		reserva2 = new Reserva(propietario,inmueble,fechas,datosDePago,politica);
 		reservas.add(reserva);
 		reservas.add(reserva2);
 	}
@@ -76,11 +74,6 @@ class ReservaTestCase {
 		verify(sitio).enviarMailDeConfirmacion(reserva);
 	}
 	
-	@Test 
-	void testDiaNoExisteEnReservaPorqueNoEstaConfirmada() {
-		Boolean diaOcupado = reserva.ocupaFecha(dia);
-		assertFalse(diaOcupado);
-	}
 	
 	@Test
 	void testDiaOcupado() {
@@ -97,13 +90,7 @@ class ReservaTestCase {
 		assertEquals(1000d, monto);
 	}
 	
-	@Test
-	void testDiaDesocupadoPorCancelacion() {
-		reserva.confirmarseEn(sitio);
-		reserva.cancelar();
-		Boolean diaOcupado = reserva.ocupaFecha(dia);
-		assertFalse(diaOcupado);
-	}
+	
 	
 	@Test 
 	void testFechaInicial() {
@@ -134,9 +121,9 @@ class ReservaTestCase {
 	
 	@Test
 	void testAbonarAlDueñoCantidad() {
-		when(inmueble.getPropietario()).thenReturn(dueño);
+		when(inmueble.getPropietario()).thenReturn(propietario);
 		reserva.confirmarPagoPor(100d);
-		verify(datosDePago).abonar(dueño, 100d);
+		verify(datosDePago).abonar(propietario, 100d);
 	}
 	
 	@Test
@@ -164,5 +151,10 @@ class ReservaTestCase {
 		assertTrue(reserva.esReservaQueImposibilita(reserva2));
 	}
 	
-	
+	@Test
+	void cancelarReserva() {
+		when(inmueble.getPropietario()).thenReturn(propietario);
+		reserva.cancelar();
+		verify(propietario).eliminarReserva(reserva);
+	}
 }
