@@ -341,6 +341,19 @@ class UsuarioTestCase {
 		
 	}
 	
+	@Test
+	void tieneDisponible() {
+		when(inmueble.getPropietario()).thenReturn(propietario);
+		when(reserva.algunaDeLasFechasEstaOcupada(diasDeReserva)).thenReturn(true);
+		when(reserva2.algunaDeLasFechasEstaOcupada(diasDeReserva)).thenReturn(false);
+		
+		propietario.agregarReservaAConfirmadas(reserva);
+		propietario.agregarReservaAConfirmadas(reserva2);
+		
+		boolean estaDisp = propietario.tieneDisponible(inmueble, diasDeReserva);
+		
+		assertFalse(estaDisp);
+	}
 	
 
 }

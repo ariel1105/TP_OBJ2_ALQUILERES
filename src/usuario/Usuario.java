@@ -223,6 +223,18 @@ public class Usuario implements PuntuablePorEstadia {
 		
 	}
 
+	public boolean tieneDisponible(Inmueble inmueble, ArrayList<LocalDate> fechas) {
+		// TODO Auto-generated method stub
+		Usuario propietario = inmueble.getPropietario();
+		ArrayList<Reserva> reservasConfirmadas= propietario.getReservasConfirmadas();
+		boolean resultado = true;
+		
+		for(int i=0; i<reservasConfirmadas.size();i++) {
+			resultado = resultado && !reservasConfirmadas.get(i).algunaDeLasFechasEstaOcupada(fechas);
+		}
+		return resultado;
+	}
+
 	
 
 	

@@ -124,7 +124,7 @@ public class Inmueble implements PuntuablePorEstadia{
 	}
 
 	public boolean estaDisponible(ArrayList<LocalDate> fechas) {
-		return true;
+		return this.getPropietario().tieneDisponible(this, fechas);
 	}
 
 	public int getCapacidad() {
