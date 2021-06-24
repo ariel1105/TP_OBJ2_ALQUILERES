@@ -63,7 +63,6 @@ class UsuarioTestCase {
 		galeriaDeInmuebles.add(inmueble);
 		diasDeReserva.add(fecha);
 		reservas.add(reserva);
-		propietario.getReservasConfirmadasYEncoladas().put(reserva2, reservas);
 	}
 
 	@Test
@@ -228,7 +227,7 @@ class UsuarioTestCase {
 	}
 	
 	@Test
-	void obtenerReservaDeInmueble_ConFechas_() {
+	void obtenerReservaQueImposibilita() {
 		reservas.add(reserva2);
 		when(reserva2.esReservaQueImposibilita(reserva)).thenReturn(true);
 		
@@ -240,59 +239,76 @@ class UsuarioTestCase {
 	@Test
 	void obtenerReservasEncoladas() {
 		
-		when (reserva2.esReservaQueImposibilita(reserva3)).thenReturn(true);
 		
-		ArrayList<Reserva> reservasEncoladas = propietario.obtenerReservasEncoladas(reserva3);
+		propietario.agregarReservaAConfirmadas(reserva3);
+		reservas.remove(reserva);
+		when(reserva3.esReservaQueImposibilita(reserva)).thenReturn(true);
+		ArrayList<Reserva> reservasEncoladas = propietario.obtenerReservasEncoladasParaAgregar(reserva);
 		
-		assertEquals(reservasEncoladas,reservas);
+		assertEquals(reservas,reservasEncoladas);
 	}
 	
 	@Test
 	void encolarReserva() {
 		
 		HashMap<Reserva, ArrayList<Reserva>> reservasEsperadas = new HashMap<Reserva, ArrayList<Reserva>>();
-		reservas.add(reserva3);
 		reservasEsperadas.put(reserva2, reservas);
 		
-		when (reserva2.esReservaQueImposibilita(reserva3)).thenReturn(true);
+		when (reserva2.esReservaQueImposibilita(reserva)).thenReturn(true);
 		
-		propietario.encolarReserva(reserva3);
+		propietario.agregarReservaAConfirmadas(reserva2);
+		propietario.encolarReserva(reserva);
 		
 		HashMap<Reserva, ArrayList<Reserva>> reservasConfirmadasYEncoladas = propietario.getReservasConfirmadasYEncoladas();
 		
-		assertEquals(reservasConfirmadasYEncoladas,reservasEsperadas);
+		assertEquals(reservasEsperadas,reservasConfirmadasYEncoladas);
 	}
 	
 	@Test
-	void quieroReservarCuandoHayDisponibilidad() {
+	void iniciarTramiteDeReservaCuandoHayDisponibilidad() {
 		
 		when(reserva.getInmueble()).thenReturn(inmueble);
-		when(inmueble.estaDisponible(diasDeReserva)).thenReturn(true);
 		when(reserva.getFechas()).thenReturn(diasDeReserva);
+		when(inmueble.estaDisponible(diasDeReserva)).thenReturn(true);
 		when(inmueble.getPropietario()).thenReturn(propietario);
 		when(reserva.getDatosDePago()).thenReturn(datosDePago);
 		when(datosDePago.sonDatosAdmitidosPara(inmueble)).thenReturn(true);
-		
-		
 		inquilino.iniciarTramiteDeReserva(reserva);
-		ArrayList<Reserva> reservasPendientesDeConfirmacion = propietario.getReservasPendientes();
+		ArrayList<Reserva> reservasConfirmadas = propietario.getReservasConfirmadas();
 		
-		
-		assertEquals(reservas, reservasPendientesDeConfirmacion);
+		assertEquals(reservas, reservasConfirmadas);
 		
 	}
 	
 	@Test
-	void quieroReservarCuandoNoHayDisponibilidadTestCase(){
-		
+	void IniciarTramiteDeReservaCuandoNoHayDisponibilidadTestCase(){
+		when(reserva.getFechas()).thenReturn(diasDeReserva);
+		when(reserva.getInmueble()).thenReturn(inmueble);
+		when(inmueble.getPropietario()).thenReturn(propietario);
 		when(inmueble.estaDisponible(diasDeReserva)).thenReturn(false);
-		when (reserva2.esReservaQueImposibilita(reserva3)).thenReturn(true);
-		
+		when(reserva2.esReservaQueImposibilita(reserva)).thenReturn(true);
 		
 		HashMap<Reserva, ArrayList<Reserva>> reservasEsperadas = new HashMap<Reserva, ArrayList<Reserva>>();
-		reservas.add(reserva3);
 		reservasEsperadas.put(reserva2, reservas);
+		propietario.agregarReservaAConfirmadas(reserva2);
+		inquilino.iniciarTramiteDeReserva(reserva);
 		
+		HashMap<Reserva, ArrayList<Reserva>> reservasConfirmadasYEncoladas = propietario.getReservasConfirmadasYEncoladas();
+		
+		assertEquals(reservasEsperadas,reservasConfirmadasYEncoladas);
+		
+	}
+	
+	@Test
+	void agregarColaDeReservasTestCase() {
+		when(reserva.getInmueble()).thenReturn(inmueble);
+		when(inmueble.getPropietario()).thenReturn(propietario);
+		
+		propietario.agregarColaDeReservas(reserva,reservas);
+		
+		HashMap<Reserva, ArrayList<Reserva>> reservasEsperadas = new HashMap<Reserva, ArrayList<Reserva>>();
+		reservasEsperadas.put(reserva, reservas);
+
 		HashMap<Reserva, ArrayList<Reserva>> reservasConfirmadasYEncoladas = propietario.getReservasConfirmadasYEncoladas();
 		
 		assertEquals(reservasConfirmadasYEncoladas,reservasEsperadas);
@@ -301,22 +317,30 @@ class UsuarioTestCase {
 	
 	@Test
 	void iniciarTramiteParaElPrimeroDeLaFila() {
+		when(reserva2.getInmueble()).thenReturn(inmueble);
+		when(inmueble.getPropietario()).thenReturn(propietario);
+		
 		when(reserva.getInmueble()).thenReturn(inmueble);
-		when(inmueble.estaDisponible(diasDeReserva)).thenReturn(true);
 		when(reserva.getFechas()).thenReturn(diasDeReserva);
 		when(inmueble.getPropietario()).thenReturn(propietario);
-		when(reserva.getDatosDePago()).thenReturn(datosDePago);
-		when(datosDePago.sonDatosAdmitidosPara(inmueble)).thenReturn(true);
+		when(inmueble.estaDisponible(diasDeReserva)).thenReturn(true);
 		
+		reservas.add(reserva3);
+		propietario.agregarReservaAConfirmadas(reserva2);
+		propietario.agregarColaDeReservas(reserva2, reservas);
 		
-		inquilino.iniciarTramiteDeReserva(reserva);
-		ArrayList<Reserva> reservasPendientesDeConfirmacion = propietario.getReservasPendientes();
+		propietario.iniciarTramiteParaElPrimeroDeLaFila(reserva2);
 		
+		HashMap<Reserva, ArrayList<Reserva>> reservasEsperadas = new HashMap<Reserva, ArrayList<Reserva>>();
+		ArrayList<Reserva> encoladas = new ArrayList<Reserva>();
+		encoladas.add(reserva3);
+		reservasEsperadas.put(reserva2, encoladas);
+		reservasEsperadas.put(reserva, encoladas);
 		
-		assertEquals(reservas, reservasPendientesDeConfirmacion);
+		assertEquals(reservasEsperadas, propietario.getReservasConfirmadasYEncoladas());
 		
-		propietario.iniciarTramiteParaElPrimeroDeLaFila(reserva3);
 	}
+	
 	
 
 }
