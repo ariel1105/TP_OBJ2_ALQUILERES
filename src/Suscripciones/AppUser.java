@@ -7,7 +7,7 @@ import java.util.Observer;
 
 import inmueble.Inmueble;
 
-public class AppUser implements  INotify{
+public class AppUser implements INotify, PopUpWindow{
 	
 	private List<Inmueble> inmueblesDeInteres;
 	
@@ -20,27 +20,25 @@ public class AppUser implements  INotify{
 			
 			observable.addObserver(this);
 		}
-	
-		
-		
 	}
-	
 		@Override
 	public void popUp(String message, String color, int fontSize) {
 		// TODO Auto-generated method stub
 		System.out.println(message);
 	}
+		
 		@Override
 	public  List<Inmueble> getInmueblesConInteres() {
 		// TODO Auto-generated method stub
 		return inmueblesDeInteres;
 	}
 
-
-	@Override
-	public void publish(String string) {
+		@Override
+	public void update(Inmueble inmueble,String evento) {
 		// TODO Auto-generated method stub
-		
+		if (evento.equals("Cancelacion")){
+		this.popUp("El inmueble  "+ inmueble.getTipoDeInmueble() + " que te interesa se ha liberado! Corre a reservarlo!.", "Red", 2);
+		}
 	}
 
 

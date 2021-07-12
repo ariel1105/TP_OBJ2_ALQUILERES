@@ -3,6 +3,8 @@ package inmueble;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import Categorias.Categoria;
 import Suscripciones.INotify;
@@ -13,7 +15,7 @@ import politicasDeCancelacion.PoliticaDeCancelacion;
 import usuario.PuntuablePorEstadia;
 import usuario.Usuario;
 
-public class Inmueble implements PuntuablePorEstadia{
+public class Inmueble extends Observable implements PuntuablePorEstadia {
 
 	private Usuario propietario;
 	private String tipoDeInmueble;
@@ -34,8 +36,8 @@ public class Inmueble implements PuntuablePorEstadia{
 	private double precioActual;	
 	
 	public List <INotify> listenersPaginas;
-	
-	public Inmueble(Usuario propietario,  String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion,
+	public List <Observer> observers;
+	public Inmueble(Usuario propietario,  String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion, ArrayList<String> servicios,
 			 int capacidad, ArrayList<Foto> fotos, Hora horarioCheckIn,
 			Hora horarioCheckOut, ArrayList<FormaDePago> formasDePago, double precio, PoliticaDeCancelacion politicaDeCancelacion) {
 		this.propietario = propietario;
@@ -44,7 +46,7 @@ public class Inmueble implements PuntuablePorEstadia{
 		this.pais = pais;
 		this.ciudad = ciudad;
 		this.direccion = direccion;
-		this.servicios = new ArrayList<String>();
+		this.servicios = servicios;
 		this.capacidad = capacidad;
 		this.fotos = fotos;
 		this.horarioCheckIn = horarioCheckIn;
@@ -155,21 +157,15 @@ public class Inmueble implements PuntuablePorEstadia{
 
 	public void cancelarReserva() {
 		// TODO Auto-generated method stub
-		this.notificarCancelado();
+		this.notificar("Cancelacion");
 	}
 
-	public void notificarCancelado() {
-		// TODO Auto-generated method stub
-		for (INotify listener : this.getListenersPaginas()) {
-		listener.popUp("El/la "+this.getTipoDeInmueble()+ " que te interesa se ha liberado! Corre a reservarlo!", "Rojo", 3);
-	}
-	}
+
 
 	public Double precioParaRango(LocalDate fechaInicio, LocalDate fechaFin) {
 		return 0d;
 	}
 
-	
 
 	public void cambiarPrecio() {
 		// TODO Auto-generated method stub
@@ -182,21 +178,22 @@ public class Inmueble implements PuntuablePorEstadia{
 		
 		if (precioActual < precioAnterior) {
 		
-		this.notificarBajaDePrecio();
+		this.notificar("Baja de precio");
 		}
 		
 	} 
 
-	public void notificarBajaDePrecio() {
+	public void notificar(String evento) {
 		// TODO Auto-generated method stub
-		for (INotify listener : this.getListenersPaginas()) {
-		listener.publish("No te pierdas esta oferta: Un inmueble " + this.getTipoDeInmueble()+ " a tan solo " + this.getPrecioActual() + " pesos!");
-		
-		}
-		
+		this.getListenersPaginas().stream().
+		forEach(listener -> listener.update(this, evento));
+
 	}
 
-	private Double getPrecioActual() {
+
+	
+
+	public Double getPrecioActual() {
 		// TODO Auto-generated method stub
 		return precioActual;
 	}
@@ -222,6 +219,11 @@ public class Inmueble implements PuntuablePorEstadia{
 
 	public ArrayList<String> getServicios() {
 		return servicios;
+	}
+
+	public void agregarServicios(List<String> intersect) {
+		// TODO Auto-generated method stub
+		servicios.addAll(intersect);
 	}
 
 }

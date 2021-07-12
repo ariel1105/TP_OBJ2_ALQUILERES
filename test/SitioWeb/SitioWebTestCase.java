@@ -61,7 +61,7 @@ class SitioWebTestCase {
 		usuario=new Usuario("Lautaro", "lautaro@gmail.com", "42500197", admin, trivagoMobile);
 		usuario.registrarse(sitio1);
 		usuariosRegistrados.add(usuario);
-		inmueble1= new Inmueble(null, "Depto", 0, null, null, null, 0, null, null, null, null, 50000.0, null);
+		inmueble1= new Inmueble(null, "Depto", 0, null, null, null, servicios, 0, null, null, null, null, 50000.0, null);
 		inmueble2= mock(Inmueble.class);
 		inmuebles.add(inmueble1);
 		inmuebles.add(inmueble2);
