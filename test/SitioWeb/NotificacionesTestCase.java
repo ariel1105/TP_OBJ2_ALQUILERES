@@ -19,7 +19,14 @@ class NotificacionesTestCase {
 
 	private INotify sitioWeb;
 	private INotify appUser;
-	private Inmueble inmueble;
+	private Inmueble inmuebleS1;
+	private Inmueble inmuebleS2;
+	private Inmueble inmuebleS3;
+	private Inmueble inmuebleS4;
+	private Inmueble inmuebleA1;
+	private Inmueble inmuebleA2;
+	private Inmueble inmuebleA3;
+	private Inmueble inmuebleA4;
 	private List<Inmueble> inmuebles= new ArrayList<Inmueble>();
 	
 	
@@ -28,8 +35,8 @@ class NotificacionesTestCase {
 
 
 		
-		inmueble= new Inmueble(null, "Duplex", 0, null, null, null, null, 0, null, null, null, null, 0, null);
-		inmuebles.add(inmueble);
+		inmuebleS1= new Inmueble(null, "Duplex", 0, null, null, null, null, 0, null, null, null, null, 0, null);
+		inmuebles.add(inmuebleS1);
 		sitioWeb= new SitioWeb(inmuebles);
 		appUser= new AppUser(inmuebles);
 	}
@@ -37,9 +44,9 @@ class NotificacionesTestCase {
 	
 	@Test
 	void test() {
-		assertEquals(inmueble.getListenersPaginas().size(), 2);
-		inmueble.notificar("Cancelacion");
-		inmueble.notificar("Baja de precio");
+		assertEquals(inmuebleS1.getListenersPaginas().size(), 2);
+		inmuebleS1.notificar("Cancelacion");
+		inmuebleS1.notificar("Baja de precio");
 		assertEquals(sitioWeb.getInmueblesConInteres(), inmuebles);
 		assertEquals(appUser.getInmueblesConInteres(), inmuebles);
 		

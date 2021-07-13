@@ -15,7 +15,7 @@ import politicasDeCancelacion.PoliticaDeCancelacion;
 import usuario.PuntuablePorEstadia;
 import usuario.Usuario;
 
-public class Inmueble extends Observable implements PuntuablePorEstadia {
+public class Inmueble  implements PuntuablePorEstadia {
 
 	private Usuario propietario;
 	private String tipoDeInmueble;
@@ -34,9 +34,8 @@ public class Inmueble extends Observable implements PuntuablePorEstadia {
 	private PoliticaDeCancelacion politicaDeCancelacion;
 	private PerfilInmueble perfil;
 	private double precioActual;	
-	
 	public List <INotify> listenersPaginas;
-	public List <Observer> observers;
+	
 	public Inmueble(Usuario propietario,  String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion, ArrayList<String> servicios,
 			 int capacidad, ArrayList<Foto> fotos, Hora horarioCheckIn,
 			Hora horarioCheckOut, ArrayList<FormaDePago> formasDePago, double precio, PoliticaDeCancelacion politicaDeCancelacion) {
@@ -190,9 +189,6 @@ public class Inmueble extends Observable implements PuntuablePorEstadia {
 
 	}
 
-
-	
-
 	public Double getPrecioActual() {
 		// TODO Auto-generated method stub
 		return precioActual;
@@ -212,18 +208,10 @@ public class Inmueble extends Observable implements PuntuablePorEstadia {
 		this.perfil.recibirPuntuacion(categoria, puntos);
 	}
 
-	public void agregarServicio(String string) {
-		// TODO Auto-generated method stub
-		this.servicios.add(string);
-	}
 
 	public ArrayList<String> getServicios() {
 		return servicios;
 	}
 
-	public void agregarServicios(List<String> intersect) {
-		// TODO Auto-generated method stub
-		servicios.addAll(intersect);
-	}
 
 }

@@ -56,7 +56,7 @@ class Buscador2TestCase {
 		buscadorConPrecioMinimoYMaximo= new BuscadorCompuesto("Carilo", LocalDate.of(2019,8,31), LocalDate.of(2019,9,15));
 		//buscadorConTodosLosParametros= new BuscadorCompuesto("Carilo", LocalDate.of(2019,8,31), LocalDate.of(2019,9,15), 8, 30000.0, 60000.0);
 		buscadorConTodosLosParametros= new BuscadorCompuesto("Carilo", LocalDate.of(2019,8,31), LocalDate.of(2019,9,15));
-		buscadorFechaEntrada= new BuscadorFechaEntrada(LocalDate.of(2019,8,31), LocalDate.of(2019,9,15));
+		buscadorFechaEntrada= new BuscadorFechas(LocalDate.of(2019,8,31), LocalDate.of(2019,9,15));
 		
 		buscadorSimple= new BuscadorCompuesto("Carilo", LocalDate.of(2019,8,31), LocalDate.of(2019,9,15));
 		buscadorHuespedes= new BuscadorHuespedes(8);

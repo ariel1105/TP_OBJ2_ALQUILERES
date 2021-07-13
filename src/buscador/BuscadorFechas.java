@@ -6,13 +6,13 @@ import java.util.stream.Collectors;
 
 import inmueble.Inmueble;
 
-public class BuscadorFechaEntrada implements IBuscador {
+public class BuscadorFechas implements IBuscador {
 	
 	private LocalDate fechaEntrada;
 	private LocalDate fechaSalida;
 	
 
-	public BuscadorFechaEntrada(LocalDate fechaEntrada, LocalDate fechaSalida) {
+	public BuscadorFechas(LocalDate fechaEntrada, LocalDate fechaSalida) {
 		// TODO Auto-generated constructor stub
 		
 		this.fechaEntrada= fechaEntrada;

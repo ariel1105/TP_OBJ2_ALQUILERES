@@ -17,7 +17,7 @@ public class BuscadorCompuesto implements IBuscador {
 		if(this.esAdmitida(ciudad, fechaEntrada, fechaSalida)) {
 
 			this.agregarBuscador(new BuscadorCiudad(ciudad));
-			this.agregarBuscador(new BuscadorFechaEntrada(fechaEntrada, fechaSalida));
+			this.agregarBuscador(new BuscadorFechas(fechaEntrada, fechaSalida));
 			//this.agregarParametrosOpcionalesSi(cantidadHuespedes, precioMinimo, precioMaximo);
 		}
 					
