@@ -47,7 +47,7 @@ class PeriodoPrecioTestCase {
 		when(fecha1.getDayOfMonth()).thenReturn(1);
 		when(fecha1.getMonthValue()).thenReturn(2);
 		when(fecha1.getYear()).thenReturn(2020);
-
+		periodoPrecio.agregarFecha(fecha4);
 		
 		assertTrue(periodoPrecio.perteneceLaFecha(fecha4));
 		

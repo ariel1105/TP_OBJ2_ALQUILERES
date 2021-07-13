@@ -1,10 +1,10 @@
 package reservas;
 
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 import inmueble.DatosDePago;
-import inmueble.FormaDePago;
 import inmueble.Inmueble;
 import politicasDeCancelacion.PoliticaDeCancelacion;
 import sitio.Sitio;
@@ -15,7 +15,6 @@ public class Reserva {
 	private Inmueble inmueble;
 	private ArrayList<LocalDate> fechas;
 	private DatosDePago datosDePago;
-	private Estado estado;
 	private Usuario inquilino;
 	private PoliticaDeCancelacion politicaDeCancelacion;
 	
@@ -26,27 +25,25 @@ public class Reserva {
 		this.fechas = dias;
 		this.datosDePago = f;
 		this.politicaDeCancelacion = p;
-		this.estado = new PendienteDeConfirmacion();
 	}
 
 	
 	public void confirmarseEn(Sitio sitio) {
 		sitio.enviarMailDeConfirmacion(this);
-		this.estado = new Confirmada();
 	}
 	
 	public Usuario getInquilino() {
 		return this.inquilino;
 	}
 
-	public Estado getEstado() {
-		return this.estado;
-	}
+	
 
 	public Boolean ocupaFecha(LocalDate dia) {
-		return (this.estado.fechaOcupadaEn(dia, this));
+		return (this.fechas.contains(dia));
 		
 	}
+
+
 
 	public ArrayList<LocalDate> getFechas() {
 		return this.fechas;
@@ -59,7 +56,7 @@ public class Reserva {
 	}
 	
 	public void cancelar() {
-		this.estado = new Cancelada();
+		this.getInmueble().getPropietario().eliminarReserva(this);
 	}
 
 
@@ -102,5 +99,23 @@ public class Reserva {
 	public DatosDePago getDatosDePago() {
 		return this.datosDePago;
 	}
+
+
+	public boolean algunaDeLasFechasEstaOcupada(ArrayList<LocalDate> fechas) {
+		// TODO Auto-generated method stub
+		boolean resultado = false;
+		for(int i = 0; i < fechas.size(); i++){
+			resultado = resultado || this.ocupaFecha(fechas.get(i));
+		}
+		return resultado;
+	}
+
+
+	public boolean esReservaQueImposibilita(Reserva reserva) {
+		// TODO Auto-generated method stub
+		return (this.getInmueble() == reserva.getInmueble() && 
+				this.algunaDeLasFechasEstaOcupada(reserva.getFechas()));
+	}
+
 
 }

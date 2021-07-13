@@ -1,12 +1,6 @@
 package sitio;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Observable;
-import java.util.function.BooleanSupplier;
-import java.util.stream.Collectors;
 
 import Categorias.Categoria;
 import Suscripciones.SitioWeb;
@@ -64,6 +58,7 @@ public class Sitio {
 		return usuariosRegistrados.contains(usuario);
 	}
 	
+
 
 	public void publicar(Inmueble inmueble, Usuario propietario) {
 		if (this.esInmuebleValido(inmueble)) {
@@ -160,4 +155,5 @@ public class Sitio {
 	public ArrayList<String> getServicios() {
 		return servicios;
 	}
+
 }

@@ -44,14 +44,12 @@ public class Administrador  {
 		// TODO Auto-generated method stub
 		List <Usuario> usuarios= this.usuariosRank(sitio);
 		List<Usuario> topTen= new ArrayList<Usuario>();
-		int acumulador= 0;
 		
 		for(int i=0; i<usuarios.size(); i++) {
 			
 			if(i<10) {
 			
 			topTen.add(usuarios.get(i));
-			acumulador++;
 			}
 		}
 		
@@ -60,11 +58,11 @@ public class Administrador  {
 	
 	public List<Usuario> usuariosRank(Sitio sitio ) {
 		
-	List<Usuario> users=this.usuariosQueAlquilaron(sitio);
+		List<Usuario> users=this.usuariosQueAlquilaron(sitio);
 		
-	Collections.sort(users, new CompararUsuarios());
+		Collections.sort(users, new CompararUsuarios());
 		
-	return users;
+		return users;
 		
 }
 	

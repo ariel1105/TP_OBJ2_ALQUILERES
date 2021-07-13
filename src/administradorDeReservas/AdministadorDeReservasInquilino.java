@@ -71,9 +71,9 @@ public class AdministadorDeReservasInquilino {
 		return ciudades;
 	}
 
-	public void cancelarReserva(Reserva reserva, LocalDate fechaActual) {
+	public void cancelarReserva(Reserva reserva) {
 		if (this.reservas.contains(reserva)) {
-			reserva.iniciarCancelacion(fechaActual);
+			reserva.iniciarCancelacion(this.fechaActual);
 		}
 	}
 
