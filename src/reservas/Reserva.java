@@ -14,49 +14,55 @@ public class Reserva {
 
 	private Inmueble inmueble;
 	private ArrayList<LocalDate> fechas;
+	private LocalDate diaInicio;
+	private LocalDate diaFin;
 	private DatosDePago datosDePago;
 	private Usuario inquilino;
 	private PoliticaDeCancelacion politicaDeCancelacion;
+	private Estado estado;
 	
-	
-	public Reserva(Usuario in, Inmueble i, ArrayList<LocalDate> dias, DatosDePago f, PoliticaDeCancelacion p) {
+	public Reserva(Usuario in, Inmueble i, LocalDate diaInicio, LocalDate diaFin, DatosDePago f, PoliticaDeCancelacion p) {
 		this.inquilino = in;
 		this.inmueble = i;
-		this.fechas = dias;
+		this.diaInicio = diaInicio;
+		this.diaFin = diaFin;
 		this.datosDePago = f;
 		this.politicaDeCancelacion = p;
+		this.estado = new PendienteDeConfirmacion();
 	}
 
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
 	
 	public void confirmarseEn(Sitio sitio) {
-		sitio.enviarMailDeConfirmacion(this);
+		this.estado.confirmarEn(this, sitio);
 	}
 	
 	public Usuario getInquilino() {
 		return this.inquilino;
 	}
 
+	public LocalDate getDiaInicio() {
+		return this.diaInicio;
+	}
+
+	public LocalDate getDiaFin() {
+		return this.diaFin;
+	}
 	
-
 	public Boolean ocupaFecha(LocalDate dia) {
-		return (this.fechas.contains(dia));
-		
+		return this.estado.esfechaOcupada(this, dia);
 	}
 
-
-
-	public ArrayList<LocalDate> getFechas() {
-		return this.fechas;
-	}
 
 	public void iniciarCancelacion(LocalDate fechaActual) {
-		this.politicaDeCancelacion.actualizarFecha(fechaActual);
-		this.politicaDeCancelacion.cancelar(this);
+		this.politicaDeCancelacion.cancelar(this, fechaActual);
 		inmueble.cancelarReserva();
 	}
 	
-	public void cancelar() {
-		this.getInmueble().getPropietario().eliminarReserva(this);
+	public void cancelar(LocalDate fechaACtual) {
+		this.estado.cancelarReserva(this, fechaACtual);
 	}
 
 
@@ -64,9 +70,6 @@ public class Reserva {
 		return this.inmueble.valorPorDias(this.fechas);
 	}
 
-	public LocalDate primerDia() {
-		return this.fechas.get(0);
-	}
 
 	public boolean esDeCiudad(String ciudad) {
 		return (this.inmueble.getCiudad().equals(ciudad));
@@ -109,13 +112,5 @@ public class Reserva {
 		}
 		return resultado;
 	}
-
-
-	public boolean esReservaQueImposibilita(Reserva reserva) {
-		// TODO Auto-generated method stub
-		return (this.getInmueble() == reserva.getInmueble() && 
-				this.algunaDeLasFechasEstaOcupada(reserva.getFechas()));
-	}
-
 
 }

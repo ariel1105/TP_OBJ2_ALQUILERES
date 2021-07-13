@@ -24,35 +24,38 @@ import usuario.Usuario;
 
 class ReservaTestCase {
 
-	Reserva reserva;
-	Reserva reserva2;
-	Reserva reserva3; 
-	Inmueble inmueble;
-	Inmueble inmueble2;
-	LocalDate dia;
-	LocalDate dia2;
-	LocalDate dia3;
-	LocalDate dia4;
-	ArrayList<LocalDate> dias;
-	ArrayList<LocalDate> fechas;
-	Sitio sitio;
-	DatosDePago datosDePago;
-	Usuario inquilino;
-	Usuario propietario;
-	PoliticaDeCancelacion politica;
-	ArrayList<Reserva> reservas;
+	private Reserva reserva;
+	private Reserva reserva2;
+	private Reserva reserva3; 
+	private Inmueble inmueble;
+	private Inmueble inmueble2;
+	private LocalDate diaInicio;
+	private LocalDate diaFin;
+	private LocalDate dia3;
+	private LocalDate dia4;
+	private ArrayList<LocalDate> dias;
+	private ArrayList<LocalDate> fechas;
+	private Sitio sitio;
+	private DatosDePago datosDePago;
+	private Usuario inquilino;
+	private Usuario propietario;
+	private PoliticaDeCancelacion politica;
+	private ArrayList<Reserva> reservas;
+	private PendienteDeConfirmacion estadoPendiente;
+	private Confirmado estadoConfirmado;
+	private Cancelado estadoCancelado;
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		inquilino = mock(Usuario.class);
 		propietario = mock(Usuario.class);
-		dia = mock(LocalDate.class);
-		dia2 = mock(LocalDate.class);
+		diaInicio = mock(LocalDate.class);
+		diaFin = mock(LocalDate.class);
 		dia3 = mock(LocalDate.class);
 		dia4 = mock(LocalDate.class);
 		dias = new ArrayList<LocalDate>();
-		dias.add(dia);
-		dias.add(dia2);
+		dias.add(diaInicio);
+		dias.add(diaFin);
 		fechas = new ArrayList<LocalDate>();
 		fechas.add(dia3);
 		fechas.add(dia4);
@@ -61,25 +64,42 @@ class ReservaTestCase {
 		sitio = mock(Sitio.class);
 		politica = mock(PoliticaDeCancelacion.class);
 		reservas = new ArrayList<Reserva>();
-		reserva = new Reserva(inquilino, inmueble, dias, datosDePago, politica);
-		reserva2 = new Reserva(propietario,inmueble,fechas,datosDePago,politica);
+		reserva = new Reserva(inquilino, inmueble, diaInicio, diaFin, datosDePago, politica);
+		reserva2 = new Reserva(propietario,inmueble,diaInicio, diaFin, datosDePago,politica);
 		reservas.add(reserva);
 		reservas.add(reserva2);
+		estadoPendiente = mock(PendienteDeConfirmacion.class);
+		estadoConfirmado = mock(Confirmado.class);
+		estadoCancelado = mock(Cancelado.class);
 	}
-
 
 	@Test 
-	void testConfirmarReserva() {
+	void testConfirmarReservaParaEstadoPendiente() {
+		reserva.setEstado(estadoPendiente);
 		reserva.confirmarseEn(sitio);
-		verify(sitio).enviarMailDeConfirmacion(reserva);
+		verify(estadoPendiente).confirmarEn(reserva,sitio);
 	}
 	
+	@Test
+	void testConfirmarReservaParaEstadoConfirmado() {
+		reserva.setEstado(estadoConfirmado);
+		reserva.confirmarseEn(sitio);
+		verify(estadoPendiente).confirmarEn(reserva,sitio);
+	}
 	
 	@Test
-	void testDiaOcupado() {
+	void testConfirmarReservaParaEstadoCancelado() {
+		reserva.setEstado(estadoConfirmado);
 		reserva.confirmarseEn(sitio);
-		Boolean diaOcupado = reserva.ocupaFecha(dia);
-		assertTrue(diaOcupado);
+		verify(estadoCancelado).confirmarEn(reserva,sitio);
+	}
+	
+	@Test
+	void testDiaNoEstaOcupadoParaReservaPendiente() {
+		reserva.setEstado(estadoPendiente);
+		when(estadoPendiente.esfechaOcupada(reserva, dia3)).thenReturn(false);
+		boolean esFechaOcupada = reserva.ocupaFecha(dia3);
+		assertTrue(esFechaOcupada);
 	}
 	
 	
@@ -90,13 +110,6 @@ class ReservaTestCase {
 		assertEquals(1000d, monto);
 	}
 	
-	
-	
-	@Test 
-	void testFechaInicial() {
-		LocalDate diaDeInicioReserva = reserva.primerDia();
-		assertEquals(dia, diaDeInicioReserva);
-	}
 	
 	@Test
 	void testReservaEsDeCiudad() {
@@ -112,12 +125,7 @@ class ReservaTestCase {
 		assertEquals(ciudad, "Pinamar");
 	}
 	
-	@Test 
-	void testIniciarCancelacion() {
-		reserva.iniciarCancelacion(dia);//supone la fecha en la q se realiza la reserva
-		verify(politica).cancelar(reserva);
-		verify(politica).actualizarFecha(dia);
-	}
+	
 	
 	@Test
 	void testAbonarAlDueñoCantidad() {
@@ -135,7 +143,7 @@ class ReservaTestCase {
 	
 	@Test
 	void algunaDeLasFechasEstaOcupadaTestCase() {
-		fechas.add(dia);
+		fechas.add(diaInicio);
 		assertTrue (reserva.algunaDeLasFechasEstaOcupada(fechas));
 	}
 	
@@ -144,22 +152,5 @@ class ReservaTestCase {
 		assertFalse (reserva.algunaDeLasFechasEstaOcupada(fechas));
 	}
 	
-	@Test
-	void noEsReservaQueImposibilitaTestCase() {
-		
-		assertFalse(reserva.esReservaQueImposibilita(reserva2));
-	}
 	
-	@Test
-	void esReservaQueImposibilitaTestCase() {
-		fechas.add(dia);
-		assertTrue(reserva.esReservaQueImposibilita(reserva2));
-	}
-	
-	@Test
-	void cancelarReserva() {
-		when(inmueble.getPropietario()).thenReturn(propietario);
-		reserva.cancelar();
-		verify(propietario).eliminarReserva(reserva);
-	}
 }
