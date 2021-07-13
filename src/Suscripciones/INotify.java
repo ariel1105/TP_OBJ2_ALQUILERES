@@ -1,12 +1,14 @@
-package Suscripciones;
+	package Suscripciones;
 
 import java.util.List;
 
 import inmueble.Inmueble;
 
-public interface INotify extends HomePagePublisher, PopUpWindow {
+public interface INotify  {
 
 	
 	List<Inmueble> getInmueblesConInteres();
 
+
+	void update(Inmueble inmueble, String evento);
 }

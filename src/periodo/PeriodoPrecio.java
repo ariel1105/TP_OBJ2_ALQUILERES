@@ -2,24 +2,39 @@ package periodo;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 public class PeriodoPrecio {
 	private double precio;
-	private ArrayList<LocalDate> periodo;
+	private LocalDate fechaInicio;
+	private LocalDate fechaFin;
+	
+	
 
-	public PeriodoPrecio(double precio, ArrayList<LocalDate> periodo) {
+	public PeriodoPrecio(double precio, LocalDate fechaInicial, LocalDate fechaFinal) {
 		// TODO Auto-generated constructor stub
 		this.precio = precio;
-		this.periodo = periodo;
+		this.fechaInicio= fechaInicial;
+		this.fechaFin= fechaFinal;
 	}
 
 
 	public boolean perteneceLaFecha(LocalDate fecha) {
 
-		return periodo.contains(fecha);
-
+		Stream <LocalDate> fechas;
+	    return this.fechaInicio.datesUntil(this.fechaFin).anyMatch(l -> l.equals(fecha))||this.fechaFin.equals(fecha);
 	}
 
+
+
+	public LocalDate getFechaInicio() {
+		return fechaInicio;
+	}
+
+
+	public LocalDate getFechaFin() {
+		return fechaFin;
+	}
 
 
 	public double getPrecio() {
@@ -28,14 +43,7 @@ public class PeriodoPrecio {
 	}
 
 
-	public ArrayList<LocalDate> getPeriodo() {
-		// TODO Auto-generated method stub
-		return periodo;
-	}
 
 
-	public void agregarFecha(LocalDate fecha) {
-		// TODO Auto-generated method stub
-		this.periodo.add(fecha);
-	}
+
 }

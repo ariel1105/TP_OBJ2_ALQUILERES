@@ -91,9 +91,9 @@ public class Usuario implements PuntuablePorEstadia {
 		return fechaQueSeRegistro;
 	}
 
-	public void publicar(Inmueble inmueble, Sitio sitio, ArrayList<String> servicios) { //falta agregar a inmuebles
+	public void publicar(Inmueble inmueble, Sitio sitio) {
 		if (sitio.elUsuarioEstaRegistrado(this)) {
-			sitio.publicar(inmueble,this, servicios);
+			sitio.publicar(inmueble,this);
 			inmuebles.add(inmueble);
 		}
 	}

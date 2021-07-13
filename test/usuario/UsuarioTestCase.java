@@ -1,4 +1,5 @@
 
+
 package usuario;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -76,15 +77,15 @@ class UsuarioTestCase {
 	@Test
 	void testPublicarSinRegistrarsePreviamente() {
 		when(sitio.elUsuarioEstaRegistrado(propietario)).thenReturn(false);
-		propietario.publicar(inmueble, sitio, servicios);
-		verify(sitio, never()).publicar(inmueble, propietario, servicios);
+		propietario.publicar(inmueble, sitio);
+		verify(sitio, never()).publicar(inmueble, propietario);
 	}
 	
 	@Test
 	void testPublicarConRegistroPrevio() {
 		when(sitio.elUsuarioEstaRegistrado(propietario)).thenReturn(true);
-		propietario.publicar(inmueble, sitio, servicios);
-		verify(sitio).publicar(inmueble, propietario, servicios);
+		propietario.publicar(inmueble, sitio);
+		verify(sitio).publicar(inmueble, propietario);
 	}
 	
 		
@@ -377,3 +378,4 @@ class UsuarioTestCase {
 	
 
 }
+

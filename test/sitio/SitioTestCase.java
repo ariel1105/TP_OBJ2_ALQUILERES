@@ -55,10 +55,11 @@ class SitioTestCase {
 		when(inmueble1.getTipoDeInmueble()).thenReturn("Departamento");
 		when(inmueble2.getTipoDeInmueble()).thenReturn("Hotel");
 		when(inmueble3.getTipoDeInmueble()).thenReturn("Cabaña");
-		inmueble4= new Inmueble(usuario1, "Loft", 0, null, null, null, 0, null, null, null, null, 0, null);
+		inmueble4= new Inmueble(usuario1, "Loft", 0, null, null, null, servicios1, 0, null, null, null, null, 0, null);
 		servicios1.add("WIFI");
 		servicios1.add("Aire acondicionado");
 		servicios1.add("Estufa");
+		servicios1.add("Netflix");
 		servicios2.add("TV con cable");
 		servicios2.add("Jacuzzi");
 		servicios2.add("Caloventor");
@@ -192,25 +193,22 @@ class SitioTestCase {
 		sitio.altaDeTipoInmueble("Departamento");
 		sitio.altaDeTipoInmueble("Hotel");
 		sitio.altaDeTipoInmueble("Cabaña");
-		sitio.publicar(inmueble1, usuario1, servicios1);
-		sitio.publicar(inmueble2, usuario1, servicios2);
-		sitio.publicar(inmueble3, usuario2, servicios3);
+		sitio.publicar(inmueble1, usuario1);
+		sitio.publicar(inmueble2, usuario1);
+		sitio.publicar(inmueble3, usuario2);
 		assertEquals(inmueblesRegistrados, sitio.getInmueblesPublicados());
 		
 		
 	}
 	
 	@Test
-	void seleccionarCategorias() {
-		ArrayList<String> serviciosQueEstanParaSeleccionar = new ArrayList<String>();
-		serviciosQueEstanParaSeleccionar.add("WIFI");
-		serviciosQueEstanParaSeleccionar.add("Estufa");
+	void inmuebleNoValido() {
 		sitio.altaServicio("WIFI");
 		sitio.altaServicio("Jacuzzi");
 		sitio.altaServicio("Estufa");
 		sitio.altaDeTipoInmueble("Loft");
-		sitio.publicar(inmueble4, usuario1, servicios1);
+		sitio.publicar(inmueble4, usuario1);
 
-		assertEquals(inmueble4.getServicios(), serviciosQueEstanParaSeleccionar);
+		assertFalse(sitio.esInmuebleValido(inmueble4));
 	}
 }

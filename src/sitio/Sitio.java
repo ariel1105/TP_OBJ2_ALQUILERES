@@ -60,18 +60,20 @@ public class Sitio {
 	
 
 
-	private void seleccionarServicios(Inmueble inmueble, ArrayList<String> servicios2) {
-		// TODO Auto-generated method stub
-		
-		for (int i=0; i< servicios2.size(); i++) {
-			
-			if (servicios.contains(servicios2.get(i))) {
-				
-				inmueble.agregarServicio(servicios2.get(i));
-			}
+	public void publicar(Inmueble inmueble, Usuario propietario) {
+		if (this.esInmuebleValido(inmueble)) {
+		PerfilPropietario perfil = new PerfilPropietario(categoriasParaPropietario, propietario);
+		propietario.setPerfilPropietario(perfil);
+		this.crearPerfilInmueble(inmueble, perfil);
+		this.inmueblesPublicados.add(inmueble);
 		}
-		
 	}
+
+	public boolean esInmuebleValido(Inmueble inmueble) {
+		// TODO Auto-generated method stub
+		return (this.tipoDeInmuebles.contains(inmueble.getTipoDeInmueble()) && this.servicios.containsAll(inmueble.getServicios()));
+	}
+
 
 
 
@@ -154,15 +156,4 @@ public class Sitio {
 		return servicios;
 	}
 
-
-
-	public void publicar(Inmueble inmueble, Usuario propietario, ArrayList<String> servicios2) {
-		if (this.tipoDeInmuebles.contains(inmueble.getTipoDeInmueble())) {
-			PerfilPropietario perfil = new PerfilPropietario(categoriasParaPropietario, propietario);
-			propietario.setPerfilPropietario(perfil);
-			this.seleccionarServicios(inmueble, servicios2);
-			this.crearPerfilInmueble(inmueble, perfil);
-			this.inmueblesPublicados.add(inmueble);
-			}
-	}
 }

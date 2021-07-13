@@ -7,7 +7,7 @@ import java.util.Observer;
 
 import inmueble.Inmueble;
 
-public class SitioWeb implements INotify{
+public class SitioWeb implements INotify, HomePagePublisher{
 
 	
 	private List<Inmueble> inmueblesDeInteres;
@@ -40,14 +40,15 @@ public class SitioWeb implements INotify{
 
 
 	@Override
-	public void popUp(String message, String color, int fontSize) {
+	public void update(Inmueble inmueble, String evento) {
 		// TODO Auto-generated method stub
-		
+		if (evento.equals("Baja de precio")) {
+		this.publish("No te pierdas esta oferta: Un inmueble "+ inmueble.getTipoDeInmueble() + " a tan solo " + inmueble.getPrecioActual() + " pesos!.");
+	}
 	}
 
 
-
-}///ghdf
+}
 
 
 	
