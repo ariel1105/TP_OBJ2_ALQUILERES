@@ -23,5 +23,10 @@ public class PendienteDeConfirmacion extends Estado {
 		return false;
 	}
 
+	@Override
+	protected boolean estaConfirmada() {
+		return false;
+	}
+
 }
 	

@@ -13,7 +13,6 @@ import usuario.Usuario;
 public class Reserva {
 
 	private Inmueble inmueble;
-	private ArrayList<LocalDate> fechas;
 	private LocalDate diaInicio;
 	private LocalDate diaFin;
 	private DatosDePago datosDePago;
@@ -37,6 +36,7 @@ public class Reserva {
 	
 	public void confirmarseEn(Sitio sitio) {
 		this.estado.confirmarEn(this, sitio);
+		this.inquilino.recibirConfirmacion(this);
 	}
 	
 	public Usuario getInquilino() {
@@ -67,7 +67,7 @@ public class Reserva {
 
 
 	public Double valor() {
-		return this.inmueble.valorPorDias(this.fechas);
+		return this.inmueble.valorPorRangoDeFechas(diaInicio, diaFin);
 	}
 
 
@@ -88,11 +88,7 @@ public class Reserva {
 	}
 
 	public double valorPorDias(int cantDias) {
-		ArrayList<LocalDate>primerosDias = new ArrayList<LocalDate>();
-		for(int i = 0; i < cantDias; i++) {
-			primerosDias.add(this.fechas.get(i));
-		}
-		return this.inmueble.valorPorDias(primerosDias);
+		return 0;
 	}
 
 	public Inmueble getInmueble() {
@@ -104,13 +100,16 @@ public class Reserva {
 	}
 
 
-	public boolean algunaDeLasFechasEstaOcupada(ArrayList<LocalDate> fechas) {
-		// TODO Auto-generated method stub
-		boolean resultado = false;
-		for(int i = 0; i < fechas.size(); i++){
-			resultado = resultado || this.ocupaFecha(fechas.get(i));
-		}
-		return resultado;
+	public boolean esReservaFutura(LocalDate fechaActual) {
+		return (fechaActual.isBefore(this.getDiaInicio()));
+	}
+	
+	public Estado getEstado() {
+		return this.estado;
+	}
+
+	public boolean estaConfirmada() {
+		return this.estado.estaConfirmada();
 	}
 
 }

@@ -2,36 +2,36 @@ package perfiles;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import Categorias.Categoria;
 
 public abstract class Perfil {
-	private ArrayList <String> comentarios;
+	private List <String> comentarios;
 	private Map <Categoria, Integer> popularidad;
-	private ArrayList<Categoria> categoriasDisponibles;
+	private List<Categoria> categoriasDisponibles;
 	
 	public Perfil() {
 		this.comentarios = new ArrayList<String>();
 		this.popularidad = new HashMap <Categoria, Integer>();
 	}
 	
-	public void setCategorias(ArrayList<Categoria> categorias) {
+	public void setCategorias(List<Categoria> categorias) {
 		this.categoriasDisponibles = categorias;
 	}
 	
 	public void setPopularidad() {
-		ArrayList <Categoria>categorias = this.categoriasDisponibles;
-		for (int i = 0; i < categorias.size(); i++) {
-			this.popularidad.put(categorias.get(i), 0);
-		}
+		Stream<Categoria>categorias = this.categoriasDisponibles.stream();
+		categorias.forEach(cat -> this.popularidad.put(cat, 0));;
 	}
 	
-	public ArrayList<String> getComentarios() {
+	public List<String> getComentarios() {
 		return this.comentarios;
 	}
 
-	public ArrayList<Categoria> getCategorias() {
+	public List<Categoria> getCategorias() {
 		return this.categoriasDisponibles;
 	}
 
@@ -39,11 +39,11 @@ public abstract class Perfil {
 		return this.popularidad;
 	}
 
-	public void recibirPuntuacion(Categoria cat1, int puntos) {
-		if(this.existeCategoria(cat1)) {
-			cat1.sumarPuntos(puntos);
-			Integer puntosSumados = popularidad.get(cat1)+1;
-			this.popularidad.put(cat1, puntosSumados);
+	public void recibirPuntuacion(Categoria cat, int puntos) {
+		if(this.existeCategoria(cat)) {
+			cat.sumarPuntos(puntos);
+			Integer puntosSumados = popularidad.get(cat)+1;
+			this.popularidad.put(cat, puntosSumados);
 		}
 	}
 
@@ -58,13 +58,18 @@ public abstract class Perfil {
 	}
 
 	public Double promedioTotal() {
-		Double puntosTotales = 0d;
-		Double cantPuntuaciones = 0d;
-		for (Categoria cat : this.popularidad.keySet()) {
+		// Double puntosTotales = 0d;
+		// Double cantPuntuaciones = 0d;
+		/*for (Categoria cat : this.popularidad.keySet()) {
 			puntosTotales = puntosTotales + cat.getPuntaje();
 			cantPuntuaciones = cantPuntuaciones + this.popularidad.get(cat);
 		}
-		return puntosTotales/cantPuntuaciones;
+		return puntosTotales/cantPuntuaciones;*/
+		Stream <Integer>stream = this.popularidad.keySet().stream().map(cat -> cat.getPuntaje());
+		Integer total = stream.reduce(0, Integer::sum);
+		Integer cantPuntuaciones = this.popularidad.values().stream().reduce(0, Integer::sum);
+		return (double) (total / cantPuntuaciones);
+		
 	}
 
 	public void recibirComentarios(String comentario) {

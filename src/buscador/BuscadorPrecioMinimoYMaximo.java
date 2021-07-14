@@ -2,6 +2,7 @@ package buscador;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import inmueble.Inmueble;
@@ -21,7 +22,7 @@ public class BuscadorPrecioMinimoYMaximo implements IBuscador {
 	
 	
 	@Override
-	public ArrayList<Inmueble> filtrar(ArrayList<Inmueble> inmuebles) {
+	public ArrayList<Inmueble> filtrar(List<Inmueble> inmuebles) {
 		// TODO Auto-generated method stub
 		return (ArrayList<Inmueble>) inmuebles.stream().
 				filter(inmueble -> inmueble.getPrecioActual() >= precioMinimoP && inmueble.getPrecioActual() < precioMaximoP ).

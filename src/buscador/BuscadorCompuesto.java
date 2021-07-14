@@ -2,13 +2,16 @@ package buscador;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import inmueble.Inmueble;
 import sitio.Sitio;
 
 public class BuscadorCompuesto implements IBuscador {
 	
-	private ArrayList <IBuscador> buscadores;	
+	private List <IBuscador> buscadores;	
 	
 
 	public BuscadorCompuesto(String ciudad, LocalDate fechaEntrada, LocalDate fechaSalida){
@@ -29,7 +32,7 @@ public class BuscadorCompuesto implements IBuscador {
 		this.buscadores.add(buscador);
 	}
 
-	private void agregarParametrosOpcionalesSi(Integer cantidadHuespedes, Double precioMinimo, Double precioMaximo) {
+	public void agregarParametrosOpcionalesSi(Integer cantidadHuespedes, Double precioMinimo, Double precioMaximo) {
 		// TODO Auto-generated method stub
 		if (!(cantidadHuespedes == null)) {
 			this.buscadores.add(new BuscadorHuespedes(cantidadHuespedes));
@@ -44,26 +47,25 @@ public class BuscadorCompuesto implements IBuscador {
 		return (ciudad != null) && (fechaInicio != null) && (fechaFin != null); 
 	}
 	
-
 	@Override
-	public ArrayList<Inmueble> filtrar(ArrayList<Inmueble> inmueblesPublicados){
+	public List<Inmueble> filtrar(List<Inmueble> inmueblesPublicados){
 		
-		ArrayList<Inmueble> inmueblesFiltrados= new ArrayList<Inmueble>();
-		ArrayList<Inmueble> inmuebles= inmueblesPublicados;
+		List<Inmueble> inmueblesFiltrados= new ArrayList<Inmueble>();
+		List<Inmueble> inmuebles= inmueblesPublicados;
 		
 		if (!(buscadores.isEmpty())) {
 		
-		for (int i=0;i < buscadores.size();i++) {
+			for (int i=0;i < buscadores.size();i++) {
 		
 			
-			inmueblesFiltrados= buscadores.get(i).filtrar(inmuebles);
-			inmuebles= inmueblesFiltrados;
-	}
-	}
+				inmueblesFiltrados= (ArrayList<Inmueble>) buscadores.get(i).filtrar(inmuebles);
+				inmuebles= inmueblesFiltrados;
+			}
+		}
 	return inmueblesFiltrados;
-}
+	}
 
-	public ArrayList<Inmueble> realizarBusqueda(Sitio sitio) {
+	public List<Inmueble> realizarBusqueda(Sitio sitio) {
 		// TODO Auto-generated method stub
 		return (this.filtrar(sitio.getInmueblesPublicados()));
 	}

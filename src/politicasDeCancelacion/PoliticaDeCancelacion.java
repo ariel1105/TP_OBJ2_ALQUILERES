@@ -5,22 +5,16 @@ import java.time.LocalDate;
 import reservas.Reserva;
 
 public abstract class PoliticaDeCancelacion {
-	
-	private LocalDate fechaActual;
 
-	public abstract void cancelar(Reserva reserva);
-
-	public LocalDate getFechaActual() {
-		return this.fechaActual;
+	public abstract void cancelar(Reserva reserva, LocalDate fechaActual);
+	
+	
+	public Boolean diferenciaDeDiasEsMayor(Reserva reserva, int cantidadDeDias, LocalDate fechaActual) {
+		return (fechaActual.compareTo(reserva.getDiaInicio())>cantidadDeDias);
 	}
 	
-	public void actualizarFecha(LocalDate dia) {
-		this.fechaActual = dia;
-	}
+	public void realizarPagoPor(Double importe) {
 	
-	public Boolean diferenciaDeDiasEsMayor(Reserva reserva, int cantidadDeDias) {
-		return (this.fechaActual.compareTo(reserva.primerDia())>cantidadDeDias);
 	}
-	
 
 }

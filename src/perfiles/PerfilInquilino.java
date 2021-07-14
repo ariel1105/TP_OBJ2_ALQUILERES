@@ -1,6 +1,7 @@
 package perfiles;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import Categorias.Categoria;
 import usuario.Usuario;
@@ -8,9 +9,9 @@ import usuario.Usuario;
 public class PerfilInquilino extends Perfil {
 
 	private Usuario inquilino;
-	private ArrayList<Categoria> categorias;
+	private List<Categoria> categorias;
 	
-	public PerfilInquilino(ArrayList<Categoria> categorias, Usuario inquilino) {
+	public PerfilInquilino(List<Categoria> categorias, Usuario inquilino) {
 		super();
 		this.setCategorias(categorias);
 		this.inquilino = inquilino;

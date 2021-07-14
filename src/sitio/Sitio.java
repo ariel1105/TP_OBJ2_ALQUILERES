@@ -1,6 +1,7 @@
 package sitio;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import Categorias.Categoria;
 import Suscripciones.SitioWeb;
@@ -13,13 +14,13 @@ import reservas.Reserva;
 import usuario.Usuario;
 
 public class Sitio {
-	private ArrayList<Usuario> usuariosRegistrados;
-	private ArrayList<Inmueble> inmueblesPublicados;
-	private ArrayList<Categoria> categoriasParaInmueble;
-	private ArrayList <Categoria> categoriasParaPropietario;
-	private ArrayList <Categoria> categoriasParaInquilino;
-	private ArrayList <String> tipoDeInmuebles;
-	private ArrayList <String> servicios;
+	private List <Usuario> usuariosRegistrados;
+	private List <Inmueble> inmueblesPublicados;
+	private List <Categoria> categoriasParaInmueble;
+	private List <Categoria> categoriasParaPropietario;
+	private List <Categoria> categoriasParaInquilino;
+	private List <String> tipoDeInmuebles;
+	private List <String> servicios;
 	
 	
 	public Sitio() {
@@ -34,7 +35,7 @@ public class Sitio {
 
 
 
-	public ArrayList<Usuario> obtenerUsuariosRegistrados() {
+	public List<Usuario> obtenerUsuariosRegistrados() {
 		// TODO Auto-generated method stub
 		return usuariosRegistrados;
 	}
@@ -48,6 +49,7 @@ public class Sitio {
 		}
 	}
 
+	
 	public void crearPerfilInquilino(Usuario usuario) {
 		PerfilInquilino perfil = new PerfilInquilino(this.categoriasParaInquilino, usuario);
 		usuario.setPerfilInquilino(perfil);
@@ -62,10 +64,10 @@ public class Sitio {
 
 	public void publicar(Inmueble inmueble, Usuario propietario) {
 		if (this.esInmuebleValido(inmueble)) {
-		PerfilPropietario perfil = new PerfilPropietario(categoriasParaPropietario, propietario);
-		propietario.setPerfilPropietario(perfil);
-		this.crearPerfilInmueble(inmueble, perfil);
-		this.inmueblesPublicados.add(inmueble);
+			PerfilPropietario perfil = new PerfilPropietario(categoriasParaPropietario, propietario);
+			propietario.setPerfilPropietario(perfil);
+			this.crearPerfilInmueble(inmueble, perfil);
+			this.inmueblesPublicados.add(inmueble);
 		}
 	}
 
@@ -124,35 +126,35 @@ public class Sitio {
 		}
 	}
 
-	public ArrayList<Reserva> todasLasResevasConfirmadas() {
-		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+	public List<Reserva> todasLasResevasConfirmadas() {
+		List<Reserva> reservas = new ArrayList<Reserva>();
 		for (Usuario us : this.usuariosRegistrados) {
 			reservas.addAll(us.getReservasConfirmadas());
 		}
 		return reservas;
 	}
 	
-	public ArrayList<Inmueble> getInmueblesPublicados() {
+	public List<Inmueble> getInmueblesPublicados() {
 		return inmueblesPublicados;
 	}
 
-	public ArrayList<Categoria> getCategoriasParaInmueble() {
+	public List<Categoria> getCategoriasParaInmueble() {
 		return categoriasParaInmueble;
 	}
 
-	public ArrayList<Categoria> getCategoriasParaPropietario() {
+	public List<Categoria> getCategoriasParaPropietario() {
 		return categoriasParaPropietario;
 	}
 
-	public ArrayList<Categoria> getCategoriasParaInquilino() {
+	public List<Categoria> getCategoriasParaInquilino() {
 		return categoriasParaInquilino;
 	}
 	
-	public ArrayList<String> getTipoDeInmuebles() {
+	public List<String> getTipoDeInmuebles() {
 		return tipoDeInmuebles;
 	}
 
-	public ArrayList<String> getServicios() {
+	public List<String> getServicios() {
 		return servicios;
 	}
 

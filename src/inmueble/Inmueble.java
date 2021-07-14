@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import Categorias.Categoria;
 import Suscripciones.INotify;
@@ -12,6 +14,7 @@ import Suscripciones.SitioWeb;
 import perfiles.PerfilInmueble;
 import periodo.PeriodoPrecio;
 import politicasDeCancelacion.PoliticaDeCancelacion;
+import reservas.Reserva;
 import usuario.PuntuablePorEstadia;
 import usuario.Usuario;
 
@@ -23,22 +26,24 @@ public class Inmueble  implements PuntuablePorEstadia {
 	private String pais;
 	private String ciudad;
 	private String direccion;
-	private ArrayList<String> servicios;
+	private List<String> servicios;
 	private int capacidad;
-	private ArrayList<Foto> fotos;
+	private List<Foto> fotos;
 	private Hora horarioCheckIn;
 	private Hora horarioCheckOut;
-	private ArrayList<FormaDePago> formasDePago;
-	private ArrayList<PeriodoPrecio> periodosConPrecios;
+	private List<FormaDePago> formasDePago;
+	private List<PeriodoPrecio> periodosConPrecios;
 	private double precioPorDefecto;
 	private PoliticaDeCancelacion politicaDeCancelacion;
 	private PerfilInmueble perfil;
 	private double precioActual;	
-	public List <INotify> listenersPaginas;
+	private List <INotify> listenersPaginas;
+	private List <Reserva> reservas;
 	
-	public Inmueble(Usuario propietario,  String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion, ArrayList<String> servicios,
-			 int capacidad, ArrayList<Foto> fotos, Hora horarioCheckIn,
-			Hora horarioCheckOut, ArrayList<FormaDePago> formasDePago, double precio, PoliticaDeCancelacion politicaDeCancelacion) {
+	public Inmueble(Usuario propietario,  String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion, List<String> servicios,
+			 int capacidad, List<Foto> fotos, Hora horarioCheckIn,
+			Hora horarioCheckOut, List<FormaDePago> formasDePago, double precio, 
+			PoliticaDeCancelacion politicaDeCancelacion) {
 		this.propietario = propietario;
 		this.tipoDeInmueble = tipoDeInmueble;
 		this.superficie = superficie;
@@ -56,7 +61,7 @@ public class Inmueble  implements PuntuablePorEstadia {
 		this.politicaDeCancelacion = politicaDeCancelacion;
 		this.listenersPaginas= new ArrayList<INotify>();
 		this.precioActual= precio;
-		
+		this.reservas = new ArrayList<Reserva>();
 	}
 
 	public List<INotify> getListenersPaginas() {
@@ -66,38 +71,26 @@ public class Inmueble  implements PuntuablePorEstadia {
 	public String getTipoDeInmueble() {
 		return tipoDeInmueble;
 	}
-
-	public double precioParaLaFecha(LocalDate fecha) {
-		// TODO Auto-generated method stub
-		if (!this.perteneceLaFechaAAlgunPeriodo(fecha)) {
-			return this.getPrecioPorDefecto();
-		}
-		else {
-			return this.obtenerElPrecioParaLaFecha(fecha);
-		}
-	}
 	
 	public double getPrecioPorDefecto() {
 		return this.precioPorDefecto;
 	}
 
 	public boolean perteneceLaFechaAAlgunPeriodo(LocalDate fecha) {
-		// TODO Auto-generated method stub
-		boolean resultado = false;
-		for(int i = 0; i < periodosConPrecios.size(); i++) {
-			resultado = resultado ||  periodosConPrecios.get(i).perteneceLaFecha(fecha);
-		}
-		return resultado;
-		
+		return this.periodosConPrecios.stream().anyMatch(p -> p.perteneceLaFecha(fecha));
 	}
 
 
 	public double obtenerElPrecioParaLaFecha(LocalDate fecha) {
-		int i = 0;
-		while (i < this.periodosConPrecios.size() && !(this.periodosConPrecios.get(i)).perteneceLaFecha(fecha)) {
-			i++;
+		Double precio;
+		if (!this.perteneceLaFechaAAlgunPeriodo(fecha)) {
+			precio = this.precioPorDefecto;
 		}
-		return this.periodosConPrecios.get(i).getPrecio();
+		else {
+			Optional<PeriodoPrecio> periodo = this.periodosConPrecios.stream().filter( p -> p.perteneceLaFecha(fecha)).findFirst();
+			precio = periodo.get().getPrecio();
+		}
+		return precio;
 	}
 	
 
@@ -106,18 +99,17 @@ public class Inmueble  implements PuntuablePorEstadia {
 		this.periodosConPrecios.add(periodoPrecio);
 	}
 
-	public ArrayList<PeriodoPrecio> getPeriodosYPrecios() {
+	public List<PeriodoPrecio> getPeriodosYPrecios() {
 		// TODO Auto-generated method stub
 		return periodosConPrecios;
 	}
 
-	public double valorPorDias(ArrayList<LocalDate> fechas) {
-		// TODO Auto-generated method stub
-		double precio = 0;
-		for(int i = 0; i < fechas.size(); i++){
-			precio = precio + this.precioParaLaFecha(fechas.get(i));
-		}
-		return precio;
+	public double valorPorRangoDeFechas(LocalDate inicio, LocalDate fin) {
+		Stream<LocalDate>rango = inicio.datesUntil(fin);
+		Double valor = rango.map(dia -> this.obtenerElPrecioParaLaFecha(dia)).reduce(0d,(x,y) -> x+y);
+		valor = valor + this.obtenerElPrecioParaLaFecha(fin);
+		return valor;
+		
 	}
 
 	public String getCiudad() {
@@ -125,14 +117,10 @@ public class Inmueble  implements PuntuablePorEstadia {
 	}
 
 	public boolean estaDisponible(LocalDate fechaInicio, LocalDate fechaFin) {
-		//no logre implementar este mensaje con una fecha inicio y fecha fin
-		//por eso realice uno con el mismo nombre abajo que recibe como parametro un arrayList de fechas
 		return false;
 	}
 	
-	public boolean estaDisponible1(ArrayList<LocalDate> fechas) {
-		return this.getPropietario().tieneDisponible(this,fechas);
-	}
+	
 	public int getCapacidad() {
 		return this.capacidad;
 	}
@@ -141,7 +129,7 @@ public class Inmueble  implements PuntuablePorEstadia {
 		return this.propietario;
 	}
 
-	public ArrayList<FormaDePago> getFormasDePago() {
+	public List<FormaDePago> getFormasDePago() {
 		return this.formasDePago;
 	}
 
@@ -166,18 +154,11 @@ public class Inmueble  implements PuntuablePorEstadia {
 
 
 
-	public Double precioParaRango(LocalDate fechaInicio, LocalDate fechaFin) {
-		return 0d;
-	}
-
-
-	public void cambiarPrecio() {
+	/*public void cambiarPrecio() {
 		// TODO Auto-generated method stub
 		
 		Double precioAnterior= this.getPrecioActual();
-		
-		
-		
+			
 		precioActual= this.precioParaLaFecha(LocalDate.now());
 		
 		if (precioActual < precioAnterior) {
@@ -185,7 +166,7 @@ public class Inmueble  implements PuntuablePorEstadia {
 		this.notificar("Baja de precio");
 		}
 		
-	} 
+	} */
 
 	public void notificar(String evento) {
 		// TODO Auto-generated method stub
@@ -204,8 +185,8 @@ public class Inmueble  implements PuntuablePorEstadia {
 	}
 
 	@Override
-	public boolean puedeRecibirPuntuacionPorEstadiaPor(Usuario usuario) {
-		return usuario.getAdmin().alquilo(this);
+	public boolean puedeRecibirPuntuacionPorEstadiaPor(Usuario usuario, LocalDate fechaActual) {
+		return usuario.getAdmin().alquilo(this, fechaActual);
 	}
 
 	@Override
@@ -214,8 +195,20 @@ public class Inmueble  implements PuntuablePorEstadia {
 	}
 
 
-	public ArrayList<String> getServicios() {
+	public List<String> getServicios() {
 		return servicios;
+	}
+
+	public void agregarReserva(Reserva reserva) {
+		this.reservas.add(reserva);
+	}
+
+	public boolean tieneReserva(Reserva reserva) {
+		return this.reservas.contains(reserva);
+	}
+
+	public List<Reserva> getReservas() {
+		return this.reservas;
 	}
 
 

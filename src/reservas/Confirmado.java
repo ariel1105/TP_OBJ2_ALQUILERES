@@ -24,4 +24,9 @@ public class Confirmado extends Estado {
 		return inicio.datesUntil(fin).anyMatch(l -> l.equals(dia))||fin.equals(dia);
 	}
 
+	@Override
+	public boolean estaConfirmada() {
+		return true;
+	}
+
 }

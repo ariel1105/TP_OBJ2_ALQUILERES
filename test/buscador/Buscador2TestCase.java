@@ -25,7 +25,7 @@ class Buscador2TestCase {
 	private IBuscador buscadorCiudad;
 	private IBuscador buscadorFechaEntrada;
 	private IBuscador buscadorPrecioMinimoYMaximo;
-	private ArrayList<Inmueble> inmuebles;
+	private List<Inmueble> inmuebles;
 	private Sitio sitio;
 	private Inmueble inmueble1;
 	private Inmueble inmueble2;
@@ -96,7 +96,7 @@ class Buscador2TestCase {
 
 	@Test
 	void testBusquedaConExtraHuespedes() {
-		ArrayList<Inmueble> inmueblesEsperados= new ArrayList<Inmueble>();
+		List<Inmueble> inmueblesEsperados= new ArrayList<Inmueble>();
 		inmueblesEsperados.add(inmueble1);
 		inmueblesEsperados.add(inmueble2);
 		inmueblesEsperados.add(inmueble5);
@@ -117,7 +117,7 @@ class Buscador2TestCase {
 	
 	@Test
 	void testBusquedaConExtraPrecioMinimoYMaximo() {
-		ArrayList<Inmueble> inmueblesEsperados= new ArrayList<Inmueble>();
+		List<Inmueble> inmueblesEsperados= new ArrayList<Inmueble>();
 		inmueblesEsperados.add(inmueble2);
 
 		inmueblesEsperados.add(inmueble5);
@@ -137,7 +137,7 @@ class Buscador2TestCase {
 	}
 	@Test
 	void testBusquedaConTodosLosParametros() {
-		ArrayList<Inmueble> inmueblesEsperados= new ArrayList<Inmueble>();
+		List<Inmueble> inmueblesEsperados= new ArrayList<Inmueble>();
 		inmueblesEsperados.add(inmueble2);
 		inmueblesEsperados.add(inmueble5);
 

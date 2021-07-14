@@ -2,6 +2,7 @@ package perfiles;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import Categorias.Categoria;
@@ -14,7 +15,7 @@ public class PerfilPropietario extends Perfil {
 	private Usuario dueño;
 	private Inmueble inmuebleDePerfil;
 	
-	public PerfilPropietario(ArrayList<Categoria> categoriasDisponibles, Usuario dueño) {
+	public PerfilPropietario(List<Categoria> categoriasDisponibles, Usuario dueño) {
 		super();
 		this.setCategorias(categoriasDisponibles);
 		this.dueño = dueño;
