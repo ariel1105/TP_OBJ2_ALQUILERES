@@ -1,12 +1,14 @@
 package politicasDeCancelacion;
 
+import java.time.LocalDate;
+
 import reservas.Reserva;
 
 public class AbonoTotal extends Accion {
 
 	@Override
-	public boolean esAccionParaReserva(CancelacionIntermedia cancelacionIntermedia, Reserva reserva) {
-		return (!cancelacionIntermedia.diferenciaDeDiasEsMayor(reserva, 9));
+	public boolean esAccionParaReserva(CancelacionIntermedia cancelacionIntermedia, Reserva reserva, LocalDate fechaActual) {
+		return (!cancelacionIntermedia.diferenciaDeDiasEsMayor(reserva, 9, fechaActual));
 	}
 
 	// error al agregar la annotation override

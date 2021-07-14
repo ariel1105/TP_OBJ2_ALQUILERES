@@ -17,54 +17,46 @@ class PeriodoPrecioTestCase {
 	private LocalDate fecha1;
 	private LocalDate fecha2;
 	private LocalDate fecha3;
-	private LocalDate fecha4;
-	private ArrayList<LocalDate> periodo;
 	private double precio;
 	private PeriodoPrecio periodoPrecio;
 
 
 	@BeforeEach
 	void setUp() throws Exception {
-		fecha1 = mock(LocalDate.class);
-		fecha2 = mock(LocalDate.class);
-		fecha3 = mock(LocalDate.class);
-		fecha4 = mock(LocalDate.class);
-		periodo = new ArrayList<LocalDate>();
-		periodo.add(fecha1);
-		periodo.add(fecha2);
-		periodo.add(fecha3);
+		fecha1 = LocalDate.of(2021, 7, 13);
+		fecha2 = LocalDate.of(2021, 7, 20);
 		precio = 2000d;
-		periodoPrecio = new PeriodoPrecio(precio,periodo);
+		periodoPrecio = new PeriodoPrecio(precio, fecha1, fecha2);
 
 	}
 
 	@Test
-	void FechaPerteneceAlPeriodo() {
-
-		when(fecha4.getDayOfMonth()).thenReturn(1);
-		when(fecha4.getMonthValue()).thenReturn(2);
-		when(fecha4.getYear()).thenReturn(2020);
-		when(fecha1.getDayOfMonth()).thenReturn(1);
-		when(fecha1.getMonthValue()).thenReturn(2);
-		when(fecha1.getYear()).thenReturn(2020);
-		periodoPrecio.agregarFecha(fecha4);
+	void FechaInicialPerteneceAlPeriodo() {
 		
-		assertTrue(periodoPrecio.perteneceLaFecha(fecha4));
+		fecha3 = LocalDate.of(2021, 7, 13);
+		assertTrue(periodoPrecio.perteneceLaFecha(fecha3));
+		
+	}
+	@Test
+	void FechaFinalPerteneceAlPeriodo() {
+		
+		fecha3 = LocalDate.of(2021, 7, 20);
+		assertTrue(periodoPrecio.perteneceLaFecha(fecha3));
+		
+	}
+	@Test
+	void FechaPerteneceAlPeriodo() {
+		
+		fecha3 = LocalDate.of(2021, 7, 15);
+		assertTrue(periodoPrecio.perteneceLaFecha(fecha3));
+		
+	}
+	@Test
+	void FechaNoPerteneceAlPeriodo() {
+		
+		fecha3 = LocalDate.of(2022, 7, 13);
+		assertFalse(periodoPrecio.perteneceLaFecha(fecha3));
 		
 	}
 	
-	@Test
-	void AgregarFechaAlPeriodo() {
-		ArrayList <LocalDate> periodo1 = new ArrayList<LocalDate>();
-		periodo1.add(fecha1);
-		periodo1.add(fecha2);
-		periodo1.add(fecha3);
-		periodo1.add(fecha4);
-		
-		periodoPrecio.agregarFecha(fecha4);
-		
-		assertEquals(periodo1, periodoPrecio.getPeriodo());
-		
-	}
-
 }

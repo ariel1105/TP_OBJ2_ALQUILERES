@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import Categorias.Categoria;
@@ -138,8 +139,8 @@ public class Inmueble  implements PuntuablePorEstadia {
 	}
 
 	public boolean estaReservado() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.reservas.stream()
+							.anyMatch(r -> r.estaConfirmada());
 	}
 
 	public void addObserver(INotify notif) {
@@ -154,19 +155,19 @@ public class Inmueble  implements PuntuablePorEstadia {
 
 
 
-	/*public void cambiarPrecio() {
+	public void cambiarPrecio() {
 		// TODO Auto-generated method stub
 		
 		Double precioAnterior= this.getPrecioActual();
 			
-		precioActual= this.precioParaLaFecha(LocalDate.now());
+		precioActual= this.obtenerElPrecioParaLaFecha(LocalDate.now());
 		
 		if (precioActual < precioAnterior) {
 		
 		this.notificar("Baja de precio");
 		}
 		
-	} */
+	} 
 
 	public void notificar(String evento) {
 		// TODO Auto-generated method stub
@@ -209,6 +210,13 @@ public class Inmueble  implements PuntuablePorEstadia {
 
 	public List<Reserva> getReservas() {
 		return this.reservas;
+	}
+
+	public int vecesQueFueAlquilado() {
+		return this.reservas.stream()
+							.filter(r -> r.estaConfirmada())
+							.collect(Collectors.toList())
+							.size();
 	}
 
 
