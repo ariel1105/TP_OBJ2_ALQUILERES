@@ -18,7 +18,9 @@ public class Administrador  {
 		sitio.altaDeCategoriaInmueble( categoria);
 		
 	}
-
+	/**
+     * Método que agrega una nueva categoria de calificacion para los inmuebles en el sitio.
+     */  
 	public void darDeAltaCategoriaParaPropietario(Sitio sitio, Categoria categoria) {
 		// TODO Auto-generated method stub
 		sitio.altaDeCategoriaPropietario(categoria);
