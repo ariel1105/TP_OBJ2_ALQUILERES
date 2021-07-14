@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,11 +32,11 @@ class InmuebleTestCase {
 	private String direccion;
 	private int capacidad;
 	private double precio;
-	private ArrayList<String> servicios ;
-	private ArrayList<Foto> fotos;
+	private List<String> servicios ;
+	private List<Foto> fotos;
 	private Hora horarioCheckIn;
 	private Hora horarioCheckOut;
-	private ArrayList<FormaDePago> formasDePago;
+	private List<FormaDePago> formasDePago;
 	private PeriodoPrecio periodoPrecio1;
 	private PeriodoPrecio periodoPrecio2;
 	private LocalDate fecha1;
@@ -73,10 +74,9 @@ class InmuebleTestCase {
 	
 	@Test 
 	void establecerPeriodosConPreciosTestCase(){
-		ArrayList <PeriodoPrecio> periodosYPrecios = new ArrayList<PeriodoPrecio>();
+		List <PeriodoPrecio> periodosYPrecios = new ArrayList<PeriodoPrecio>();
 		periodosYPrecios.add(periodoPrecio1);
 		periodosYPrecios.add(periodoPrecio2);
-		
 		assertEquals(periodosYPrecios, casa.getPeriodosYPrecios());
 	}
 	
@@ -115,80 +115,49 @@ class InmuebleTestCase {
 		assertEquals(precio,3000d);
 	}
 	
-	@Test
-	void TestPrecioParaLaFechaCuandoPerteneceAlPeriodo2() {
-		when(periodoPrecio1.perteneceLaFecha(fecha3)).thenReturn(false);
-		when(periodoPrecio2.perteneceLaFecha(fecha3)).thenReturn(true);
-		
-		double precio = casa.precioParaLaFecha(fecha3);
-		
-		assertEquals(precio,4000d);
-	}
 	
 	@Test
 	void TestPrecioParaFechasDelPeriodo1() {
-		ArrayList<LocalDate> fechas = new ArrayList<LocalDate>();
-		fechas.add(fecha1);
-		fechas.add(fecha2);
-		
+		fecha1 = LocalDate.of(2021, 7, 14);
+		fecha2 = LocalDate.of(2021, 7, 15);
 		when(periodoPrecio1.perteneceLaFecha(fecha1)).thenReturn(true);
 		when(periodoPrecio1.perteneceLaFecha(fecha2)).thenReturn(true);
 		
-		double precio = casa.valorPorDias(fechas);
+		double precio = casa.valorPorRangoDeFechas(fecha1, fecha2);
 		
-		assertEquals(precio, 4000d);
+		assertEquals(4000d, precio);
 	}
 	
 	@Test
 	void TestPrecioParaFechaPeriodo1YFechaPeriodo2() {
-		ArrayList<LocalDate> fechas = new ArrayList<LocalDate>();
-		fechas.add(fecha1);
-		fechas.add(fecha3);
-		
+		fecha1 = LocalDate.of(2021, 7, 14);
+		fecha2 = LocalDate.of(2021, 7, 15);
 		when(periodoPrecio1.perteneceLaFecha(fecha1)).thenReturn(true);
-		when(periodoPrecio2.perteneceLaFecha(fecha3)).thenReturn(true);
+		when(periodoPrecio2.perteneceLaFecha(fecha2)).thenReturn(true);
 		
-		double precio = casa.valorPorDias(fechas);
+		double precio = casa.valorPorRangoDeFechas(fecha1, fecha2);
 		
 		assertEquals(precio, 6000d);
 	}
 	
 	@Test
-	void TestPrecioParaFechasDelPeriodo1YQueNoPertenecenANingunPeriodo() {
-		ArrayList<LocalDate> fechas = new ArrayList<LocalDate>();
-		fechas.add(fecha3);
-		fechas.add(fecha4);
+	void TestPrecioParaFechaQueNoPertenecenANingunPeriodo() {
+		fecha1 = LocalDate.of(2021, 7, 14);
+		fecha2 = LocalDate.of(2021, 7, 15);
+		when(periodoPrecio1.perteneceLaFecha(fecha1)).thenReturn(false);
+		when(periodoPrecio1.perteneceLaFecha(fecha2)).thenReturn(false);
 		
-		when(periodoPrecio1.perteneceLaFecha(fecha3)).thenReturn(true);
-		when(periodoPrecio1.perteneceLaFecha(fecha4)).thenReturn(false);
-		when(periodoPrecio2.perteneceLaFecha(fecha4)).thenReturn(false);
-		
-		double precio = casa.valorPorDias(fechas);
-		
-		assertEquals(precio, 5000d);
-	}
-	
-	@Test
-	void TestPrecioParaFechasQueNoPertenecenANingunPeriodo() {
-		ArrayList<LocalDate> fechas = new ArrayList<LocalDate>();
-		fechas.add(fecha3);
-		fechas.add(fecha4);
-		
-		when(periodoPrecio1.perteneceLaFecha(fecha3)).thenReturn(false);
-		when(periodoPrecio1.perteneceLaFecha(fecha4)).thenReturn(false);
-		when(periodoPrecio2.perteneceLaFecha(fecha3)).thenReturn(false);
-		when(periodoPrecio2.perteneceLaFecha(fecha4)).thenReturn(false);
-		
-		double precio = casa.valorPorDias(fechas);
+		double precio = casa.valorPorRangoDeFechas(fecha1, fecha2);
 		
 		assertEquals(precio, 6000d);
 	}
+	
 	
 	@Test
 	void testPuedeRecibirPuntaje() {
 		when(dueño.getAdmin()).thenReturn(admin);
-		when(admin.alquilo(casa)).thenReturn(true);
-		boolean puedeRecibirPuntos = casa.puedeRecibirPuntuacionPorEstadiaPor(dueño);
+		when(admin.alquilo(casa, fecha1)).thenReturn(true);
+		boolean puedeRecibirPuntos = casa.puedeRecibirPuntuacionPorEstadiaPor(dueño, fecha1);
 		assertTrue(puedeRecibirPuntos);
 	}
 	
@@ -199,9 +168,9 @@ class InmuebleTestCase {
 		verify(perfil).recibirPuntuacion(cat, 5);
 	}
 	
-	@Test
+	/*@Test
 	void estaDisponibleTestCase() {
-		ArrayList<LocalDate> fechas = new ArrayList<LocalDate>();
+		ListList<LocalDate> fechas = new ArrayList<LocalDate>();
 		fechas.add(fecha1);
 		fechas.add(fecha2);
 		
@@ -210,5 +179,5 @@ class InmuebleTestCase {
 		boolean estaDisp = casa.estaDisponible1(fechas);
 		
 		assertTrue(estaDisp);
-	}
+	}*/
 }

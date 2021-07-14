@@ -47,15 +47,6 @@ public class Usuario implements PuntuablePorEstadia {
 		this.aplicacionMovil= aplicacion;
 	}
 	
-	public List<Reserva> getReservasPendientes() {
-		return this.reservasPendientesDeConfirmacion;
-	}
-
-	public ArrayList<Reserva> getReservasConfirmadas() {
-		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
-		return reservas;
-	}
-	
 	public String getTelefono() {
 		return this.telefono;
 	}
@@ -119,15 +110,10 @@ public class Usuario implements PuntuablePorEstadia {
 		return result;
 	}
 	
-	public void puntuarComoInquilino(PuntuablePorEstadia puntuable, Categoria categoria, int puntos) {
-		if(puntuable.puedeRecibirPuntuacionPorEstadiaPor(this)) {
+	public void puntuarComoInquilino(PuntuablePorEstadia puntuable, Categoria categoria, int puntos, LocalDate fechaActual) {
+		if(puntuable.puedeRecibirPuntuacionPorEstadiaPor(this, fechaActual)) {
 			puntuable.recibirPuntuacionPorEstadia(categoria, puntos);
 		}
-	}
- 
-	@Override
-	public boolean puedeRecibirPuntuacionPorEstadiaPor(Usuario inquilino) {
-		return inquilino.getAdmin().leAlquiloA(this);
 	}
 
 	@Override
@@ -139,8 +125,8 @@ public class Usuario implements PuntuablePorEstadia {
 		this.perfilInquilino.recibirPuntuacion(cat, puntos);
 	}
 
-	public boolean puedeRecibirPuntuacionComoInquilinoPor(Usuario propietario) {
-		return this.admin.leAlquiloA(propietario);
+	public boolean puedeRecibirPuntuacionComoInquilinoPor(Usuario propietario, LocalDate fechaActual) {
+		return this.admin.leAlquiloA(propietario, fechaActual);
 	}
 
 	public void actualizarPrecioAInmueble(Inmueble inmueble) {
@@ -154,15 +140,21 @@ public class Usuario implements PuntuablePorEstadia {
 		return this.inmuebles;
 	}
 
-	public void puntuarComoPropietario(Usuario inquilino, Categoria cat, int puntos) {
-		if(inquilino.puedeRecibirPuntuacionComoInquilinoPor(this)) {
+	public void puntuarComoPropietario(Usuario inquilino, Categoria cat, int puntos, LocalDate fechaActual) {
+		if(inquilino.puedeRecibirPuntuacionComoInquilinoPor(this, fechaActual)) {
 			inquilino.recibirPuntuacionComoInquilino(cat, puntos);
 		}
 	}
 
+
 	public void agregarInmueble(Inmueble inmueble) {
 		// TODO Auto-generated method stub
 		this.inmuebles.add(inmueble);
+	}
+	@Override
+	public boolean puedeRecibirPuntuacionPorEstadiaPor(Usuario inquilino, LocalDate fechaActual) {
+		return inquilino.getAdmin().leAlquiloA(this, fechaActual);
+
 	}
 
 }

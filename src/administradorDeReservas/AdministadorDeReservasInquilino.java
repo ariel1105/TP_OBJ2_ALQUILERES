@@ -21,6 +21,10 @@ public class AdministadorDeReservasInquilino {
 	public AdministadorDeReservasInquilino() {
 		this.reservas = new ArrayList<Reserva>();
 	}
+	
+	public List<Reserva> getReservas(){
+		return this.reservas;
+	}
 
 	public List<Reserva> reservasConfirmadas(){
 		return this.reservas

@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,8 +21,8 @@ class PerfilTestCase {
 	private Perfil perfil;
 	private Categoria cat1;
 	private Categoria cat2;
-	private ArrayList<String> comentarios;
-	private ArrayList<Categoria> categorias;
+	private List<String> comentarios;
+	private List<Categoria> categorias;
 	private Map<Categoria,Integer> popularidad;
 
 	@BeforeEach
@@ -40,14 +41,14 @@ class PerfilTestCase {
 	
 	@Test 
 	void testGetComentarios() {
-		ArrayList <String> sinComentarios = new ArrayList<String>();
-		ArrayList <String> comentariosDePerfil = perfil.getComentarios();
+		List <String> sinComentarios = new ArrayList<String>();
+		List <String> comentariosDePerfil = perfil.getComentarios();
 		assertEquals(sinComentarios, comentariosDePerfil);
 	}
 
 	@Test
 	void testSetCategorias() {
-		ArrayList<Categoria> categoriasDePerfil = perfil.getCategorias();
+		List<Categoria> categoriasDePerfil = perfil.getCategorias();
 		assertEquals(categorias, categoriasDePerfil);
 	}
 	
@@ -112,7 +113,7 @@ class PerfilTestCase {
 	void testRecibirComentarios() {
 		perfil.recibirComentarios("comentario");
 		comentarios.add("comentario");
-		ArrayList <String> comentariosDePerfil = perfil.getComentarios();
+		List <String> comentariosDePerfil = perfil.getComentarios();
 		assertEquals(comentarios, comentariosDePerfil);
 	}
 
