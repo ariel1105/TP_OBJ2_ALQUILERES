@@ -33,14 +33,8 @@ public class BuscadorCompuesto implements IBuscador {
 	}
 
 	public void agregarParametrosOpcionalesSi(Integer cantidadHuespedes, Double precioMinimo, Double precioMaximo) {
-		// TODO Auto-generated method stub
-		//if (!(cantidadHuespedes == null)) {
-			this.buscadores.add(new BuscadorHuespedes(cantidadHuespedes));
-		//}
-		//if (!(precioMinimo == null) || !(precioMaximo==null)) {
-			
-			this.buscadores.add(new BuscadorPrecioMinimoYMaximo(precioMinimo, precioMaximo));
-		//}
+		this.buscadores.add(new BuscadorHuespedes(cantidadHuespedes));
+		this.buscadores.add(new BuscadorPrecioMinimoYMaximo(precioMinimo, precioMaximo));
 	}
 
 	public Boolean esAdmitida(String ciudad, LocalDate fechaInicio, LocalDate fechaFin) {
