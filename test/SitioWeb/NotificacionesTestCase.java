@@ -15,8 +15,11 @@ import org.junit.jupiter.api.Test;
 import Suscripciones.AppUser;
 import Suscripciones.INotify;
 import Suscripciones.SitioWeb;
+import administradorDeReservas.AdministadorDeReservasInquilino;
 import inmueble.Inmueble;
 import periodo.PeriodoPrecio;
+import politicasDeCancelacion.PoliticaDeCancelacion;
+import reservas.Reserva;
 import sitio.Sitio;
 import usuario.Usuario;
 
@@ -44,7 +47,10 @@ class NotificacionesTestCase {
 	private List<Inmueble> inmueblesRegistradosEnUsuario= new ArrayList<Inmueble>();
 	
 	//App
-	
+	private Usuario usuario2;
+	private AdministadorDeReservasInquilino admin;
+	private Reserva reserva;
+	private PoliticaDeCancelacion politica;
 	
 	
 	@BeforeEach
@@ -69,14 +75,21 @@ class NotificacionesTestCase {
 		when(periodo1.perteneceLaFecha(LocalDate.now())).thenReturn(true);
 		when(periodo1.getPrecio()).thenReturn(45000.0);
 		inmuebleA1.establecerPeriodosConPrecios(periodo1);
-
+		
+		
+		admin = new AdministadorDeReservasInquilino();
+		politica= mock(PoliticaDeCancelacion.class);
+		usuario2= new Usuario("Lucas", "Lucas@outlook.com", "1551408824", admin, appUser2);
+		reserva= new Reserva(usuario2, inmuebleA2, LocalDate.of(2021,7,10), LocalDate.of(2021,7,15), null, politica);
+		admin.ingresar(reserva);
+		
 	}
 	
 	@Test
 	void testCancelarInmueble() {
-		inmuebleA1.addObserver(sitioWeb2);
-		usuario.actualizarPrecioAInmueble(inmuebleA1);
-		verify(sitioWeb2).update(inmuebleA1, "Baja de precio");
+		inmuebleA2.addObserver(appUser2);
+		admin.cancelarReserva(reserva, LocalDate.now());
+		verify(appUser2).update(inmuebleA2, "Cancelacion");
 		
 	}
 	
@@ -90,7 +103,7 @@ class NotificacionesTestCase {
 
 	
 	@Test
-	void test() {
+	void testConstructor() {
 		assertEquals(inmuebleS1.getListenersPaginas().size(), 2);
 		inmuebleS1.notificar("Cancelacion");
 		inmuebleS1.notificar("Baja de precio");
