@@ -86,7 +86,7 @@ public class Inmueble  implements PuntuablePorEstadia {
 		Double precio;
 		if (!this.perteneceLaFechaAAlgunPeriodo(fecha)) {
 			precio = this.precioPorDefecto;
-		}
+		}	
 		else {
 			Optional<PeriodoPrecio> periodo = this.periodosConPrecios.stream().filter( p -> p.perteneceLaFecha(fecha)).findFirst();
 			precio = periodo.get().getPrecio();
