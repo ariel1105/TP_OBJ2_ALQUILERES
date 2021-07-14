@@ -18,6 +18,7 @@ import administradorDeReservas.AdministadorDeReservasInquilino;
 import perfiles.PerfilInmueble;
 import periodo.PeriodoPrecio;
 import politicasDeCancelacion.PoliticaDeCancelacion;
+import reservas.Reserva;
 import usuario.Usuario;
 
 class InmuebleTestCase {
@@ -42,9 +43,11 @@ class InmuebleTestCase {
 	private LocalDate fecha1;
 	private LocalDate fecha2;
 	private LocalDate fecha3;
-	private LocalDate fecha4;
 	private PerfilInmueble perfil;
 	private Categoria cat;
+	private Reserva reserva1;
+	private Reserva reserva2;
+	private List<Reserva> reservas;
 	
 	@BeforeEach
 	void setUp() throws Exception {;
@@ -57,8 +60,10 @@ class InmuebleTestCase {
 		perfil = mock(PerfilInmueble.class);
 		cat = mock(Categoria.class);
 		fecha3 = mock(LocalDate.class);
-		fecha4 = mock(LocalDate.class);
 		periodoPrecio2 = mock(PeriodoPrecio.class);
+		reserva1 = mock(Reserva.class);
+		reserva2 = mock(Reserva.class);
+		reservas = new ArrayList<Reserva>();
 		
 		casa = new Inmueble(dueño, tipoDeInmueble, superficie,pais,
 				ciudad,direccion,servicios, capacidad,fotos,
@@ -168,16 +173,57 @@ class InmuebleTestCase {
 		verify(perfil).recibirPuntuacion(cat, 5);
 	}
 	
-	/*@Test
-	void estaDisponibleTestCase() {
-		ListList<LocalDate> fechas = new ArrayList<LocalDate>();
-		fechas.add(fecha1);
-		fechas.add(fecha2);
-		
-		when(dueño.tieneDisponible(casa, fechas)).thenReturn(true);
-		
-		boolean estaDisp = casa.estaDisponible1(fechas);
-		
-		assertTrue(estaDisp);
-	}*/
+	@Test
+	void testAgregarReservas() {
+		casa.agregarReserva(reserva1);
+		casa.agregarReserva(reserva2);
+		reservas.add(reserva1);
+		reservas.add(reserva2);
+		List<Reserva> reservasDeCasa = casa.getReservas();
+		assertEquals(reservas, reservasDeCasa);
+	}
+	
+	@Test
+	void testNoEstaDisponible() {
+		casa.agregarReserva(reserva1);
+		when(reserva1.ocupaAlgunaFechaDeRango(fecha1, fecha2)).thenReturn(true);
+		boolean noEstaDisponible = casa.estaDisponible(fecha1, fecha2);
+		assertFalse(noEstaDisponible);
+	}
+	
+	@Test
+	void testEstaDisponible() {
+		casa.agregarReserva(reserva1);
+		casa.agregarReserva(reserva2);
+		when(reserva1.ocupaAlgunaFechaDeRango(fecha1, fecha2)).thenReturn(false);
+		when(reserva2.ocupaAlgunaFechaDeRango(fecha1, fecha2)).thenReturn(false);
+		boolean estaDisponible = casa.estaDisponible(fecha1, fecha2);
+		assertTrue(estaDisponible);
+	}
+	
+	@Test
+	void testEstaReservada() {
+		casa.agregarReserva(reserva1);
+		casa.agregarReserva(reserva2);
+		when(reserva1.estaConfirmada()).thenReturn(false);
+		when(reserva2.estaConfirmada()).thenReturn(true);
+		boolean estaReservada = casa.estaReservado();
+		assertTrue(estaReservada);
+	}
+	
+	@Test
+	void testNoEstaReservada() {
+		boolean noEstaReservada = casa.estaReservado();
+		assertFalse(noEstaReservada);
+	}
+	
+	@Test
+	void testVecesQueFueAlquilado() {
+		casa.agregarReserva(reserva1);
+		casa.agregarReserva(reserva2);
+		when(reserva1.estaConfirmada()).thenReturn(false);
+		when(reserva2.estaConfirmada()).thenReturn(true);
+		int veces = casa.vecesQueFueAlquilado();
+		assertEquals(1, veces);
+	}
 }

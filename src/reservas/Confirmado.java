@@ -18,7 +18,7 @@ public class Confirmado extends Estado {
 	}
 
 	@Override
-	protected Boolean esfechaOcupada(Reserva reserva, LocalDate dia) {
+	protected boolean esfechaOcupada(Reserva reserva, LocalDate dia) {
 		LocalDate inicio = reserva.getDiaInicio();
 		LocalDate fin = reserva.getDiaFin();
 		return inicio.datesUntil(fin).anyMatch(l -> l.equals(dia))||fin.equals(dia);
@@ -27,6 +27,11 @@ public class Confirmado extends Estado {
 	@Override
 	public boolean estaConfirmada() {
 		return true;
+	}
+
+	@Override
+	protected boolean ocupaFechaDeRango(Reserva reserva, LocalDate fechaInicio, LocalDate fechaFin) {
+		return fechaInicio.datesUntil(fechaFin).anyMatch(f -> reserva.ocupaFecha(f)) || reserva.ocupaFecha(fechaFin);
 	}
 
 }
