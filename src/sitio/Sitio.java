@@ -68,6 +68,7 @@ public class Sitio {
 			propietario.setPerfilPropietario(perfil);
 			this.crearPerfilInmueble(inmueble, perfil);
 			this.inmueblesPublicados.add(inmueble);
+			propietario.agregarInmueble(inmueble);
 		}
 	}
 

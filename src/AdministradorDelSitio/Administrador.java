@@ -25,22 +25,31 @@ public class Administrador  {
 		// TODO Auto-generated method stub
 		sitio.altaDeCategoriaPropietario(categoria);
 	}
-
+	/**
+     * Método que agrega una nueva categoria de calificacion para los propietarios en el sitio.
+     */
 	public void darDeAltaCategoriaParaInquilino(Sitio sitio, Categoria categoria) {
 		// TODO Auto-generated method stub
 		sitio.altaDeCategoriaInquilino(categoria);
 	}
-
+	/**
+     * Método que agrega una nueva categoria de calificacion para los inquilinos en el sitio.
+     */
 	public void darDeAltaTipoDeInmueble(Sitio sitio, String tipo) {
 		// TODO Auto-generated method stub
 		sitio.altaDeTipoInmueble(tipo);
 	}
-
+	/**
+     * Método que agrega un nuevo tipo de inmueble permitido en el sitio.
+     */
 	public void darDeAltaServicio(Sitio sitio, String servicio) {
 		// TODO Auto-generated method stub
 		sitio.altaServicio(servicio);
 		
 	}
+	/**
+     * Método que agrega un nuevo servicio de inmueble permitido en el sitio.
+     */
 
 	public List<Usuario> topTenInquilinos(Sitio sitio) {
 		// TODO Auto-generated method stub
@@ -57,6 +66,9 @@ public class Administrador  {
 		
 		return topTen;
 	}
+	/**
+     * Método que devuelve una lista de los 10 inquilinos que mas veces alquilaron en forma ascendente dentro de un sitio
+     */
 	
 	public List<Usuario> usuariosRank(Sitio sitio ) {
 		
@@ -67,6 +79,10 @@ public class Administrador  {
 		return users;
 		
 }
+	/**
+     * Método que devuelve una lista de todos los inquilinos ordenados en forma ascendente con respecto a las veces que alquilaron
+     */
+	
 	
 	public List<Usuario> usuariosQueAlquilaron(Sitio sitio) { //Esto tiene que ir en administrador
 		// TODO Auto-generated method stub
@@ -80,6 +96,9 @@ public class Administrador  {
 		return  usuarios;
 	}
 	
+	/**
+     * Método que devuelve una lista de todos los inquilinos de un sitio
+     */
 
 
 	public List <Inmueble> inmueblesLibres(Sitio sitio) {
@@ -97,7 +116,9 @@ public class Administrador  {
 		}
 		return inmueblesLibres;
 	}
-
+	/**
+     * Método que devuelve una lista de todos los inmuebles libres de un sitio
+     */
 	public Double tasaOcupacion(Sitio sitio) {
 		// TODO Auto-generated method stub
 		int cantInmuebles= sitio.getInmueblesPublicados().size();
@@ -105,7 +126,9 @@ public class Administrador  {
 		
 		
 	}
-
+	/**
+     * Método que devuelve la tasa de ocupacion de los inmuebles de un sitio
+     */
 	public Integer inmueblesReservados(Sitio sitio) {
 		List <Inmueble> inmuebles= sitio.getInmueblesPublicados();
 		int cantidadDeInmueblesAlquilados= 0;
@@ -122,6 +145,8 @@ public class Administrador  {
 
 		
 	}
-
+	/**
+     * Método que devuelve la cantidad de inmueblesReservados de un sitio
+     */
 
 }

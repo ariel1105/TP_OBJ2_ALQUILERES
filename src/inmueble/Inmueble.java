@@ -154,19 +154,19 @@ public class Inmueble  implements PuntuablePorEstadia {
 
 
 
-	/*public void cambiarPrecio() {
+	public void cambiarPrecio() {
 		// TODO Auto-generated method stub
 		
 		Double precioAnterior= this.getPrecioActual();
 			
-		precioActual= this.precioParaLaFecha(LocalDate.now());
+		precioActual= this.obtenerElPrecioParaLaFecha(LocalDate.now());
 		
 		if (precioActual < precioAnterior) {
 		
 		this.notificar("Baja de precio");
 		}
 		
-	} */
+	} 
 
 	public void notificar(String evento) {
 		// TODO Auto-generated method stub

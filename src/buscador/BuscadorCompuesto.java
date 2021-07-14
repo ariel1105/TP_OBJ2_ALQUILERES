@@ -21,7 +21,6 @@ public class BuscadorCompuesto implements IBuscador {
 
 			this.agregarBuscador(new BuscadorCiudad(ciudad));
 			this.agregarBuscador(new BuscadorFechas(fechaEntrada, fechaSalida));
-			//this.agregarParametrosOpcionalesSi(cantidadHuespedes, precioMinimo, precioMaximo);
 		}
 					
 		
@@ -32,16 +31,6 @@ public class BuscadorCompuesto implements IBuscador {
 		this.buscadores.add(buscador);
 	}
 
-	public void agregarParametrosOpcionalesSi(Integer cantidadHuespedes, Double precioMinimo, Double precioMaximo) {
-		// TODO Auto-generated method stub
-		if (!(cantidadHuespedes == null)) {
-			this.buscadores.add(new BuscadorHuespedes(cantidadHuespedes));
-		}
-		if (!(precioMinimo == null) || !(precioMaximo==null)) {
-			
-			this.buscadores.add(new BuscadorPrecioMinimoYMaximo(precioMinimo, precioMaximo));
-		}
-	}
 
 	public Boolean esAdmitida(String ciudad, LocalDate fechaInicio, LocalDate fechaFin) {
 		return (ciudad != null) && (fechaInicio != null) && (fechaFin != null); 

@@ -23,6 +23,7 @@ public class PeriodoPrecio {
 
 		Stream <LocalDate> fechas;
 	    return this.fechaInicio.datesUntil(this.fechaFin).anyMatch(l -> l.equals(fecha))||this.fechaFin.equals(fecha);
+		
 	}
 
 

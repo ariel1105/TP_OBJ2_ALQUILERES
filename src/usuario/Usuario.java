@@ -143,12 +143,12 @@ public class Usuario implements PuntuablePorEstadia {
 		return this.admin.leAlquiloA(propietario);
 	}
 
-	/*public void actualizarPrecioAInmueble(Inmueble inmueble) {
+	public void actualizarPrecioAInmueble(Inmueble inmueble) {
 		// TODO Auto-generated method stub
 		if (this.getInmuebles().contains(inmueble)) {			
 			inmueble.cambiarPrecio();
 		}
-	}*/
+	}
 
 	public List<Inmueble> getInmuebles() {
 		return this.inmuebles;
@@ -158,6 +158,11 @@ public class Usuario implements PuntuablePorEstadia {
 		if(inquilino.puedeRecibirPuntuacionComoInquilinoPor(this)) {
 			inquilino.recibirPuntuacionComoInquilino(cat, puntos);
 		}
+	}
+
+	public void agregarInmueble(Inmueble inmueble) {
+		// TODO Auto-generated method stub
+		this.inmuebles.add(inmueble);
 	}
 
 }
