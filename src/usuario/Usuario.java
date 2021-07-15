@@ -76,6 +76,7 @@ public class Usuario implements PuntuablePorEstadia {
 	public void solicitarReserva(Reserva reserva, Inmueble inmueble) {
 		if (reserva.getDatosDePago().sonDatosAdmitidosPara(inmueble)) {
 			inmueble.getPropietario().recibirSolicitudDeReserva(reserva);
+			this.admin.ingresar(reserva);
 		}
 	}
 
@@ -90,10 +91,6 @@ public class Usuario implements PuntuablePorEstadia {
 		}
 	}
 
-
-	public void recibirConfirmacion(Reserva reserva) {
-		this.admin.ingresar(reserva);
-	}
 
 	public Integer vecesQueAlquilaron() {
 		return this.admin.cantidadeDeReservas();

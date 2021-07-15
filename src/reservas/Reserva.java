@@ -39,7 +39,6 @@ public class Reserva {
 	
 	public void confirmarseEn(Sitio sitio) {
 		this.estado.confirmarEn(this, sitio);
-		this.inquilino.recibirConfirmacion(this);
 	}
 	
 	public Usuario getInquilino() {

@@ -176,7 +176,7 @@ public class Inmueble  implements PuntuablePorEstadia {
 
 	public void notificar(String evento) {
 		// TODO Auto-generated method stub
-		this.getListenersPaginas().stream().
+		this.listenersPaginas.stream().
 		forEach(listener -> listener.update(this, evento));
 
 	}

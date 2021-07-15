@@ -73,38 +73,24 @@ class UsuarioTestCase {
 		inquilino.registrarse(sitio);
 		verify(sitio).registrarUsuario(inquilino);
 	}
-	
-	@Test
-	void testPublicarSinRegistrarsePreviamente() {
-		when(sitio.elUsuarioEstaRegistrado(propietario)).thenReturn(false);
-		propietario.publicar(inmueble, sitio);
-		verify(sitio, never()).publicar(inmueble, propietario);
-	}
-	
-	@Test
-	void testPublicarConRegistroPrevio() {
-		when(sitio.elUsuarioEstaRegistrado(propietario)).thenReturn(true);
-		propietario.publicar(inmueble, sitio);
-		verify(sitio).publicar(inmueble, propietario);
-	}
-	
 		
 	@Test
 	void testRecibirSolicitudDeReserva() {
+		propietario.agregarInmueble(inmueble);
+		when(reserva.getInmueble()).thenReturn(inmueble);
 		propietario.recibirSolicitudDeReserva(reserva);
-		ArrayList<Reserva> reservasPendientesDeConfirmacion = propietario.getReservasPendientes();
-		assertEquals(reservas, reservasPendientesDeConfirmacion);
+		verify(inmueble).agregarReserva(reserva);
 	}
 	
 	@Test
 	void testSolicitarReserva() {
 		when(reserva.getInmueble()).thenReturn(inmueble);
-		when(inmueble.getPropietario()).thenReturn(propietario);
 		when(reserva.getDatosDePago()).thenReturn(datosDePago);
 		when(datosDePago.sonDatosAdmitidosPara(inmueble)).thenReturn(true);
-		inquilino.solicitarReserva(reserva);
-		ArrayList<Reserva> reservasPendientesDeConfirmacion = propietario.getReservasPendientes();
-		assertEquals(reservas, reservasPendientesDeConfirmacion);
+		when(inmueble.getPropietario()).thenReturn(propietario);
+		inquilino.solicitarReserva(reserva, inmueble);
+		verify(inmueble).agregarReserva(reserva);
+		verify(admin).ingresar(reserva);
 	}
 	
 	@Test
@@ -113,40 +99,27 @@ class UsuarioTestCase {
 		when(inmueble.getPropietario()).thenReturn(propietario);
 		when(reserva.getDatosDePago()).thenReturn(datosDePago);
 		when(datosDePago.sonDatosAdmitidosPara(inmueble)).thenReturn(false);
-		inquilino.solicitarReserva(reserva);
-		ArrayList<Reserva> reservasPendientesDeConfirmacion = propietario.getReservasPendientes();
-		ArrayList<Reserva> sinReservas = new ArrayList<Reserva>();
-		assertEquals(sinReservas, reservasPendientesDeConfirmacion);
-	}
-	
-	@Test
-	void testRecibirConfirmacionReserva() {
-		inquilino.recibirConfirmacion(reserva);
-		verify(admin).ingresar(reserva);
+		inquilino.solicitarReserva(reserva, inmueble);
+		verify(inmueble, never()).agregarReserva(reserva);
+		verify(admin, never()).ingresar(reserva);
 	}
 	
 	@Test
 	void testConfirmarReserva() {
 		when(reserva.getInmueble()).thenReturn(inmueble);
-		when(inmueble.getPropietario()).thenReturn(propietario);
-		when(reserva.getInquilino()).thenReturn(inquilino);
-		when(reserva.getDatosDePago()).thenReturn(datosDePago);
-		when(datosDePago.sonDatosAdmitidosPara(inmueble)).thenReturn(true);
-		inquilino.solicitarReserva(reserva);
+		when(inmueble.tieneReserva(reserva)).thenReturn(true);
 		propietario.confirmar(reserva, sitio);
-		ArrayList<Reserva> reservasPendientesDeConfirmacion = propietario.getReservasPendientes();
-		ArrayList<Reserva> sinReservas = new ArrayList<Reserva>();
-		assertEquals(sinReservas, reservasPendientesDeConfirmacion);
 		verify(reserva).confirmarseEn(sitio);
-		verify(admin).ingresar(reserva);
 	}
 	
 	@Test
-	void testNoSeConfirmaReservaSinSolicitarse() {
+	void testNoSeConfirmaReservaInexistente() {
+		when(reserva.getInmueble()).thenReturn(inmueble);
+		when(inmueble.tieneReserva(reserva)).thenReturn(false);
 		propietario.confirmar(reserva, sitio);
 		verify(reserva, never()).confirmarseEn(sitio);
-		verify(admin, never()).ingresar(reserva);
 	}
+	
 	
 	@Test
 	void testCantidadDeReservas() {
@@ -157,8 +130,8 @@ class UsuarioTestCase {
 	
 	@Test
 	void testPropietarioPuedeRecibirPuntuacionDeInquilino() {
-		when(admin.leAlquiloA(propietario)).thenReturn(true);
-		boolean puedeRecibirPuntuacion = propietario.puedeRecibirPuntuacionPorEstadiaPor(inquilino);
+		when(admin.leAlquiloA(propietario, fecha)).thenReturn(true);
+		boolean puedeRecibirPuntuacion = propietario.puedeRecibirPuntuacionPorEstadiaPor(inquilino, fecha);
 		assertTrue(puedeRecibirPuntuacion);
 	}
 	
@@ -172,30 +145,30 @@ class UsuarioTestCase {
 	@Test
 	void testPuntuarComoInquilino() {
 		propietario.setPerfilPropietario(perfilPropietario);
-		when(admin.leAlquiloA(propietario)).thenReturn(true);
-		inquilino.puntuarComoInquilino(propietario, cat, 5);
+		when(admin.leAlquiloA(propietario, fecha)).thenReturn(true);
+		inquilino.puntuarComoInquilino(propietario, cat, 5, fecha);
 		verify(perfilPropietario).recibirPuntuacion(cat, 5);
 	}
 	
 	@Test
 	void testNoSeRealizaPuntuacionComoInquilino() {
 		propietario.setPerfilPropietario(perfilPropietario);
-		when(admin.leAlquiloA(propietario)).thenReturn(false);
-		inquilino.puntuarComoInquilino(propietario, cat, 5);
+		when(admin.leAlquiloA(propietario, fecha)).thenReturn(false);
+		inquilino.puntuarComoInquilino(propietario, cat, 5, fecha);
 		verify(perfilPropietario, never()).recibirPuntuacion(cat, 5);
 	}
 	
 	@Test
 	void testPuntuarInmueble() {
-		when(inmueble.puedeRecibirPuntuacionPorEstadiaPor(inquilino)).thenReturn(true);
-		inquilino.puntuarComoInquilino(inmueble, cat, 5);
+		when(inmueble.puedeRecibirPuntuacionPorEstadiaPor(inquilino, fecha)).thenReturn(true);
+		inquilino.puntuarComoInquilino(inmueble, cat, 5, fecha);
 		verify(inmueble).recibirPuntuacionPorEstadia(cat, 5);
 	}
 	
 	@Test
 	void testNoSeRealizaPuntuacionEnInmueble() {
-		when(inmueble.puedeRecibirPuntuacionPorEstadiaPor(inquilino)).thenReturn(false);
-		inquilino.puntuarComoInquilino(inmueble,cat,5);
+		when(inmueble.puedeRecibirPuntuacionPorEstadiaPor(inquilino, fecha)).thenReturn(false);
+		inquilino.puntuarComoInquilino(inmueble,cat,5, fecha);
 		verify(inmueble, never()).recibirPuntuacionPorEstadia(cat, 5);
 	}
 	
@@ -208,174 +181,26 @@ class UsuarioTestCase {
 	
 	@Test
 	void testPuedePuntuarInquilino() {
-		when(admin.leAlquiloA(propietario)).thenReturn(true);
-		boolean puedeRecibirPuntuacion = inquilino.puedeRecibirPuntuacionComoInquilinoPor(propietario);
+		when(admin.leAlquiloA(propietario, fecha)).thenReturn(true);
+		boolean puedeRecibirPuntuacion = inquilino.puedeRecibirPuntuacionComoInquilinoPor(propietario, fecha);
 		assertTrue(puedeRecibirPuntuacion);
 	}
 	
 	@Test
 	void testPuntuarComoPropietario() {
 		inquilino.setPerfilInquilino(perfilInquilino);
-		when(admin.leAlquiloA(propietario)).thenReturn(true);
-		propietario.puntuarComoPropietario(inquilino, cat, 5);
+		when(admin.leAlquiloA(propietario, fecha)).thenReturn(true);
+		propietario.puntuarComoPropietario(inquilino, cat, 5, fecha);
 		verify(perfilInquilino).recibirPuntuacion(cat, 5);
 	}
 	
 	@Test
 	void testNoSeRealizaPuntuacion() {
 		inquilino.setPerfilInquilino(perfilInquilino);
-		when(admin.leAlquiloA(propietario)).thenReturn(false);
-		propietario.puntuarComoPropietario(inquilino, cat, 5);
+		when(admin.leAlquiloA(propietario, fecha)).thenReturn(false);
+		propietario.puntuarComoPropietario(inquilino, cat, 5, fecha);
 		verify(perfilInquilino, never()).recibirPuntuacion(cat, 5);
 	}
 	
-	@Test
-	void obtenerReservaQueImposibilita() {
-		reservas.add(reserva2);
-		when(reserva2.esReservaQueImposibilita(reserva)).thenReturn(true);
-		
-		Reserva reservaEsperada = propietario.obtenerReservaQueImposibilitaReserva(reserva, reservas);
-		
-		assertEquals(reserva2, reservaEsperada);
-	}
-	
-	@Test
-	void obtenerReservasEncoladas() {
-		
-		
-		propietario.agregarReservaAConfirmadas(reserva3);
-		reservas.remove(reserva);
-		when(reserva3.esReservaQueImposibilita(reserva)).thenReturn(true);
-		ArrayList<Reserva> reservasEncoladas = propietario.obtenerReservasEncoladasParaAgregar(reserva);
-		
-		assertEquals(reservas,reservasEncoladas);
-	}
-	
-	@Test
-	void encolarReserva() {
-		
-		HashMap<Reserva, ArrayList<Reserva>> reservasEsperadas = new HashMap<Reserva, ArrayList<Reserva>>();
-		reservasEsperadas.put(reserva2, reservas);
-		
-		when (reserva2.esReservaQueImposibilita(reserva)).thenReturn(true);
-		
-		propietario.agregarReservaAConfirmadas(reserva2);
-		propietario.encolarReserva(reserva);
-		
-		HashMap<Reserva, ArrayList<Reserva>> reservasConfirmadasYEncoladas = propietario.getReservasConfirmadasYEncoladas();
-		
-		assertEquals(reservasEsperadas,reservasConfirmadasYEncoladas);
-	}
-	
-	@Test
-	void iniciarTramiteDeReservaCuandoHayDisponibilidad() {
-		
-		when(reserva.getInmueble()).thenReturn(inmueble);
-		when(reserva.getFechas()).thenReturn(diasDeReserva);
-		when(inmueble.estaDisponible1(diasDeReserva)).thenReturn(true);
-		when(inmueble.getPropietario()).thenReturn(propietario);
-		when(reserva.getDatosDePago()).thenReturn(datosDePago);
-		when(datosDePago.sonDatosAdmitidosPara(inmueble)).thenReturn(true);
-		inquilino.iniciarTramiteDeReserva(reserva);
-		ArrayList<Reserva> reservasConfirmadas = propietario.getReservasConfirmadas();
-		
-		assertEquals(reservas, reservasConfirmadas);
-		
-	}
-	
-	@Test
-	void IniciarTramiteDeReservaCuandoNoHayDisponibilidadTestCase(){
-		when(reserva.getFechas()).thenReturn(diasDeReserva);
-		when(reserva.getInmueble()).thenReturn(inmueble);
-		when(inmueble.getPropietario()).thenReturn(propietario);
-		when(inmueble.estaDisponible1(diasDeReserva)).thenReturn(false);
-		when(reserva2.esReservaQueImposibilita(reserva)).thenReturn(true);
-		
-		HashMap<Reserva, ArrayList<Reserva>> reservasEsperadas = new HashMap<Reserva, ArrayList<Reserva>>();
-		reservasEsperadas.put(reserva2, reservas);
-		propietario.agregarReservaAConfirmadas(reserva2);
-		inquilino.iniciarTramiteDeReserva(reserva);
-		
-		HashMap<Reserva, ArrayList<Reserva>> reservasConfirmadasYEncoladas = propietario.getReservasConfirmadasYEncoladas();
-		
-		assertEquals(reservasEsperadas,reservasConfirmadasYEncoladas);
-		
-	}
-	
-	@Test
-	void agregarColaDeReservasTestCase() {
-		when(reserva.getInmueble()).thenReturn(inmueble);
-		when(inmueble.getPropietario()).thenReturn(propietario);
-		
-		propietario.agregarColaDeReservas(reserva,reservas);
-		
-		HashMap<Reserva, ArrayList<Reserva>> reservasEsperadas = new HashMap<Reserva, ArrayList<Reserva>>();
-		reservasEsperadas.put(reserva, reservas);
-
-		HashMap<Reserva, ArrayList<Reserva>> reservasConfirmadasYEncoladas = propietario.getReservasConfirmadasYEncoladas();
-		
-		assertEquals(reservasConfirmadasYEncoladas,reservasEsperadas);
-		
-	}
-	
-	@Test
-	void iniciarTramiteParaElPrimeroDeLaFila() {
-		when(reserva2.getInmueble()).thenReturn(inmueble);
-		when(inmueble.getPropietario()).thenReturn(propietario);
-		
-		when(reserva.getInmueble()).thenReturn(inmueble);
-		when(reserva.getFechas()).thenReturn(diasDeReserva);
-		when(inmueble.getPropietario()).thenReturn(propietario);
-		when(inmueble.estaDisponible1(diasDeReserva)).thenReturn(true);
-		
-		reservas.add(reserva3);
-		propietario.agregarReservaAConfirmadas(reserva2);
-		propietario.agregarColaDeReservas(reserva2, reservas);
-		
-		propietario.iniciarTramiteParaElPrimeroDeLaFila(reserva2);
-		
-		HashMap<Reserva, ArrayList<Reserva>> reservasEsperadas = new HashMap<Reserva, ArrayList<Reserva>>();
-		ArrayList<Reserva> encoladas = new ArrayList<Reserva>();
-		encoladas.add(reserva3);
-		reservasEsperadas.put(reserva2, encoladas);
-		reservasEsperadas.put(reserva, encoladas);
-		
-		assertEquals(reservasEsperadas, propietario.getReservasConfirmadasYEncoladas());
-		
-	}
-	
-	@Test
-	void tieneDisponible() {
-		when(inmueble.getPropietario()).thenReturn(propietario);
-		when(reserva.algunaDeLasFechasEstaOcupada(diasDeReserva)).thenReturn(true);
-		when(reserva2.algunaDeLasFechasEstaOcupada(diasDeReserva)).thenReturn(false);
-		
-		propietario.agregarReservaAConfirmadas(reserva);
-		propietario.agregarReservaAConfirmadas(reserva2);
-		
-		boolean estaDisp = propietario.tieneDisponible(inmueble, diasDeReserva);
-		
-		assertFalse(estaDisp);
-	}
-	
-	@Test
-	void eliminarReserva() {
-		when(reserva2.getInmueble()).thenReturn(inmueble);
-		when(inmueble.getPropietario()).thenReturn(propietario);
-		
-		when(reserva.getInmueble()).thenReturn(inmueble);
-		when(reserva.getFechas()).thenReturn(diasDeReserva);
-		when(inmueble.getPropietario()).thenReturn(propietario);
-		when(inmueble.estaDisponible1(diasDeReserva)).thenReturn(true);
-		
-		propietario.agregarReservaAConfirmadas(reserva2);
-		propietario.agregarColaDeReservas(reserva2, reservas);
-		propietario.eliminarReserva(reserva2);
-		HashMap<Reserva, ArrayList<Reserva>> reservasConfirmadas = propietario.getReservasConfirmadasYEncoladas();
-		assertFalse(reservasConfirmadas.containsKey(reserva2));
-		assertTrue(reservasConfirmadas.containsKey(reserva));
-	}
-	
-
 }
 
