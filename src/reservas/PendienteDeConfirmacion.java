@@ -19,12 +19,18 @@ public class PendienteDeConfirmacion extends Estado {
 	}
 
 	@Override
-	protected Boolean esfechaOcupada(Reserva reserva, LocalDate dia) {
+	protected boolean esfechaOcupada(Reserva reserva, LocalDate dia) {
 		return false;
 	}
 
 	@Override
 	protected boolean estaConfirmada() {
+		return false;
+	}
+
+	@Override
+	protected boolean ocupaFechaDeRango(Reserva reserva, LocalDate fechaInicio, LocalDate fechaFin) {
+		// TODO Auto-generated method stub
 		return false;
 	}
 

@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -25,39 +26,32 @@ public class PerfilDueñoTestCase {
 
 	private PerfilPropietario perfil;
 	private Inmueble inmueble;
-	private Usuario dueño;
+	private Inmueble inmueble2;
+	private Usuario propietario;
 	private ArrayList<Categoria> categorias;
-	private ArrayList<Reserva> reservas;
-	private Reserva reserva1;
-	private Reserva reserva2;
-	private AdministadorDeReservasInquilino admin;
-	private Usuario dueño2;
+	private ArrayList<Inmueble> inmuebles;
+	private Usuario propietario2;
 	private Sitio sitio;
 	private PerfilPropietario perfil2;
-	private AppUser aplicacion;
+	
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		admin= mock(AdministadorDeReservasInquilino.class);
 		inmueble = mock(Inmueble.class);
-		dueño = mock(Usuario.class);
-		reserva1 = mock(Reserva.class);
-		reserva2 = mock(Reserva.class);
-		reservas = new ArrayList<Reserva>();
-		reservas.add(reserva1);
-		reservas.add(reserva2);
-		when(inmueble.getPropietario()).thenReturn(dueño);
-		when(dueño.getReservasConfirmadas()).thenReturn(reservas);
-		perfil = new PerfilPropietario(categorias, dueño);
-		aplicacion=mock(AppUser.class);
+		inmueble2 = mock(Inmueble.class);
+		inmuebles = new ArrayList<Inmueble>();
+		inmuebles.add(inmueble);
+		inmuebles.add(inmueble2);
+		propietario = mock(Usuario.class);
+		perfil = new PerfilPropietario(categorias, propietario);
 		sitio= mock(Sitio.class);
-		dueño2 = new Usuario("Lucas Rodriguez", "LucasR21@T-mail.com", "1551408422", admin, aplicacion);
-		perfil2= new PerfilPropietario(categorias, dueño2);
+		propietario2 = mock(Usuario.class);
+		perfil2= new PerfilPropietario(categorias, propietario2);
 	}
 	
 	@Test 
 	void testTiempoComoUsuario2() {
-		dueño2.registrarse(sitio);
+		propietario2.registrarse(sitio);
 		long dias= perfil2.tiempoComoUsuario();
 		assertEquals(dias, 0); //va a dar 0 dias porque se registro en el mismo dias que le pido el dato (osea hoy)
 	}
@@ -65,7 +59,7 @@ public class PerfilDueñoTestCase {
 	
 	@Test
 	void testTiempoComoUsuario() {
-		when(dueño.tiempoComoUser()).thenReturn((long) 20);
+		when(propietario.tiempoComoUser()).thenReturn((long) 20);
 		long dias = perfil.tiempoComoUsuario();
 		assertEquals(dias, 20);
 	}
@@ -73,19 +67,22 @@ public class PerfilDueñoTestCase {
 	
 	@Test
 	void testInmueblesAlquilados() {
-		Set<Inmueble> resultadoEsperado = new HashSet();
-		resultadoEsperado.add(inmueble);
-		when(reserva1.getInmueble()).thenReturn(inmueble);
-		when(reserva2.getInmueble()).thenReturn(inmueble);
-		Set<Inmueble> inmueblesReservados = perfil.inmueblesAlquilados();
-		assertEquals(resultadoEsperado, inmueblesReservados);
+		when(propietario.getInmuebles()).thenReturn(inmuebles);
+		when(inmueble.estaReservado()).thenReturn(true);
+		when(inmueble2.estaReservado()).thenReturn(true);
+		List<Inmueble>inmueblesAlquilados = perfil.inmueblesAlquilados();
+		assertEquals(inmuebles, inmueblesAlquilados);
 	}
 	
 	@Test
 	void testCantidadDeAlquileres() {
-		when(dueño.getReservasConfirmadas()).thenReturn(reservas);
-		int resultado = perfil.cantidadDeAlquilieres();
-		assertEquals(2, resultado);
+		when(propietario.getInmuebles()).thenReturn(inmuebles);
+		when(inmueble.estaReservado()).thenReturn(true);
+		when(inmueble2.estaReservado()).thenReturn(true);
+		when(inmueble.vecesQueFueAlquilado()).thenReturn(3);
+		when(inmueble2.vecesQueFueAlquilado()).thenReturn(4);
+		int cantidadDeAlquileres = perfil.cantidadDeAlquilieres();
+		assertEquals(7, cantidadDeAlquileres);
 	}
 
 }

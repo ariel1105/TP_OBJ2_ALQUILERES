@@ -117,8 +117,13 @@ public class Inmueble  implements PuntuablePorEstadia {
 		return this.ciudad;
 	}
 
+	public void agregarReserva(Reserva reserva) {
+		this.reservas.add(reserva);
+	}
+	
 	public boolean estaDisponible(LocalDate fechaInicio, LocalDate fechaFin) {
-		return false;
+		return !(this.reservas.stream()
+							 .anyMatch(r -> r.ocupaAlgunaFechaDeRango(fechaInicio, fechaFin)));
 	}
 	
 	
@@ -200,9 +205,7 @@ public class Inmueble  implements PuntuablePorEstadia {
 		return servicios;
 	}
 
-	public void agregarReserva(Reserva reserva) {
-		this.reservas.add(reserva);
-	}
+	
 
 	public boolean tieneReserva(Reserva reserva) {
 		return this.reservas.contains(reserva);

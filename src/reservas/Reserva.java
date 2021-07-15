@@ -54,6 +54,10 @@ public class Reserva {
 	public Boolean ocupaFecha(LocalDate dia) {
 		return this.estado.esfechaOcupada(this, dia);
 	}
+	
+	public Boolean ocupaAlgunaFechaDeRango(LocalDate fechaInicio, LocalDate fechaFin) {
+		return this.estado.ocupaFechaDeRango(this, fechaInicio, fechaFin);
+	}
 
 
 	public void iniciarCancelacion(LocalDate fechaActual) {

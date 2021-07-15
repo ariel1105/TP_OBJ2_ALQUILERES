@@ -26,7 +26,6 @@ public class PerfilPropietario extends Perfil {
 		return this.propietario.tiempoComoUser();
 	}
 	
-	
 	public List<Inmueble> inmueblesAlquilados() {
 		return this.propietario.getInmuebles().stream()
 											  .filter(i -> i.estaReservado())
@@ -34,9 +33,9 @@ public class PerfilPropietario extends Perfil {
 	}
 	
 	public int cantidadDeAlquilieres() {
-		return this.propietario.getInmuebles().stream()
-											  .map(i -> i.vecesQueFueAlquilado())
-											  .reduce(0, Integer::sum);
+		return this.inmueblesAlquilados().stream()
+									     .map(i -> i.vecesQueFueAlquilado())
+									     .reduce(0, Integer::sum);
 	}
 
 
