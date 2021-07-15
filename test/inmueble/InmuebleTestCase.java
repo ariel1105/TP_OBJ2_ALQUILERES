@@ -23,6 +23,7 @@ import usuario.Usuario;
 
 class InmuebleTestCase {
 	private Usuario dueño;
+	private Usuario inquilino;
 	private AdministadorDeReservasInquilino admin;
 	private Inmueble casa;
 	private String tipoDeInmueble;
@@ -47,12 +48,14 @@ class InmuebleTestCase {
 	private Categoria cat;
 	private Reserva reserva1;
 	private Reserva reserva2;
+	private Reserva reserva3;
 	private List<Reserva> reservas;
 	
 	@BeforeEach
 	void setUp() throws Exception {;
 	
 		dueño = mock(Usuario.class);
+		inquilino = mock(Usuario.class);
 		admin = mock(AdministadorDeReservasInquilino.class);
 		fecha1 = mock(LocalDate.class);
 		fecha2 = mock(LocalDate.class);
@@ -63,6 +66,7 @@ class InmuebleTestCase {
 		periodoPrecio2 = mock(PeriodoPrecio.class);
 		reserva1 = mock(Reserva.class);
 		reserva2 = mock(Reserva.class);
+		reserva3 = mock(Reserva.class);
 		reservas = new ArrayList<Reserva>();
 		
 		casa = new Inmueble(dueño, tipoDeInmueble, superficie,pais,
@@ -225,5 +229,90 @@ class InmuebleTestCase {
 		when(reserva2.estaConfirmada()).thenReturn(true);
 		int veces = casa.vecesQueFueAlquilado();
 		assertEquals(1, veces);
+	}
+	
+	@Test
+	void testReservasQueImposibilitanAUnaNuevaReserva() {
+		casa.agregarReserva(reserva1);
+		casa.agregarReserva(reserva2);
+		when(reserva1.imposibilitaReserva(reserva3)).thenReturn(true);
+		when(reserva2.imposibilitaReserva(reserva3)).thenReturn(false);
+		reservas.add(reserva1);
+		List<Reserva>reservasQueImposibilitan = casa.reservasQueImposibilitan(reserva3);
+		assertEquals(reservas, reservasQueImposibilitan);
+	}
+	
+	@Test
+	void testEncolarNuevaReservaEnReservasCorrectas() {
+		casa.agregarReserva(reserva1);
+		casa.agregarReserva(reserva2);
+		when(reserva1.imposibilitaReserva(reserva3)).thenReturn(true);
+		when(reserva2.imposibilitaReserva(reserva3)).thenReturn(false);
+		casa.encolar(reserva3);
+		verify(reserva1).encolarReserva(reserva3);
+	}
+	
+	@Test
+	void testHayReservasQueImposibilitenNuevaReserva() {
+		casa.agregarReserva(reserva1);
+		casa.agregarReserva(reserva2);
+		when(reserva1.imposibilitaReserva(reserva3)).thenReturn(true);
+		when(reserva2.imposibilitaReserva(reserva3)).thenReturn(false);
+		boolean noHayReservasQueImposibilitan = casa.noHayReservasQueImposibiliten(reserva3);
+		assertFalse(noHayReservasQueImposibilitan);
+	}
+	
+	@Test
+	void testNoHayReservasQueImposibilitenNuevaReserva() {
+		casa.agregarReserva(reserva1);
+		casa.agregarReserva(reserva2);
+		when(reserva1.imposibilitaReserva(reserva3)).thenReturn(false);
+		when(reserva2.imposibilitaReserva(reserva3)).thenReturn(false);
+		boolean noHayReservasQueImposibilitan = casa.noHayReservasQueImposibiliten(reserva3);
+		assertTrue(noHayReservasQueImposibilitan);
+	}
+	
+	@Test
+	void testRealizarSolicitudParaPrimeroDeLaCola() {
+		when(reserva2.getInquilino()).thenReturn(inquilino);
+		when(reserva1.primeraDeLaCola()).thenReturn(reserva2);
+		casa.realizarSolicitudParaLaPrimeraDeLaCola(reserva1);
+		verify(reserva2).recibirCola(reserva1);
+		verify(inquilino).solicitarReserva(reserva2, casa);
+	}
+	
+	@Test
+	void testNoSeSolicitaLaReservaEncoladaCuandoHayOtraReservaQueLaImposibilita() {
+		casa.agregarReserva(reserva1);
+		when(reserva2.primeraDeLaCola()).thenReturn(reserva3);
+		when(reserva1.imposibilitaReserva(reserva3)).thenReturn(true);
+		casa.desencolarReserva(reserva2);
+		verify(reserva2).sacarPrimeroDeLaCola();
+	}
+	
+	@Test
+	void testSePuedeRealizarPorReservaEncoladaEnReserva() {
+		casa.agregarReserva(reserva1);
+		casa.agregarReserva(reserva2);
+		when(reserva1.primeraDeLaCola()).thenReturn(reserva3);
+		when(reserva2.imposibilitaReserva(reserva3)).thenReturn(false);
+		when(reserva1.tieneColaDeReservas()).thenReturn(true);
+		when(reserva1.estaConfirmada()).thenReturn(true);
+		boolean esPosible = casa.sePuedeRealizarSolicitudPorReservaEncoladaEn(reserva1);
+		assertTrue(esPosible);
+	}
+	
+	@Test
+	void testDesencolarCuandoEsPosible() {
+		casa.agregarReserva(reserva1);
+		casa.agregarReserva(reserva2);
+		when(reserva1.primeraDeLaCola()).thenReturn(reserva3);
+		when(reserva2.imposibilitaReserva(reserva3)).thenReturn(false);
+		when(reserva1.tieneColaDeReservas()).thenReturn(true);
+		when(reserva1.estaConfirmada()).thenReturn(true);
+		when(reserva3.getInquilino()).thenReturn(inquilino);
+		casa.desencolarReserva(reserva1);
+		verify(reserva3).recibirCola(reserva1);
+		verify(inquilino).solicitarReserva(reserva3, casa);
 	}
 }

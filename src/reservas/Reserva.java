@@ -65,7 +65,7 @@ public class Reserva {
 
 	public void iniciarCancelacion(LocalDate fechaActual) {
 		this.politicaDeCancelacion.cancelar(this, fechaActual);
-		inmueble.cancelarReserva();
+		inmueble.cancelarReserva(this);
 	}
 	
 	public void cancelar(LocalDate fechaACtual) {
@@ -143,5 +143,6 @@ public class Reserva {
 		List<Reserva>nuevaCola = reserva.getCola();
 		this.colaDeReservas.addAll(nuevaCola);
 	}
+	
 
 }

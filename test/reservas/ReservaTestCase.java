@@ -110,7 +110,7 @@ class ReservaTestCase {
 	void testIniciarCancelacionDelegaEnLaPoliticaDeCancelacionYElInmueble() {
 		reserva.iniciarCancelacion(dia3);
 		verify(politica).cancelar(reserva,dia3);
-		verify(inmueble).cancelarReserva();
+		verify(inmueble).cancelarReserva(reserva);
 	}
 	
 	@Test
@@ -204,6 +204,5 @@ class ReservaTestCase {
 		List<Reserva>colaDeReservas = reserva2.getCola();
 		assertEquals(lista, colaDeReservas);
 	}
-	
 	
 }

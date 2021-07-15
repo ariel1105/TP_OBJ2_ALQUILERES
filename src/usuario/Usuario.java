@@ -27,10 +27,7 @@ public class Usuario implements PuntuablePorEstadia {
 	private String telefono;
 	private AdministadorDeReservasInquilino admin;
 	private List<Inmueble> inmuebles;
-	private List<Reserva> reservasPendientesDeConfirmacion;
-	private List<Reserva> reservasConfirmadasPropietario;
 
-	private LocalDate fechaActual;
 	private PerfilInquilino perfilInquilino;
 	private PerfilPropietario perfilPropietario;
 	private LocalDate fechaQueSeRegistro;
@@ -42,7 +39,6 @@ public class Usuario implements PuntuablePorEstadia {
 		this.mail = mail;
 		this.telefono = telefono;
 		this.inmuebles = new ArrayList<Inmueble>();
-		this.reservasPendientesDeConfirmacion = new ArrayList<Reserva>();
 		this.admin = admin;
 		this.aplicacionMovil= aplicacion;
 	}
@@ -103,8 +99,6 @@ public class Usuario implements PuntuablePorEstadia {
 		return this.admin.cantidadeDeReservas();
 	}
 
-
-
 	public long tiempoComoUser() {
 		long result = ChronoUnit.DAYS.between(this.getFechaQueSeRegistro(), LocalDate.now());
 		return result;
@@ -146,11 +140,11 @@ public class Usuario implements PuntuablePorEstadia {
 		}
 	}
 
-
 	public void agregarInmueble(Inmueble inmueble) {
 		// TODO Auto-generated method stub
 		this.inmuebles.add(inmueble);
 	}
+	
 	@Override
 	public boolean puedeRecibirPuntuacionPorEstadiaPor(Usuario inquilino, LocalDate fechaActual) {
 		return inquilino.getAdmin().leAlquiloA(this, fechaActual);

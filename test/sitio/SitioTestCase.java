@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -185,7 +186,7 @@ class SitioTestCase {
 	
 	@Test
 	void publicarInmueble() {
-		ArrayList<Inmueble> inmueblesRegistrados = new ArrayList<Inmueble>();
+		List<Inmueble> inmueblesRegistrados = new ArrayList<Inmueble>();
 		inmueblesRegistrados.add(inmueble1);
 		inmueblesRegistrados.add(inmueble2);
 		inmueblesRegistrados.add(inmueble3);

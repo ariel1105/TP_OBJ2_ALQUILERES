@@ -153,8 +153,8 @@ public class Inmueble  implements PuntuablePorEstadia {
 		this.listenersPaginas.add(notif);
 	}
 
-	public void cancelarReserva() {
-		// TODO Auto-generated method stub
+	public void cancelarReserva(Reserva reserva) {
+		this.desencolarReserva(reserva);
 		this.notificar("Cancelacion");
 	}
 
@@ -208,7 +208,7 @@ public class Inmueble  implements PuntuablePorEstadia {
 	
 
 	public boolean tieneReserva(Reserva reserva) {
-		return this.reservas.contains(reserva);
+		return this.reservas.contains(reserva)&& reserva.estaConfirmada();
 	}
 
 	public List<Reserva> getReservas() {
@@ -234,21 +234,27 @@ public class Inmueble  implements PuntuablePorEstadia {
 	}
 
 	public void desencolarReserva(Reserva reserva) {
-		if (this.noHayReservasQueImposibiliten(reserva.primeraDeLaCola()) && reserva.tieneColaDeReservas()) {
+		if (this.sePuedeRealizarSolicitudPorReservaEncoladaEn(reserva)) {
 			this.realizarSolicitudParaLaPrimeraDeLaCola(reserva);
 		}
 		else {reserva.sacarPrimeroDeLaCola();}			
 	}
 
-	private void realizarSolicitudParaLaPrimeraDeLaCola(Reserva reserva) {
+	public void realizarSolicitudParaLaPrimeraDeLaCola(Reserva reserva) {
 		Reserva nuevaReserva = reserva.primeraDeLaCola();
 		Usuario interesado = nuevaReserva.getInquilino();
 		nuevaReserva.recibirCola(reserva);
 		interesado.solicitarReserva(nuevaReserva, this);
 	}
 
-	private boolean noHayReservasQueImposibiliten(Reserva primeraDeLaCola) {
-		return this.reservas.stream().anyMatch(r -> r.imposibilitaReserva(primeraDeLaCola));
+	public boolean noHayReservasQueImposibiliten(Reserva primeraDeLaCola) {
+		return this.reservas.stream().noneMatch(r -> r.imposibilitaReserva(primeraDeLaCola));
+	}
+	
+	public boolean sePuedeRealizarSolicitudPorReservaEncoladaEn(Reserva reserva) {
+		return this.noHayReservasQueImposibiliten(reserva.primeraDeLaCola()) 
+				&& reserva.tieneColaDeReservas()
+				&& this.tieneReserva(reserva);
 	}
 	
 }
