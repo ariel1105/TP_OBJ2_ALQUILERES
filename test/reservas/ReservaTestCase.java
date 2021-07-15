@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,6 +46,7 @@ class ReservaTestCase {
 	private Confirmado estadoConfirmado;
 	private Cancelado estadoCancelado;
 	
+	
 	@BeforeEach
 	void setUp() throws Exception {
 		inquilino = mock(Usuario.class);
@@ -61,6 +63,7 @@ class ReservaTestCase {
 		reservas = new ArrayList<Reserva>();
 		reserva = new Reserva(inquilino, inmueble, diaInicio, diaFin, datosDePago, politica);
 		reserva2 = new Reserva(propietario,inmueble,diaInicio, diaFin, datosDePago,politica);
+		reserva3 = new Reserva(propietario,inmueble,diaInicio, diaFin, datosDePago,politica);
 		reservas.add(reserva);
 		reservas.add(reserva2);
 		estadoPendiente = mock(PendienteDeConfirmacion.class);
@@ -149,6 +152,57 @@ class ReservaTestCase {
 		reserva.setEstado(estadoCancelado);
 		reserva.estaConfirmada();
 		verify(estadoCancelado).estaConfirmada();
+	}
+	
+	@Test
+	void testNoHayReservasEncoladas() {
+		boolean hayReservasEncoladas = reserva.tieneColaDeReservas();
+		assertFalse(hayReservasEncoladas);
+	}
+	
+	@Test
+	void testEncolaReserva() {
+		reserva.encolarReserva(reserva2);
+		boolean hayReservasEncoladas = reserva.tieneColaDeReservas();
+		assertTrue(hayReservasEncoladas);
+	}
+	
+	@Test
+	void testPrimeroDeLaCola() {
+		reserva.encolarReserva(reserva2);
+		Reserva primeroDeLaCola = reserva.primeraDeLaCola();
+		assertEquals(reserva2, primeroDeLaCola);
+	}
+	
+	@Test
+	void testDesencolar() {
+		List<Reserva>listaVacia = new ArrayList<Reserva>();
+		reserva.encolarReserva(reserva2);
+		reserva.sacarPrimeroDeLaCola();
+		List<Reserva>colaDeReservas = reserva.getCola();
+		assertEquals(listaVacia, colaDeReservas);
+	}
+	
+	@Test
+	void testDesencolarConDosReservas() {
+		List<Reserva>lista = new ArrayList<Reserva>();
+		lista.add(reserva3);
+		reserva.encolarReserva(reserva2);
+		reserva.encolarReserva(reserva3);
+		reserva.sacarPrimeroDeLaCola();
+		List<Reserva>colaDeReservas = reserva.getCola();
+		assertEquals(lista, colaDeReservas);
+	}
+	
+	@Test
+	void testRecibirNuevaColaDeReservas() {
+		List<Reserva>lista = new ArrayList<Reserva>();
+		lista.add(reserva3);
+		reserva.encolarReserva(reserva2);
+		reserva.encolarReserva(reserva3);
+		reserva2.recibirCola(reserva);
+		List<Reserva>colaDeReservas = reserva2.getCola();
+		assertEquals(lista, colaDeReservas);
 	}
 	
 	
