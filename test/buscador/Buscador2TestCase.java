@@ -33,7 +33,7 @@ class Buscador2TestCase {
 	private Inmueble inmueble4;
 	private Inmueble inmueble5;
 	private Inmueble inmueble6;
-	
+	 
 	@BeforeEach
 	void setUp() {
 		sitio= mock(Sitio.class);
