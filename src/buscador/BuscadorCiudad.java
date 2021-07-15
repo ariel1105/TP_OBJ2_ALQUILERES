@@ -8,12 +8,21 @@ import inmueble.Inmueble;
 
 public class BuscadorCiudad implements IBuscador {
 	
+	/**
+     * Esta clase sera una de las "hojas" de nuestro patron compuesto, implementando la interfaz IBuscador. 
+     * Se encargara de buscar inmuebles segun la ciudad
+     */
+	
 	private String ciudad;
 	
 	public BuscadorCiudad(String ciudad) {
 		// TODO Auto-generated constructor stub
 		this.ciudad= ciudad;
 	}
+	/**
+     * Constructor para la clase, se le asignara un parametro string que sera la ciudad para filtrar los inmuebles
+     * 
+     */
 
 	@Override
 	public ArrayList<Inmueble> filtrar(List<Inmueble> inmuebles) {
@@ -22,5 +31,7 @@ public class BuscadorCiudad implements IBuscador {
 				filter(inmueble -> inmueble.getCiudad().equals(ciudad)).
 				collect(Collectors.toList());
 	}
-
+	/**
+     * Método que retorna los inmuebles que se encuentren en la ciudad que se encuentra en el constructor
+     */ 
 }
