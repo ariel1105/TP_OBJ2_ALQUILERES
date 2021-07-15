@@ -3,6 +3,7 @@ package reservas;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import inmueble.DatosDePago;
 import inmueble.Inmueble;
@@ -18,6 +19,7 @@ public class Reserva {
 	private DatosDePago datosDePago;
 	private Usuario inquilino;
 	private PoliticaDeCancelacion politicaDeCancelacion;
+	private List<Reserva> colaDeReservas;
 	private Estado estado;
 	
 	public Reserva(Usuario in, Inmueble i, LocalDate diaInicio, LocalDate diaFin, DatosDePago f, PoliticaDeCancelacion p) {
@@ -28,6 +30,7 @@ public class Reserva {
 		this.datosDePago = f;
 		this.politicaDeCancelacion = p;
 		this.estado = new PendienteDeConfirmacion();
+		this.colaDeReservas = new ArrayList<Reserva>();
 	}
 
 	public void setEstado(Estado estado) {
@@ -107,6 +110,38 @@ public class Reserva {
 
 	public boolean estaConfirmada() {
 		return this.estado.estaConfirmada();
+	}
+	
+	public void encolarReserva(Reserva reserva) {
+		this.colaDeReservas.add(reserva);
+	}
+	
+	public boolean imposibilitaReserva(Reserva reserva) {
+		return this.ocupaAlgunaFechaDeRango(reserva.getDiaInicio(), reserva.getDiaFin());
+	}
+	
+	public List<Reserva>getCola(){
+		return this.colaDeReservas;
+	}
+
+	public Reserva primeraDeLaCola() {
+		return this.colaDeReservas.get(0);
+	}
+
+	public boolean tieneColaDeReservas() {
+		return !this.colaDeReservas.isEmpty();
+	}
+
+	public void sacarPrimeroDeLaCola() {
+		if(this.tieneColaDeReservas()) {
+			this.colaDeReservas.remove(0);
+		}
+	}
+
+	public void recibirCola(Reserva reserva) {
+		reserva.sacarPrimeroDeLaCola();
+		List<Reserva>nuevaCola = reserva.getCola();
+		this.colaDeReservas.addAll(nuevaCola);
 	}
 
 }

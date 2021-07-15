@@ -221,6 +221,34 @@ public class Inmueble  implements PuntuablePorEstadia {
 							.collect(Collectors.toList())
 							.size();
 	}
+	
+	public List<Reserva> reservasQueImposibilitan(Reserva reserva){
+		return this.reservas.stream()
+							.filter(r -> r.imposibilitaReserva(reserva))
+							.collect(Collectors.toList());
+	}
 
+	public void encolar(Reserva reserva) {
+		this.reservasQueImposibilitan(reserva).stream()
+											  .forEach(r -> r.encolarReserva(reserva));
+	}
 
+	public void desencolarReserva(Reserva reserva) {
+		if (this.noHayReservasQueImposibiliten(reserva.primeraDeLaCola()) && reserva.tieneColaDeReservas()) {
+			this.realizarSolicitudParaLaPrimeraDeLaCola(reserva);
+		}
+		else {reserva.sacarPrimeroDeLaCola();}			
+	}
+
+	private void realizarSolicitudParaLaPrimeraDeLaCola(Reserva reserva) {
+		Reserva nuevaReserva = reserva.primeraDeLaCola();
+		Usuario interesado = nuevaReserva.getInquilino();
+		nuevaReserva.recibirCola(reserva);
+		interesado.solicitarReserva(nuevaReserva, this);
+	}
+
+	private boolean noHayReservasQueImposibiliten(Reserva primeraDeLaCola) {
+		return this.reservas.stream().anyMatch(r -> r.imposibilitaReserva(primeraDeLaCola));
+	}
+	
 }
