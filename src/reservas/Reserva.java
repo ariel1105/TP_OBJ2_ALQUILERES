@@ -35,7 +35,7 @@ public class Reserva {
 
 	public void setEstado(Estado estado) {
 		this.estado = estado;
-	}
+	}	
 	
 	public void confirmarseEn(Sitio sitio) {
 		this.estado.confirmarEn(this, sitio);

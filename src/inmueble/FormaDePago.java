@@ -1,7 +1,16 @@
 package inmueble;
 
-public enum FormaDePago {
-	TarjetaDeCredito,
-	TarjetaDeDebito,
-	Efectivo,
+public class FormaDePago {
+	
+	private String formaDePago;
+
+	public FormaDePago(String formaDePago) {
+		
+		this.formaDePago= formaDePago;
+	}
+
+	public String getFormaDePago() {
+		return formaDePago;
+	}
+	
 }

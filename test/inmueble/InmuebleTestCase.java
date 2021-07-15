@@ -39,6 +39,9 @@ class InmuebleTestCase {
 	private IHora horarioCheckIn;
 	private IHora horarioCheckOut;
 	private List<FormaDePago> formasDePago;
+	private FormaDePago efectivo;
+	private FormaDePago tarjetaDeDebito;
+	private FormaDePago tarjetaDeCredito;
 	private PeriodoPrecio periodoPrecio1;
 	private PeriodoPrecio periodoPrecio2;
 	private LocalDate fecha1;
@@ -68,6 +71,14 @@ class InmuebleTestCase {
 		reserva2 = mock(Reserva.class);
 		reserva3 = mock(Reserva.class);
 		reservas = new ArrayList<Reserva>();
+		efectivo= mock(FormaDePago.class);
+		tarjetaDeDebito= mock(FormaDePago.class);
+		tarjetaDeCredito= mock(FormaDePago.class);
+		formasDePago= new ArrayList<FormaDePago>();
+		formasDePago.add(efectivo);
+		formasDePago.add(tarjetaDeDebito);
+		formasDePago.add(tarjetaDeCredito);
+		
 		
 		casa = new Inmueble(dueño, tipoDeInmueble, superficie,pais,
 				ciudad,direccion,servicios, capacidad,fotos,
@@ -321,5 +332,16 @@ class InmuebleTestCase {
 		when(reserva1.estaConfirmada()).thenReturn(true);
 		boolean tieneReserva = casa.tieneReserva(reserva1);
 		assertFalse(tieneReserva);
+	}
+	
+	@Test
+	void testFormasDePago() {
+		List <FormaDePago> formasEsperadas= new ArrayList<FormaDePago>();
+		formasEsperadas.add(efectivo);
+		formasEsperadas.add(tarjetaDeDebito);
+		formasEsperadas.add(tarjetaDeCredito);
+		assertEquals(casa.getFormasDePago(), formasEsperadas);
+		
+		
 	}
 }

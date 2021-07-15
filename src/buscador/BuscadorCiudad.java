@@ -25,9 +25,9 @@ public class BuscadorCiudad implements IBuscador {
      */
 
 	@Override
-	public ArrayList<Inmueble> filtrar(List<Inmueble> inmuebles) {
+	public List<Inmueble> filtrar(List<Inmueble> inmuebles) {
 		// TODO Auto-generated method stub
-		return (ArrayList<Inmueble>) inmuebles.stream().
+		return  inmuebles.stream().
 				filter(inmueble -> inmueble.getCiudad().equals(ciudad)).
 				collect(Collectors.toList());
 	}
