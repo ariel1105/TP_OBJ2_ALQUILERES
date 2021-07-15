@@ -53,16 +53,13 @@ class PerfilInmuebleTestCase {
 		List<String> comentariosPerfil = perfil.getComentarios();
 		assertEquals(comentariosEsperados, comentariosPerfil);
 	}
-	/*
+	
 	@Test
 	void testVecesQueSeAlquiloLaPropiedad() {
-		when(inmueble.getPropietario()).thenReturn(dueño);
-		when(dueño.getReservasConfirmadas()).thenReturn(reservas);
-		when(reserva1.getInmueble()).thenReturn(inmueble);
-		when(reserva2.getInmueble()).thenReturn(inmueble);
+		when(inmueble.getReservas()).thenReturn(reservas);
 		int veces = perfil.vecesQueSeAlquiloEstaPropiedad();
 		assertEquals(2, veces);
-	}*/
+	}
 	
 
 }

@@ -26,8 +26,6 @@ public class PeriodoPrecio {
 		
 	}
 
-
-
 	public LocalDate getFechaInicio() {
 		return fechaInicio;
 	}

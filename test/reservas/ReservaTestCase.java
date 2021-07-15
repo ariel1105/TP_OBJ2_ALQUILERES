@@ -27,7 +27,8 @@ class ReservaTestCase {
 
 	private Reserva reserva;
 	private Reserva reserva2;
-	private Reserva reserva3; 
+	private Reserva reserva3;
+	private Reserva reserva4;
 	private Inmueble inmueble;
 	private Inmueble inmueble2;
 	private LocalDate diaInicio;
@@ -64,6 +65,7 @@ class ReservaTestCase {
 		reserva = new Reserva(inquilino, inmueble, diaInicio, diaFin, datosDePago, politica);
 		reserva2 = new Reserva(propietario,inmueble,diaInicio, diaFin, datosDePago,politica);
 		reserva3 = new Reserva(propietario,inmueble,diaInicio, diaFin, datosDePago,politica);
+		reserva4 = new Reserva(propietario,inmueble,dia3, dia4, datosDePago,politica);
 		reservas.add(reserva);
 		reservas.add(reserva2);
 		estadoPendiente = mock(PendienteDeConfirmacion.class);
@@ -183,6 +185,14 @@ class ReservaTestCase {
 		assertEquals(listaVacia, colaDeReservas);
 	}
 	
+	@Test 
+	void testSacarPrimeroDeLaColaConColaVacia() {
+		List<Reserva>listaVacia = new ArrayList<Reserva>();
+		reserva.sacarPrimeroDeLaCola();
+		List<Reserva>colaDeReservas = reserva.getCola();
+		assertEquals(listaVacia, colaDeReservas);
+	}
+	
 	@Test
 	void testDesencolarConDosReservas() {
 		List<Reserva>lista = new ArrayList<Reserva>();
@@ -203,6 +213,14 @@ class ReservaTestCase {
 		reserva2.recibirCola(reserva);
 		List<Reserva>colaDeReservas = reserva2.getCola();
 		assertEquals(lista, colaDeReservas);
+	}
+	
+	@Test
+	void testImposibilitaReserva() {
+		reserva.setEstado(estadoConfirmado);
+		when(estadoConfirmado.ocupaFechaDeRango(reserva, dia3, dia4)).thenReturn(true);
+		boolean imposibilita = reserva.imposibilitaReserva(reserva4);
+		assertTrue(imposibilita);
 	}
 	
 }

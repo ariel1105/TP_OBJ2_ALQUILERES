@@ -1,5 +1,6 @@
 package perfiles;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,8 +23,8 @@ public class PerfilPropietario extends Perfil {
 		this.propietario = propietario;
 	}
 	
-	public long tiempoComoUsuario() { 
-		return this.propietario.tiempoComoUser();
+	public int tiempoComoUsuario(LocalDate fechaActual) { 
+		return this.propietario.tiempoComoUser(fechaActual);
 	}
 	
 	public List<Inmueble> inmueblesAlquilados() {

@@ -17,9 +17,6 @@ public class DatosDePago {
 		this.email = email;
 	}
 
-	public void abonar(Usuario dueño, double monto) {		
-	}
-
 	public Boolean sonDatosAdmitidosPara(Inmueble inmueble) {
 		return inmueble.getFormasDePago().contains(this.formaDePago);
 	}

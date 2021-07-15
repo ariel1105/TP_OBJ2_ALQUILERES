@@ -26,5 +26,5 @@ class CancelacionIntermediaTestCase {
 		politica = new CancelacionIntermedia();
 	}
 	
-}
 	
+}

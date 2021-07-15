@@ -1,5 +1,5 @@
 package inmueble;
 
-public class Foto {
+public interface IHora {
 
 }

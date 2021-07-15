@@ -68,7 +68,7 @@ class NotificacionesTestCase {
 		
 
 		usuario=new Usuario("Lautaro", "lautaro@gmail.com", "42500197", null, null);
-		usuario.registrarse(sitio1);
+		usuario.registrarse(sitio1, null);
 		usuariosRegistrados.add(usuario);
 		usuario.agregarInmueble(inmuebleA1);
 		periodo1= mock(PeriodoPrecio.class);
@@ -88,7 +88,7 @@ class NotificacionesTestCase {
 	@Test
 	void testCancelarInmueble() {
 		inmuebleA2.addObserver(appUser2);
-		admin.cancelarReserva(reserva, LocalDate.now());
+		inmuebleA2.cancelarReserva(reserva);
 		verify(appUser2).update(inmuebleA2, "Cancelacion");
 		
 	}

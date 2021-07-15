@@ -88,7 +88,6 @@ public class Sitio {
 	}
 
 	public void enviarMailDeConfirmacion(Reserva reserva) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -128,14 +127,7 @@ public class Sitio {
 		}
 	}
 
-	public List<Reserva> todasLasResevasConfirmadas() {
-		return this.inmueblesPublicados.stream()
-								.map(i -> i.getReservas())
-								.flatMap(r -> r.stream())
-								.filter(r -> r.estaConfirmada())
-								.collect(Collectors.toList());
-	}
-	
+
 	public List<Inmueble> getInmueblesPublicados() {
 		return inmueblesPublicados;
 	}

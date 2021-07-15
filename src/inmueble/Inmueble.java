@@ -29,9 +29,9 @@ public class Inmueble  implements PuntuablePorEstadia {
 	private String direccion;
 	private List<String> servicios;
 	private int capacidad;
-	private List<Foto> fotos;
-	private Hora horarioCheckIn;
-	private Hora horarioCheckOut;
+	private List<IFoto> fotos;
+	private IHora horarioCheckIn;
+	private IHora horarioCheckOut;
 	private List<FormaDePago> formasDePago;
 	private List<PeriodoPrecio> periodosConPrecios;
 	private double precioPorDefecto;
@@ -42,8 +42,8 @@ public class Inmueble  implements PuntuablePorEstadia {
 	private List <Reserva> reservas;
 	
 	public Inmueble(Usuario propietario,  String tipoDeInmueble, double superficie, String pais, String ciudad, String direccion, List<String> servicios,
-			 int capacidad, List<Foto> fotos, Hora horarioCheckIn,
-			Hora horarioCheckOut, List<FormaDePago> formasDePago, double precio, 
+			 int capacidad, List<IFoto> fotos, IHora horarioCheckIn,
+			IHora horarioCheckOut, List<FormaDePago> formasDePago, double precio, 
 			PoliticaDeCancelacion politicaDeCancelacion) {
 		this.propietario = propietario;
 		this.tipoDeInmueble = tipoDeInmueble;

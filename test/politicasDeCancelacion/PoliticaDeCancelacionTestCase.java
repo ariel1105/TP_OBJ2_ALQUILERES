@@ -3,6 +3,7 @@ package politicasDeCancelacion;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
@@ -39,6 +40,12 @@ class PoliticaDeCancelacionTestCase {
 	void testValor() {
 		double valor = politica.valorPara(reserva, fechaActual);
 		assertEquals(0, valor);
+	}
+	
+	@Test
+	void testCancelar() {
+		politica.cancelar(reserva, fechaActual);
+		verify(politica).realizarPagoPor(0d);
 	}
 	
 }

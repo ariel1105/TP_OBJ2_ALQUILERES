@@ -35,9 +35,9 @@ class InmuebleTestCase {
 	private int capacidad;
 	private double precio;
 	private List<String> servicios ;
-	private List<Foto> fotos;
-	private Hora horarioCheckIn;
-	private Hora horarioCheckOut;
+	private List<IFoto> fotos;
+	private IHora horarioCheckIn;
+	private IHora horarioCheckOut;
 	private List<FormaDePago> formasDePago;
 	private PeriodoPrecio periodoPrecio1;
 	private PeriodoPrecio periodoPrecio2;
@@ -314,5 +314,12 @@ class InmuebleTestCase {
 		casa.desencolarReserva(reserva1);
 		verify(reserva3).recibirCola(reserva1);
 		verify(inquilino).solicitarReserva(reserva3, casa);
+	}
+	
+	@Test
+	void testInmuebleTieneReserva() {
+		when(reserva1.estaConfirmada()).thenReturn(true);
+		boolean tieneReserva = casa.tieneReserva(reserva1);
+		assertFalse(tieneReserva);
 	}
 }

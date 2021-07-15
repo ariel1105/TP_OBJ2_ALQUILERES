@@ -29,6 +29,16 @@ class PeriodoPrecioTestCase {
 		periodoPrecio = new PeriodoPrecio(precio, fecha1, fecha2);
 
 	}
+	
+	@Test
+	void testConstructor() {
+		LocalDate fechaInicio = periodoPrecio.getFechaInicio();
+		LocalDate fechaFin = periodoPrecio.getFechaFin();
+		double monto = periodoPrecio.getPrecio();
+		assertEquals(fecha1,fechaInicio);
+		assertEquals(fecha2,fechaFin);
+		assertEquals(monto, precio);
+	}
 
 	@Test
 	void FechaInicialPerteneceAlPeriodo() {

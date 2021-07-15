@@ -63,15 +63,19 @@ public class Usuario implements PuntuablePorEstadia {
 		return this.admin;
 	}
 
-	public void registrarse(Sitio sitio) {
+	public void registrarse(Sitio sitio, LocalDate fechaActual) {
 		sitio.registrarUsuario(this);
-		fechaQueSeRegistro= LocalDate.now();
+		this.fechaQueSeRegistro = fechaActual;
 	}
 
 	public LocalDate getFechaQueSeRegistro() {
 		return fechaQueSeRegistro;
 	}
 
+	public int tiempoComoUser(LocalDate fechaActual) {
+		return fechaActual.compareTo(fechaQueSeRegistro);
+	}
+	
 	
 	public void solicitarReserva(Reserva reserva, Inmueble inmueble) {
 		if (reserva.getDatosDePago().sonDatosAdmitidosPara(inmueble)) {
@@ -96,10 +100,6 @@ public class Usuario implements PuntuablePorEstadia {
 		return this.admin.cantidadeDeReservas();
 	}
 
-	public long tiempoComoUser() {
-		long result = ChronoUnit.DAYS.between(this.getFechaQueSeRegistro(), LocalDate.now());
-		return result;
-	}
 	
 	public void puntuarComoInquilino(PuntuablePorEstadia puntuable, Categoria categoria, int puntos, LocalDate fechaActual) {
 		if(puntuable.puedeRecibirPuntuacionPorEstadiaPor(this, fechaActual)) {

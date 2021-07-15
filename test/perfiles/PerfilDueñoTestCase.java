@@ -33,6 +33,7 @@ public class PerfilDueñoTestCase {
 	private Usuario propietario2;
 	private Sitio sitio;
 	private PerfilPropietario perfil2;
+	private LocalDate fechaActual;
 	
 	
 	@BeforeEach
@@ -51,16 +52,16 @@ public class PerfilDueñoTestCase {
 	
 	@Test 
 	void testTiempoComoUsuario2() {
-		propietario2.registrarse(sitio);
-		long dias= perfil2.tiempoComoUsuario();
+		propietario2.registrarse(sitio, fechaActual);
+		int dias= perfil2.tiempoComoUsuario(fechaActual);
 		assertEquals(dias, 0); //va a dar 0 dias porque se registro en el mismo dias que le pido el dato (osea hoy)
 	}
 	
 	
 	@Test
 	void testTiempoComoUsuario() {
-		when(propietario.tiempoComoUser()).thenReturn((long) 20);
-		long dias = perfil.tiempoComoUsuario();
+		when(propietario.tiempoComoUser(fechaActual)).thenReturn(20);
+		long dias = perfil.tiempoComoUsuario(fechaActual);
 		assertEquals(dias, 20);
 	}
 	

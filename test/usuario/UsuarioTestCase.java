@@ -70,8 +70,10 @@ class UsuarioTestCase {
 
 	@Test
 	void testRegistrarse() {
-		inquilino.registrarse(sitio);
+		inquilino.registrarse(sitio, fecha);
+		LocalDate fechaDeRegistro = inquilino.getFechaQueSeRegistro();
 		verify(sitio).registrarUsuario(inquilino);
+		assertEquals(fecha, fechaDeRegistro);
 	}
 		
 	@Test
@@ -202,5 +204,11 @@ class UsuarioTestCase {
 		verify(perfilInquilino, never()).recibirPuntuacion(cat, 5);
 	}
 	
+	@Test
+	void testTiempoComoUsuario() {
+		inquilino.registrarse(sitio, LocalDate.of(2021, 1, 1));
+		int dias = inquilino.tiempoComoUser(LocalDate.of(2021, 1, 10));
+		assertEquals(9, dias);
+	}
 }
 
