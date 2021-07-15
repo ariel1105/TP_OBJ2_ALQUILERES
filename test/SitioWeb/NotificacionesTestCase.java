@@ -39,6 +39,10 @@ class NotificacionesTestCase {
 	private Inmueble inmuebleA3;
 	private Inmueble inmuebleA4;
 	private List<Inmueble> inmuebles= new ArrayList<Inmueble>();
+	private List<Reserva> reservasEncoladas;
+	private Reserva reserva1;
+	private Reserva reserva2;
+	private Reserva reserva3;
 	
 	///sitioweb
 	private Usuario usuario;
@@ -82,6 +86,13 @@ class NotificacionesTestCase {
 		usuario2= new Usuario("Lucas", "Lucas@outlook.com", "1551408824", admin, appUser2);
 		reserva= new Reserva(usuario2, inmuebleA2, LocalDate.of(2021,7,10), LocalDate.of(2021,7,15), null, politica);
 		admin.ingresar(reserva);
+		reservasEncoladas= new ArrayList<Reserva>();
+		reserva1= mock(Reserva.class);
+		reserva2= mock(Reserva.class);
+		reserva3= mock(Reserva.class);
+		reserva.encolarReserva(reserva1);
+		reserva.encolarReserva(reserva2);
+		reserva.encolarReserva(reserva3);
 		
 	}
 	
