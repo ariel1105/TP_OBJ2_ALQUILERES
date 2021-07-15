@@ -2,6 +2,7 @@ package sitio;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import Categorias.Categoria;
 import Suscripciones.SitioWeb;
@@ -127,11 +128,11 @@ public class Sitio {
 	}
 
 	public List<Reserva> todasLasResevasConfirmadas() {
-		List<Reserva> reservas = new ArrayList<Reserva>();
-		for (Usuario us : this.usuariosRegistrados) {
-			reservas.addAll(us.getReservasConfirmadas());
-		}
-		return reservas;
+		return this.inmueblesPublicados.stream()
+								.map(i -> i.getReservas())
+								.flatMap(r -> r.stream())
+								.filter(r -> r.estaConfirmada())
+								.collect(Collectors.toList());
 	}
 	
 	public List<Inmueble> getInmueblesPublicados() {

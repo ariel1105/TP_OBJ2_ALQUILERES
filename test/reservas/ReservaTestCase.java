@@ -89,7 +89,7 @@ class ReservaTestCase {
 	
 	@Test
 	void testConfirmarReservaParaEstadoCancelado() {
-		reserva.setEstado(estadoConfirmado);
+		reserva.setEstado(estadoCancelado);
 		reserva.confirmarseEn(sitio);
 		verify(estadoCancelado).confirmarEn(reserva,sitio);
 	}
@@ -99,17 +99,16 @@ class ReservaTestCase {
 		reserva.setEstado(estadoPendiente);
 		when(estadoPendiente.esfechaOcupada(reserva, dia3)).thenReturn(false);
 		boolean esFechaOcupada = reserva.ocupaFecha(dia3);
-		assertTrue(esFechaOcupada);
+		assertFalse(esFechaOcupada);
 	}
 	
-	
-	@Test 
-	void testValorPorReserva() {
-		when(inmueble.valorPorDias(dias)).thenReturn(1000d);
-		Double monto = reserva.valor();
-		assertEquals(1000d, monto);
+	@Test
+	void testDiaNoEstaOcupadoParaReservaCancelada() {
+		reserva.setEstado(estadoCancelado);
+		when(estadoPendiente.esfechaOcupada(reserva, dia3)).thenReturn(false);
+		boolean esFechaOcupada = reserva.ocupaFecha(dia3);
+		assertFalse(esFechaOcupada);
 	}
-	
 	
 	@Test
 	void testReservaEsDeCiudad() {
@@ -125,32 +124,11 @@ class ReservaTestCase {
 		assertEquals(ciudad, "Pinamar");
 	}
 	
-	
-	
 	@Test
 	void testAbonarAlDueñoCantidad() {
 		when(inmueble.getPropietario()).thenReturn(propietario);
 		reserva.confirmarPagoPor(100d);
 		verify(datosDePago).abonar(propietario, 100d);
 	}
-	
-	@Test
-	void testValorPorDias() {
-		when(inmueble.valorPorDias(dias)).thenReturn(300d);
-		Double monto = reserva.valorPorDias(2);
-		assertEquals(monto, 300d);
-	}
-	
-	@Test
-	void algunaDeLasFechasEstaOcupadaTestCase() {
-		fechas.add(diaInicio);
-		assertTrue (reserva.algunaDeLasFechasEstaOcupada(fechas));
-	}
-	
-	@Test
-	void ningunaDeLasFechasEstaOcupadaTestCase() {
-		assertFalse (reserva.algunaDeLasFechasEstaOcupada(fechas));
-	}
-	
 	
 }
