@@ -3,31 +3,31 @@ package politicasDeCancelacion;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import reservas.Reserva;
 
 public class CancelacionIntermedia extends PoliticaDeCancelacion {
 	
-	private ArrayList<Accion> accionesPosibles;
+	private List<Abono> abonosPosibles;
 	
 	public CancelacionIntermedia() {
-		this.accionesPosibles = new ArrayList<Accion>();
-		this.accionesPosibles.add(new SinAbono());
-		this.accionesPosibles.add(new AbonoDel50PorCiento());
-		this.accionesPosibles.add(new AbonoTotal());
+		this.abonosPosibles = new ArrayList<Abono>();
+		this.abonosPosibles.add(new SinAbono());
+		this.abonosPosibles.add(new AbonoDel50PorCiento());
+		this.abonosPosibles.add(new AbonoTotal());
 	}
-		//this.accionParaReserva.realizarAccionDePago;
-		//reserva.cancelar;
-	public Accion accionParaReserva(Reserva reserva, LocalDate fechaActual) {
-		int i = 0;
-		while (!this.accionesPosibles.get(i).esAccionParaReserva(this, reserva, fechaActual)) {
-			i++;
-		}
-		return this.accionesPosibles.get(i);
+		
+	public Abono abonoParaReserva(Reserva reserva, LocalDate fechaActual) {
+		return this.abonosPosibles.stream()
+								  .filter(a -> a.esAbonoParaReserva(this, reserva, fechaActual))
+								  .findFirst()
+								  .get();
 	}
+	
 	@Override
-	public void cancelar(Reserva reserva, LocalDate fechaActual) {
-		this.accionParaReserva(reserva, fechaActual).realizarAccionDePago(reserva);
+	public double valorPara(Reserva reserva, LocalDate fechaActual) {
+		return this.abonoParaReserva(reserva, fechaActual).monto(reserva);
 	}
 	
 }

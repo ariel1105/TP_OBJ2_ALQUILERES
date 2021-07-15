@@ -87,13 +87,6 @@ public class Reserva {
 		return this.politicaDeCancelacion;
 	}
 
-	public void confirmarPagoPor(double monto) {
-		this.datosDePago.abonar(this.inmueble.getPropietario(),monto);
-	}
-
-	public double valorPorDias(int cantDias) {
-		return 0;
-	}
 
 	public Inmueble getInmueble() {
 		return this.inmueble;
@@ -105,7 +98,7 @@ public class Reserva {
 
 
 	public boolean esReservaFutura(LocalDate fechaActual) {
-		return (fechaActual.isBefore(this.getDiaInicio()));
+		return fechaActual.isBefore(this.diaInicio);
 	}
 	
 	public Estado getEstado() {

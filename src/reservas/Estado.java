@@ -11,10 +11,16 @@ public abstract class Estado {
 
 	protected abstract void cancelarReserva(Reserva reserva, LocalDate fechaACtual);
 
-	protected abstract boolean esfechaOcupada(Reserva reserva ,LocalDate dia);
+	protected boolean esfechaOcupada(Reserva reserva ,LocalDate dia) {
+		return false;
+	}
 
-	protected abstract boolean estaConfirmada();
+	protected boolean estaConfirmada() {
+		return false;
+	}
 
-	protected abstract boolean ocupaFechaDeRango(Reserva reserva, LocalDate fechaInicio, LocalDate fechaFin);
+	protected boolean ocupaFechaDeRango(Reserva reserva, LocalDate fechaInicio, LocalDate fechaFin) {
+		return false;
+	}
 
 }

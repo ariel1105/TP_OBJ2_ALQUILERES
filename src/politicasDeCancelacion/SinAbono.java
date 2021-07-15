@@ -4,18 +4,18 @@ import java.time.LocalDate;
 
 import reservas.Reserva;
 
-public class SinAbono extends Accion {
+public class SinAbono extends Abono {
 	
 	
 
 	@Override
-	public boolean esAccionParaReserva(CancelacionIntermedia cancelacionIntermedia, Reserva reserva, LocalDate fechaActual) {
+	public boolean esAbonoParaReserva(CancelacionIntermedia cancelacionIntermedia, Reserva reserva, LocalDate fechaActual) {
 		return cancelacionIntermedia.diferenciaDeDiasEsMayor(reserva, 19, fechaActual);
 	}
 
-	// error al agregar la annotation override
-	public void realizarAccionDePago(Reserva reserva) {
-		
+	@Override
+	public double monto(Reserva reserva) {
+		return 0d;
 	}
 
 }

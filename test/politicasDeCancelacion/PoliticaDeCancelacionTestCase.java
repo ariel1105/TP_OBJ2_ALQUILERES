@@ -23,24 +23,22 @@ class PoliticaDeCancelacionTestCase {
 	@BeforeEach
 	void setUp() throws Exception {
 		politica = spy(PoliticaDeCancelacion.class);
-		fechaActual = mock(LocalDate.class);
-		fechaPrimerDiaReserva = mock(LocalDate.class);
+		fechaActual = LocalDate.of(2021, 1, 1);
+		fechaPrimerDiaReserva = LocalDate.of(2021, 1, 22);
 		reserva = mock(Reserva.class);
-	}
-
-	@Test
-	void testActualizarFecha() {//test de la clase abastracta
-		politica.actualizarFecha(fechaActual);
-		LocalDate fechaDePolitica = politica.getFechaActual();
-		assertEquals(fechaActual, fechaDePolitica);
 	}
 	
 	@Test
-	void testDiferenciaDeDias() { // test de la clase abstracta
-		politica.actualizarFecha(fechaActual);
-		when(reserva.primerDia()).thenReturn(fechaPrimerDiaReserva);
-		when(fechaActual.compareTo(fechaPrimerDiaReserva)).thenReturn(21);
-		assertTrue(politica.diferenciaDeDiasEsMayor(reserva, 20));
+	void testDiferenciaDeDias() { 
+		when(reserva.getDiaInicio()).thenReturn(fechaPrimerDiaReserva);
+		assertTrue(politica.diferenciaDeDiasEsMayor(reserva, 20, fechaActual));
+	}
+	
+	
+	@Test
+	void testValor() {
+		double valor = politica.valorPara(reserva, fechaActual);
+		assertEquals(0, valor);
 	}
 	
 }

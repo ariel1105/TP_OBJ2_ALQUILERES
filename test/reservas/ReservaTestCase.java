@@ -49,16 +49,11 @@ class ReservaTestCase {
 	void setUp() throws Exception {
 		inquilino = mock(Usuario.class);
 		propietario = mock(Usuario.class);
-		diaInicio = mock(LocalDate.class);
+		diaInicio = LocalDate.of(2022, 2, 3);
 		diaFin = mock(LocalDate.class);
 		dia3 = mock(LocalDate.class);
 		dia4 = mock(LocalDate.class);
 		dias = new ArrayList<LocalDate>();
-		dias.add(diaInicio);
-		dias.add(diaFin);
-		fechas = new ArrayList<LocalDate>();
-		fechas.add(dia3);
-		fechas.add(dia4);
 		inmueble = mock(Inmueble.class);
 		datosDePago = mock(DatosDePago.class);
 		sitio = mock(Sitio.class);
@@ -84,7 +79,7 @@ class ReservaTestCase {
 	void testConfirmarReservaParaEstadoConfirmado() {
 		reserva.setEstado(estadoConfirmado);
 		reserva.confirmarseEn(sitio);
-		verify(estadoPendiente).confirmarEn(reserva,sitio);
+		verify(estadoConfirmado).confirmarEn(reserva,sitio);
 	}
 	
 	@Test
@@ -95,19 +90,37 @@ class ReservaTestCase {
 	}
 	
 	@Test
-	void testDiaNoEstaOcupadoParaReservaPendiente() {
-		reserva.setEstado(estadoPendiente);
-		when(estadoPendiente.esfechaOcupada(reserva, dia3)).thenReturn(false);
-		boolean esFechaOcupada = reserva.ocupaFecha(dia3);
-		assertFalse(esFechaOcupada);
+	void testReservaOcupaFechaDependeDelEstado() {
+		reserva.setEstado(estadoCancelado);
+		reserva.ocupaFecha(dia3);
+		verify(estadoCancelado).esfechaOcupada(reserva, dia3);
 	}
 	
 	@Test
-	void testDiaNoEstaOcupadoParaReservaCancelada() {
+	void testOcupaFechaDeRangoDependeDelEstado() {
 		reserva.setEstado(estadoCancelado);
-		when(estadoPendiente.esfechaOcupada(reserva, dia3)).thenReturn(false);
-		boolean esFechaOcupada = reserva.ocupaFecha(dia3);
-		assertFalse(esFechaOcupada);
+		reserva.ocupaAlgunaFechaDeRango(diaInicio, diaFin);
+		verify(estadoCancelado).ocupaFechaDeRango(reserva, diaInicio, diaFin);
+	}
+	
+	@Test
+	void testIniciarCancelacionDelegaEnLaPoliticaDeCancelacionYElInmueble() {
+		reserva.iniciarCancelacion(dia3);
+		verify(politica).cancelar(reserva,dia3);
+		verify(inmueble).cancelarReserva();
+	}
+	
+	@Test
+	void testCancelarDelegaEnElEstado() {
+		reserva.setEstado(estadoCancelado);
+		reserva.cancelar(dia3);
+		verify(estadoCancelado).cancelarReserva(reserva, dia3);
+	}
+	
+	@Test
+	void testValorDelegaEnElInmueble() {
+		reserva.valor();
+		verify(inmueble).valorPorRangoDeFechas(diaInicio, diaFin);
 	}
 	
 	@Test
@@ -125,10 +138,18 @@ class ReservaTestCase {
 	}
 	
 	@Test
-	void testAbonarAlDueñoCantidad() {
-		when(inmueble.getPropietario()).thenReturn(propietario);
-		reserva.confirmarPagoPor(100d);
-		verify(datosDePago).abonar(propietario, 100d);
+	void testEsReservaFutura() {
+		LocalDate fechaActual = LocalDate.of(2020, 1, 1);
+		boolean esReservaFutura = reserva.esReservaFutura(fechaActual);
+		assertTrue(esReservaFutura);
 	}
+	
+	@Test
+	void testReservaEstaConfirmada() {
+		reserva.setEstado(estadoCancelado);
+		reserva.estaConfirmada();
+		verify(estadoCancelado).estaConfirmada();
+	}
+	
 	
 }

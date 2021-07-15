@@ -7,8 +7,8 @@ import reservas.Reserva;
 public class SinCancelacion extends PoliticaDeCancelacion {
 
 	@Override
-	public void cancelar(Reserva reserva, LocalDate fechaActual) {
-		this.realizarPagoPor(reserva.valor());
+	public double valorPara(Reserva reserva, LocalDate fechaActual) {
+		return reserva.valor();
 	}
 
 }

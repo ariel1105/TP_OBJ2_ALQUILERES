@@ -1,19 +1,33 @@
 package politicasDeCancelacion;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import inmueble.Inmueble;
 import reservas.Reserva;
 
 public class CancelacionGratuita extends PoliticaDeCancelacion {
 
-	public Boolean tieneQueAbonar(Reserva reserva, LocalDate fechaActual) {
+	public boolean tieneQueAbonar(Reserva reserva, LocalDate fechaActual) {
 		return !this.diferenciaDeDiasEsMayor(reserva, 10, fechaActual);
 	}
 
+	
 	@Override
-	public void cancelar(Reserva reserva, LocalDate fechaActual) {
+	public double valorPara(Reserva reserva, LocalDate fechaActual) {
+		double importe = 0;
 		if (this.tieneQueAbonar(reserva, fechaActual)) {
-			this.realizarPagoPor(reserva.valorPorDias(2));
+			importe = this.valorPenalizacionPorCancelacion(reserva);
 		}
-		
+		return importe;
+	}
+
+
+	public double valorPenalizacionPorCancelacion(Reserva reserva) {
+		double importe = reserva.getInmueble().obtenerElPrecioParaLaFecha(reserva.getDiaInicio());
+		LocalDate segundoDiaDeReserva = reserva.getDiaInicio().plusDays(1);
+		if (reserva.ocupaFecha(segundoDiaDeReserva)) {
+			importe = importe + reserva.getInmueble().obtenerElPrecioParaLaFecha(segundoDiaDeReserva);
+		}
+		return importe;
 	}
 }

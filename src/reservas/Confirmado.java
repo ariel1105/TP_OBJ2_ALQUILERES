@@ -31,7 +31,8 @@ public class Confirmado extends Estado {
 
 	@Override
 	protected boolean ocupaFechaDeRango(Reserva reserva, LocalDate fechaInicio, LocalDate fechaFin) {
-		return fechaInicio.datesUntil(fechaFin).anyMatch(f -> reserva.ocupaFecha(f)) || reserva.ocupaFecha(fechaFin);
+		return fechaInicio.datesUntil(fechaFin).anyMatch(f -> this.esfechaOcupada(reserva, f))
+			|| this.esfechaOcupada(reserva, fechaFin);
 	}
 
 }
