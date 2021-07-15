@@ -12,6 +12,10 @@ import sitio.Sitio;
 import usuario.Usuario;
 
 public class Administrador  {
+	/**
+     * Esta clase se utilizará realizar acciones de administrador en el sitio como dar de alta categorias, agregar tipos de inmuebles y servicios validos.
+     * Obtener listado de los inquilinos que mas alquilaron, los inmuebles libres y la tasa de inmuebles reservados.
+     */
 
 	public void darDeAltaCategoriaParaInmueble(Sitio sitio, Categoria categoria) {
 		// TODO Auto-generated method stub
@@ -84,7 +88,7 @@ public class Administrador  {
      */
 	
 	
-	public List<Usuario> usuariosQueAlquilaron(Sitio sitio) { //Esto tiene que ir en administrador
+	public List<Usuario> usuariosQueAlquilaron(Sitio sitio) { 
 		// TODO Auto-generated method stub
 		
 		List <Usuario> usuarios = new ArrayList<Usuario>();
