@@ -50,11 +50,8 @@ class Buscador2TestCase {
 		inmuebles.add(inmueble4);
 		inmuebles.add(inmueble5);
 		inmuebles.add(inmueble6);
-		//buscadorHuespedes= new BuscadorCompuesto("Carilo", LocalDate.of(2019,8,31), LocalDate.of(2019,9,15), 8, null, null);
 		buscadorConHuespedes= new BuscadorCompuesto("Carilo", LocalDate.of(2019,8,31), LocalDate.of(2019,9,15));
-		//buscadorPrecioMinimoYMaximo= new BuscadorCompuesto("Carilo", LocalDate.of(2019,8,31), LocalDate.of(2019,9,15), null, 30000.0, 60000.0);
 		buscadorConPrecioMinimoYMaximo= new BuscadorCompuesto("Carilo", LocalDate.of(2019,8,31), LocalDate.of(2019,9,15));
-		//buscadorConTodosLosParametros= new BuscadorCompuesto("Carilo", LocalDate.of(2019,8,31), LocalDate.of(2019,9,15), 8, 30000.0, 60000.0);
 		buscadorConTodosLosParametros= new BuscadorCompuesto("Carilo", LocalDate.of(2019,8,31), LocalDate.of(2019,9,15));
 		buscadorFechaEntrada= new BuscadorFechas(LocalDate.of(2019,8,31), LocalDate.of(2019,9,15));
 		
