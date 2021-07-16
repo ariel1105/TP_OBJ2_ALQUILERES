@@ -58,7 +58,7 @@ public class SitioWeb implements INotify, HomePagePublisher{
 	}
 	}
 	/**
-     * Método que llama a otro metodo solo en caso de que el evento que se le da como parametro sea de "Baja" //pensarlo mas
+     * Método que llama a otro metodo pasandole un texto de alerta en caso de que el evento sea igual al del condicional
      */
 
 

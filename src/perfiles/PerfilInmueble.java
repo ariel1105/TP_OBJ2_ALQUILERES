@@ -9,6 +9,10 @@ import reservas.Reserva;
 
 public class PerfilInmueble extends Perfil {
 	
+	/**
+     * Subclase de la clase perfil, se utilizara para calificar a un inmueble
+     */
+	
 	private Inmueble inmueble;
 	private PerfilPropietario perfilDueño;
 	
@@ -18,6 +22,10 @@ public class PerfilInmueble extends Perfil {
 		this.inmueble = inmueble;
 		this.perfilDueño = perfilDueño;
 	}
+	/**
+     * Constructor de la subclase
+     * Se asignara como parametros las categorias, el inmueble que sera calificado y el perfil del propietario
+     */
 	
 	@Override
 	public List<String> getComentarios() {
@@ -26,10 +34,14 @@ public class PerfilInmueble extends Perfil {
 		comentariosDelInmueble.addAll(comentariosDelDueño);
 		return comentariosDelInmueble;
 	}
-	
+	/**
+     * Metodo que retorna los comentarios del perfil del inmueble
+     */
 	public int vecesQueSeAlquiloEstaPropiedad() {
 		return this.inmueble.getReservas().size();
 	}
-
+	/**
+     * Metodo que retorna la cantidad de veces que se alquilo el inmueble del perfil
+     */
 
 }

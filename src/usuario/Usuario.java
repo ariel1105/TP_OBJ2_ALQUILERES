@@ -22,6 +22,11 @@ import reservas.Reserva;
 import sitio.Sitio;
 
 public class Usuario implements PuntuablePorEstadia {
+	/**
+     * Esta clase se utilizará para saber atributos del usuario y hacer acciones como registrarse en un sitio, solicitar reserva, confirmar reserva
+     * puntuar inquilinos y propietarios.
+     * Es importante saber que el usuario puede ser tanto propietario como inquilino al mismo tiempo
+     */
 	private String nombreCompleto;
 	private String mail;
 	private String telefono;
@@ -42,23 +47,33 @@ public class Usuario implements PuntuablePorEstadia {
 		this.admin = admin;
 		this.aplicacionMovil= aplicacion;
 	}
-	
+	/**
+     * Constructor de la clase, se setearan los atributos dados como parametros
+     */
 	public String getTelefono() {
 		return this.telefono;
 	}
-
+	/**
+     * Metodo que retorna el telefono del usuario
+     */
 	public String getMail() {
 		return this.mail;
 	}
-	
+	/**
+     * Metodo que retorna el mail del usuario
+     */
 	public void setPerfilInquilino(PerfilInquilino perfil) {
 		this.perfilInquilino = perfil;
 	}
-
+	/**
+     * Metodo setea el perfil inquilino dado como parametro
+     */
 	public void setPerfilPropietario(PerfilPropietario perfil) {
 		this.perfilPropietario = perfil;
 	}
-	
+	/**
+     * Metodo que setea el perfil propietario dado como parametro
+     */
 	public AdministadorDeReservasInquilino getAdmin() {
 		return this.admin;
 	}
@@ -67,15 +82,21 @@ public class Usuario implements PuntuablePorEstadia {
 		sitio.registrarUsuario(this);
 		this.fechaQueSeRegistro = fechaActual;
 	}
-
+	/**
+     * Metodo que registra al usuario dentro de un sitio y setea la fecha en la cual se registro.
+     */
 	public LocalDate getFechaQueSeRegistro() {
 		return fechaQueSeRegistro;
 	}
-
+	/**
+     * Metodo que retorna la fecha en la cual se registro
+     */
 	public int tiempoComoUser(LocalDate fechaActual) {
 		return fechaActual.compareTo(fechaQueSeRegistro);
 	}
-	
+	/**
+     * Metodo que retorna la cantidad de tiempo que tiene como usuario
+     */
 	
 	public void solicitarReserva(Reserva reserva, Inmueble inmueble) {
 		if (reserva.getDatosDePago().sonDatosAdmitidosPara(inmueble)) {
@@ -83,23 +104,31 @@ public class Usuario implements PuntuablePorEstadia {
 			this.admin.ingresar(reserva);
 		}
 	}
-
+	/**
+     * Metodo que solicita una reserva de cierto inmueble dado como parametro
+     */
 	public void recibirSolicitudDeReserva(Reserva reserva) {
 		reserva.getInmueble().agregarReserva(reserva);
 	}
-
+	/**
+     * Metodo que recibe una reserva dada como parametro, esta luego debe aceptarse.
+     */
 	
 	public void confirmar(Reserva reserva, Sitio sitio) {
 		if (reserva.getInmueble().tieneReserva(reserva)) {
 			reserva.confirmarseEn(sitio);
 		}
 	}
-
+	/**
+     * Metodo que confirma o no una reserva
+     */
 
 	public Integer vecesQueAlquilaron() {
 		return this.admin.cantidadeDeReservas();
 	}
-
+	/**
+     * Metodo que retorna la cantidad de veces que alquilaron un inmueble (inquilinos)
+     */
 	
 	public void puntuarComoInquilino(PuntuablePorEstadia puntuable, Categoria categoria, int puntos, LocalDate fechaActual) {
 		if(puntuable.puedeRecibirPuntuacionPorEstadiaPor(this, fechaActual)) {
@@ -126,11 +155,15 @@ public class Usuario implements PuntuablePorEstadia {
 			inmueble.cambiarPrecio();
 		}
 	}
-
+	/**
+     * Metodo que actualiza el precio de uno de sus inmuebles teniendo en cuenta la fecha actual
+     */
 	public List<Inmueble> getInmuebles() {
 		return this.inmuebles;
 	}
-
+	/**
+     * Metodo que retorna los inmuebles que posee
+     */
 	public void puntuarComoPropietario(Usuario inquilino, Categoria cat, int puntos, LocalDate fechaActual) {
 		if(inquilino.puedeRecibirPuntuacionComoInquilinoPor(this, fechaActual)) {
 			inquilino.recibirPuntuacionComoInquilino(cat, puntos);
@@ -141,7 +174,9 @@ public class Usuario implements PuntuablePorEstadia {
 		// TODO Auto-generated method stub
 		this.inmuebles.add(inmueble);
 	}
-	
+	/**
+     * Metodo que agrega un inmueble a los inmuebles del usuario
+     */
 	@Override
 	public boolean puedeRecibirPuntuacionPorEstadiaPor(Usuario inquilino, LocalDate fechaActual) {
 		return inquilino.getAdmin().leAlquiloA(this, fechaActual);

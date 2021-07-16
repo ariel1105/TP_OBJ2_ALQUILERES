@@ -54,7 +54,7 @@ public class AppUser implements INotify, PopUpWindow{
 		}
 	}
 		/**
-	     * Método que llama a otro metodo solo en caso de que el evento que se le da como parametro sea de "Cancelacion" //pensarlo mas
+	     * Método que llama a otro metodo pasandole un texto de alerta en caso de que el evento sea igual al del condicional
 	     */
 
 
