@@ -135,19 +135,32 @@ public class Usuario implements PuntuablePorEstadia {
 			puntuable.recibirPuntuacionPorEstadia(categoria, puntos);
 		}
 	}
+	/**
+	 * un usuario puede puntuar un inmueble o usuario si ya alquilo el inmueble o a dicho usuario, razon por la cual estos ultimos
+	 * implementan la interface puntuable lo cual brinda polimorfismo 
+	 */
 
 	@Override
 	public void recibirPuntuacionPorEstadia(Categoria categoria, int puntos) {
 		this.perfilPropietario.recibirPuntuacion(categoria, puntos);
 	}
+	/**
+	 * se delega al perfilPropietario la tarea de recibir puntuacion
+	 */
 
 	public void recibirPuntuacionComoInquilino(Categoria cat, int puntos) {
 		this.perfilInquilino.recibirPuntuacion(cat, puntos);
 	}
+	/**
+	 * se delega al perfilInquilino la tarea de recibir puntuacion
+	 */
 
 	public boolean puedeRecibirPuntuacionComoInquilinoPor(Usuario propietario, LocalDate fechaActual) {
 		return this.admin.leAlquiloA(propietario, fechaActual);
 	}
+	/**
+	 * se delega al administradorDeReservasInquilino la tarea de definir si se puede puntuar a este usuario como inquilino
+	 */
 
 	public void actualizarPrecioAInmueble(Inmueble inmueble) {
 		// TODO Auto-generated method stub

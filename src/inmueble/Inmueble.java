@@ -250,26 +250,40 @@ public class Inmueble  implements PuntuablePorEstadia {
 	public boolean puedeRecibirPuntuacionPorEstadiaPor(Usuario usuario, LocalDate fechaActual) {
 		return usuario.getAdmin().alquilo(this, fechaActual);
 	}
+	/**
+	 * se delega al administradorDeReservasInquilino del usuario la tarea de determinar si se puede recibir puntuacion
+	 * por el usuario que se pasa como parametro
+	 */
 
 	@Override
 	public void recibirPuntuacionPorEstadia(Categoria categoria, int puntos) {
 		this.perfil.recibirPuntuacion(categoria, puntos);
 	}
-
+	/**
+	 * se delega al perfil la tardea de recibir puntuacion
+	 */
+	
 
 	public List<String> getServicios() {
 		return servicios;
 	}
-
-	
+	/**
+	 * retorna los servicios de los cuales dispone 
+	 */
 
 	public boolean tieneReserva(Reserva reserva) {
 		return this.reservas.contains(reserva)&& reserva.estaConfirmada();
 	}
+	/**
+	 * retorna true si se existe la reserva y esta confirmada
+	 */
 
 	public List<Reserva> getReservas() {
 		return this.reservas;
 	}
+	/**
+	 * retorna la lista de reservas
+	 */
 
 	public int vecesQueFueAlquilado() {
 		return this.reservas.stream()
@@ -277,17 +291,27 @@ public class Inmueble  implements PuntuablePorEstadia {
 							.collect(Collectors.toList())
 							.size();
 	}
+	/**
+	 * retorna la cantidad de veces que fue alquilado mediante un filtro que descarta las reservas que no estan
+	 * confirmadas
+	 */
 	
 	public List<Reserva> reservasQueImposibilitan(Reserva reserva){
 		return this.reservas.stream()
 							.filter(r -> r.imposibilitaReserva(reserva))
 							.collect(Collectors.toList());
 	}
+	/**
+	 * retorna la lista de reservas que imposibilitan la reserva que se pasa por parametro
+	 */
 
 	public void encolar(Reserva reserva) {
 		this.reservasQueImposibilitan(reserva).stream()
 											  .forEach(r -> r.encolarReserva(reserva));
 	}
+	/**
+	 * encola la reserva pasada por paramentro a aquellas reservas que la imposibilitan
+	 */
 
 	public void desencolarReserva(Reserva reserva) {
 		if (this.sePuedeRealizarSolicitudPorReservaEncoladaEn(reserva)) {
@@ -295,6 +319,10 @@ public class Inmueble  implements PuntuablePorEstadia {
 		}
 		else {reserva.sacarPrimeroDeLaCola();}			
 	}
+	/**
+	 * dada una reserva pasada por parametro se desencola descartandola y se solicita su reserva en caso de cumplir con la 
+	 * condicion, caso contrario, se elimina la primer reserva en la cola de la reserva pasada por parametro
+	 */
 
 	public void realizarSolicitudParaLaPrimeraDeLaCola(Reserva reserva) {
 		Reserva nuevaReserva = reserva.primeraDeLaCola();
@@ -302,10 +330,18 @@ public class Inmueble  implements PuntuablePorEstadia {
 		nuevaReserva.recibirCola(reserva);
 		interesado.solicitarReserva(nuevaReserva, this);
 	}
+	
+	/**
+	 * se descarta la reserva pasada por parametro no sin antes pasarle la cola sin el primero al primero en la cola,
+	 * luego se solicita la reserva por esta
+	 */
 
 	public boolean noHayReservasQueImposibiliten(Reserva primeraDeLaCola) {
 		return this.reservas.stream().noneMatch(r -> r.imposibilitaReserva(primeraDeLaCola));
 	}
+	/**
+	 * retorna true sino existe reserva que imposibilite la reserva pasada por parametro
+	 */
 	
 	public boolean sePuedeRealizarSolicitudPorReservaEncoladaEn(Reserva reserva) {
 		return this.noHayReservasQueImposibiliten(reserva.primeraDeLaCola()) 

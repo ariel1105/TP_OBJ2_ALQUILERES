@@ -5,16 +5,10 @@ import java.time.LocalDate;
 import sitio.Sitio;
 
 public class Cancelado extends Estado {
+	/**
+	 * estado que representa a una reserva cancelada
+	 * los metodos en la clase abstracto estan vacios por lo tanto no es necesario
+	 * reimplementarlos en esta clase
+	 */
 
-	@Override
-	protected void confirmarEn(Reserva reserva, Sitio sitio) {
-		
-	}
-
-	@Override
-	protected void cancelarReserva(Reserva reserva, LocalDate fechaACtual) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 }

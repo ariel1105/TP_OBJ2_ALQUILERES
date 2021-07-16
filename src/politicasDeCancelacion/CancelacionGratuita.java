@@ -6,10 +6,20 @@ import inmueble.Inmueble;
 import reservas.Reserva;
 
 public class CancelacionGratuita extends PoliticaDeCancelacion {
+	
+	/**
+	 * clase concreta strategy de la reserva que define el valor de penalidad
+	 * en caso de cancelarse
+	 */
 
 	public boolean tieneQueAbonar(Reserva reserva, LocalDate fechaActual) {
 		return !this.diferenciaDeDiasEsMayor(reserva, 10, fechaActual);
 	}
+	
+	/**
+	 * define si se tiene que abonar la cancelacion de la reserva dependiendo de la cantidad
+	 * de dias de diferencia entre el primer dia de la reserva y la fecha actual
+	 */
 
 	
 	@Override
@@ -20,6 +30,9 @@ public class CancelacionGratuita extends PoliticaDeCancelacion {
 		}
 		return importe;
 	}
+	/**
+	 * define el valor de la penalidad de la cancelacion de la reserva
+	 */
 
 
 	public double valorPenalizacionPorCancelacion(Reserva reserva) {
@@ -30,4 +43,9 @@ public class CancelacionGratuita extends PoliticaDeCancelacion {
 		}
 		return importe;
 	}
+	/**
+	 * retorna el valor dependiendo de la cantidad de dias que tiene la reserva
+	 * si es uno, es el valor por ese dia, si son mas es el valor por dos dias de la reserva
+	 * 
+	 */
 }
